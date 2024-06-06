@@ -20,7 +20,7 @@ CREATE TABLE messages (
     message TEXT NOT NULL,
     date_heure DATETIME NOT NULL,
     user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Créer la table services
@@ -32,8 +32,8 @@ CREATE TABLE services (
     date DATETIME NOT NULL,
     user_id INT,
     message_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (message_id) REFERENCES messages(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE
 );
 
 -- Créer la table category_service
@@ -48,8 +48,8 @@ CREATE TABLE service_type (
     service_id INT,
     catégorie_id INT,
     PRIMARY KEY (service_id, catégorie_id),
-    FOREIGN KEY (service_id) REFERENCES services(id),
-    FOREIGN KEY (catégorie_id) REFERENCES category_service(id)
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE,
+    FOREIGN KEY (catégorie_id) REFERENCES category_service(id) ON DELETE CASCADE
 );
 
 -- Peupler la table users
