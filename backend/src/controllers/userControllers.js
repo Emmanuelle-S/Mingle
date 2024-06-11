@@ -1,4 +1,5 @@
 const models = require("../models");
+const argon2 = require("argon2");
 
 const browse = (req, res) => {
   models.user
@@ -50,20 +51,26 @@ const edit = (req, res) => {
     });
 };
 
-const add = (req, res) => {
+const add = async (req, res) => {
   const user = req.body;
 
-  // TODO validations (length, format...)
+  try {
+    // TODO validations (length, format...)
+    user.user_pass = await argon2.hash(user.user_pass);
 
-  models.user
-    .insert(user)
-    .then(([result]) => {
-      res.location(`/users/${result.insertId}`).sendStatus(201);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+    models.user
+      .insert(user)
+      .then(([result]) => {
+        res.location(`/users/${result.insertId}`).sendStatus(201);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(500);
+      });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
 };
 
 const destroy = (req, res) => {
