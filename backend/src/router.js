@@ -1,8 +1,8 @@
 const express = require("express");
 
 const router = express.Router();
-
-const itemControllers = require("./controllers/itemControllers")
+const messageControllers = require("./controllers/messageControllers");
+const itemControllers = require("./controllers/itemControllers");
 const userControllers= require ("./controllers/userControllers")
 const serviceController = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
@@ -14,12 +14,18 @@ router.put("/items/:id", itemControllers.edit);
 router.post("/items", itemControllers.add);
 router.delete("/items/:id", itemControllers.destroy);
 
+
 router.get("/user", userControllers.browse);
 router.get("/user/:id", userControllers.read);
 router.put("/user/:id", userControllers.edit);
 router.post("/user", userControllers.add);
 router.delete("/user/:id", userControllers.destroy);
 
+router.get("/message", messageControllers.browse);
+router.get("/message/:id",messageControllers.read);
+router.put("/message/:id", messageControllers.edit);
+router.post("/message", messageControllers.add);
+router.delete("/message/:id",messageControllers.destroy);
 router.get("/service", serviceController.browse);
 router.get("/service/:id", serviceController.read);
 router.put("/service/:id", serviceController.edit);

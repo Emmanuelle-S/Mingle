@@ -31,6 +31,7 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const UserManager = require("./UserManager")
+const MessageManager= require("./messageManager");
 const ServiceManager = require("./ServiceManager")
 const CategoryService = require ("./CategoryServiceManager")
 
@@ -40,6 +41,8 @@ models.item.setDatabase(pool);
 models.user = new UserManager();
 models.user.setDatabase(pool);
 
+models.message = new MessageManager();
+models.message.setDatabase(pool);
 models.service= new ServiceManager();
 models.service.setDatabase(pool);
 
