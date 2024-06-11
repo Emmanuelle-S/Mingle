@@ -31,12 +31,20 @@ const models = {};
 
 const ItemManager = require("./ItemManager");
 const UserManager = require("./UserManager")
+const ServiceManager = require("./ServiceManager")
+const CategoryService = require ("./CategoryServiceManager")
 
 models.item = new ItemManager();
 models.item.setDatabase(pool);
 
 models.user = new UserManager();
 models.user.setDatabase(pool);
+
+models.service= new ServiceManager();
+models.service.setDatabase(pool);
+
+models.categoryservice= new CategoryService();
+models.categoryservice.setDatabase(pool);
 
 
 
