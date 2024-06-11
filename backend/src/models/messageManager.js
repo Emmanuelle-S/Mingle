@@ -17,12 +17,13 @@ class MessageManager extends AbstractManager {
 
   update(messages) {
     return this.database.query(
-      `update ${this.table} set objet = ?, message = ?, date_heure = ?, user_id = ?,`,
+      `update ${this.table} set objet = ?, message = ?, date_heure = ?, user_id = ? where id = ?`,
       [
         messages.objet, 
-        messages.messages, 
+        messages.message, 
         messages.date_heure, 
-        messages.user_id
+        messages.user_id,
+        messages.id
       ]
   )}
 }
