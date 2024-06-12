@@ -43,7 +43,7 @@ router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 
 // ROUTE LOGIN
-router.use("/user/login", userControllers.verifyToken)
+router.get("/user/login", userControllers.verifyToken)
 
 router.post(
     "/user/login", 
