@@ -20,11 +20,11 @@ router.put("/users/:id", userControllers.edit);
 router.post("/users", userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
-router.get("/services", serviceControllers.browse);
-router.get("/services/:id", serviceControllers.read);
-router.put("/services/:id", serviceControllers.edit);
-router.post("/services", serviceControllers.add);
-router.delete("/services/:id", serviceControllers.destroy);
+router.get("/service", serviceControllers.browse);
+router.get("/service/:id", serviceControllers.read);
+router.put("/service/:id", serviceControllers.edit);
+router.post("/service", serviceControllers.add);
+router.delete("/service/:id", serviceControllers.destroy);
 
 router.get("/message", messageControllers.browse);
 router.get("/message/:id",messageControllers.read);

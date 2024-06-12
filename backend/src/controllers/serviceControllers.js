@@ -29,19 +29,22 @@ const browse = (req, res) => {
     };
 
     const edit = (req, res) => {
-    const service = req.body;
-
-    // TODO validations (length, format...)
+        const service = req.body;
+    
+    // Validations (length, format...)
     if (
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.illustration !== 'string' || service.illustration.length === 0
+        typeof service.illustration !== 'string' || service.illustration.length === 0 ||
+        typeof service.date !== 'string' || service.date.length === 0 || // assuming date is a string, you might want to use a date validation library
+        typeof service.user_id !== 'number' ||
+        typeof service.message_id !== 'number'
     ) {
         return res.status(400).json({ error: "Invalid input data" });
     }
-
+    
     service.id = parseInt(req.params.id, 10);
-
+    
     models.service
         .update(service)
         .then(([result]) => {
@@ -56,19 +59,22 @@ const browse = (req, res) => {
         res.sendStatus(500);
         });
     };
-
+    
     const add = (req, res) => {
     const service = req.body;
-
-    // TODO validations (length, format...)
+    
+    // Validations (length, format...)
     if (
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.illustration !== 'string' || service.illustration.length === 0
+        typeof service.illustration !== 'string' || service.illustration.length === 0 ||
+        typeof service.date !== 'string' || service.date.length === 0 || // assuming date is a string, you might want to use a date validation library
+        typeof service.user_id !== 'number' ||
+        typeof service.message_id !== 'number'
     ) {
         return res.status(400).json({ error: "Invalid input data" });
     }
-
+    
     models.service
         .insert(service)
         .then(([result]) => {
