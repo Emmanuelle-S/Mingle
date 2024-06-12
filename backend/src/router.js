@@ -18,4 +18,17 @@ router.put("/user/:id", userControllers.edit);
 router.post("/user", userControllers.add);
 router.delete("/user/:id", userControllers.destroy);
 
+// ROUTE LOGIN
+router.use("/user/login", userControllers.verifyToken)
+
+router.post(
+    "/user/login", 
+    userControllers.getUserByEmail, 
+    userControllers.verifyPassword,
+    
+)
+
+
+
+
 module.exports = router;
