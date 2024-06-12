@@ -41,5 +41,16 @@ router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 
 
+// ROUTE LOGIN
 
+router.post(
+    "/user/login", 
+    userControllers.getUserByEmail, 
+    userControllers.verifyPassword,
+    
+    );
+    
+    router.use(userControllers.verifyToken); // tout ce qui est en dessous est privé
+    router.get("/user/protected", userControllers.browse)
+    
 module.exports = router;

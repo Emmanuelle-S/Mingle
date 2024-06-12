@@ -34,6 +34,13 @@ class UserManager extends AbstractManager {
       ]
     );
   }
+
+
+findUserByEmail(mail) {
+  return this.database.query(`select * from  ${this.table} where mail = ?`, [
+    mail,
+  ]);
+}
 }
 
 module.exports = UserManager;
