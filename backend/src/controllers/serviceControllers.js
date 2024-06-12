@@ -36,7 +36,7 @@ const browse = (req, res) => {
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
         typeof service.illustration !== 'string' || service.illustration.length === 0 ||
-        typeof service.date !== 'string' || service.date.length === 0 || // assuming date is a string, you might want to use a date validation library
+        typeof service.date !== 'string' || service.date.length === 0 || 
         typeof service.user_id !== 'number' ||
         typeof service.message_id !== 'number'
     ) {
@@ -68,7 +68,7 @@ const browse = (req, res) => {
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
         typeof service.illustration !== 'string' || service.illustration.length === 0 ||
-        typeof service.date !== 'string' || service.date.length === 0 || // assuming date is a string, you might want to use a date validation library
+        typeof service.date !== 'string' || service.date.length === 0 || 
         typeof service.user_id !== 'number' ||
         typeof service.message_id !== 'number'
     ) {
