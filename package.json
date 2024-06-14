@@ -18,7 +18,10 @@
   "author": "Team",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^10.4.19",
     "concurrently": "^7.6.0",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
   }
 }
