@@ -1,12 +1,13 @@
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
+// import "../../App.css";
 
 // Composant réutilisable pour les champs de texte
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
-        <div className="form-control">
+        <div className="flex flex-col p-2">
             <label htmlFor={props.id || props.name}>{label}</label>
             <input {...field} {...props} />
             {meta.touched && meta.error ? (
@@ -21,7 +22,7 @@ const MySelect = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
-        <div className="form-control">
+        <div className="flex flex-col p-2">
             <label htmlFor={props.id || props.name}>{label}</label>
             <select {...field} {...props} />
             {meta.touched && meta.error ? (
@@ -45,7 +46,7 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
     };
 
     return (
-        <div className="form-control">
+        <div className="flex flex-col items-start p-2">
             <label htmlFor={props.id || props.name}>{label}</label>
             <input {...props} onChange={handleChange} />
             <button type="button" onClick={handleRemove}>Retirer le fichier</button>
@@ -103,7 +104,7 @@ const PublishForm = () => {
                 }}
             >
                 {({ setFieldValue }) => (
-                    <Form>
+                    <Form className="flex flex-col items-center p-1">
                         <MyTextInput
                             label="Titre"
                             name="title"

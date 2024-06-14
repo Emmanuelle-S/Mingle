@@ -7,13 +7,13 @@ function App() {
     <>
       <Router>
         <div className="flex flex-col min-h-screen">
-          {/* <Header/> */}
+          <Header/>
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
             </Routes>
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </Router>
     </>
