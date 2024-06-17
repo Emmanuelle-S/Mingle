@@ -7,8 +7,8 @@ const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
-        <div className="flex flex-col p-2">
-            <label htmlFor={props.id || props.name}>{label}</label>
+        <div className="flex flex-col max-w-72 p-2">
+            <label htmlFor={props.id}>{label}</label>
             <input className='border-solid border-2' {...field} {...props} />
             {meta.touched && meta.error ? (
                 <div className="error">{meta.error}</div>
@@ -22,8 +22,8 @@ const MySelect = ({ label, ...props }) => {
     const [field, meta] = useField(props);
 
     return (
-        <div className="flex flex-col p-2">
-            <label htmlFor={props.id || props.name}>{label}</label>
+        <div className="flex flex-col max-w-72 p-2">
+            <label htmlFor={props.id}>{label}</label>
             <select className='border-solid border-2' {...field} {...props} />
             {meta.touched && meta.error ? (
                 <div className="error">{meta.error}</div>
@@ -59,8 +59,8 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
     };
 
     return (
-        <div className="flex flex-col items-start p-2">
-            <label htmlFor={props.id || props.name}>{label}</label>
+        <div className="flex flex-col items-start max-w-72 p-2">
+            <label htmlFor={props.id}>{label}</label>
             <input {...props} onChange={handleChange} ref={inputFile} />
             <button className='border-solid border-2 p-2' type="button" onClick={handleRemove}>Retirer le fichier</button>
             {meta.touched && meta.error ? (
@@ -92,8 +92,6 @@ const PublishForm = () => {
                     desc: '',
                     category: '',
                     image: '',
-                    user_id: '',
-                    message_id: ''
                 }}
                 validationSchema={Yup.object({
                     title: Yup.string()
@@ -129,7 +127,7 @@ const PublishForm = () => {
                         title: values.title,
                         description: values.desc,
                         illustration: values.image ? values.image.name : '',
-                        date: new Date().toISOString(), // Date actuelle
+                        date: new Date().toString(), // Date actuelle
                         user_id: null,
                         message_id: null
                     };
@@ -140,7 +138,7 @@ const PublishForm = () => {
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
-                    <Form className="flex flex-col items-center p-1">
+                    <Form className="flex flex-col p-1">
                         <MyTextInput
                             label="Titre"
                             name="title"
@@ -170,8 +168,10 @@ const PublishForm = () => {
                             setFieldValue={setFieldValue}
                         />
 
-                        <button className='border-solid border-2 p-2' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
-                        <button className='border-solid border-2 p-2' type="submit">Publier</button>
+                        <div>
+                            <button className='border-solid border-2 p-2' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
+                            <button className='border-solid border-2 p-2' type="submit">Publier</button>
+                        </div>
                     </Form>
                 )}
             </Formik>
