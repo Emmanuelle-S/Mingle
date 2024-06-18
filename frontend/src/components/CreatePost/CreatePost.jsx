@@ -1,7 +1,9 @@
-import { useRef } from "react"; // Importation de useRef de React
+import { useContext, useEffect, useRef } from "react"; // Importation de useRef de React
 import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
 import * as Yup from 'yup'; // Importation de Yup pour la validation
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
+import { ServiceContext } from "../../../contexts/ServiceContext";
+
 // Composant réutilisable pour les champs de texte
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
@@ -93,6 +95,12 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
 
 // Composant principal pour créer un post
 const CreatePost = () => {
+    const { services, addService } = useContext(ServiceContext);
+
+    useEffect(() => {
+        console.log("Services have been updated:", services)
+    }, [services])
+
     const postContent = useRef(null); // Référence pour le contenu du formulaire
 
     // Fonction handleReset pour réinitialiser le formulaire
@@ -150,6 +158,8 @@ const CreatePost = () => {
                         user_id: null,
                         message_id: null
                     };
+
+                    addService(post);
 
                     console.log("Nouveau post :", post); // Affichage des données du post pour debug
                     setSubmitting(false); // Arrêt de la soumission
