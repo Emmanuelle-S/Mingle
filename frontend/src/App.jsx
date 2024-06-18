@@ -2,7 +2,6 @@ import React from 'react';
 import Home from './pages/Home/Home';
 import { ServiceProvider } from "../contexts/ServiceContext";
 import Publier from "@pages/Publier/Publier.jsx";
-import CreatePost from "@components/CreatePost/CreatePost";
 import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -58,13 +57,12 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             {/* <Header/> */}
-            <main className="flex-grow">
+            <main className="flex-grow bg">
               <Routes>
               <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/publier" element={<Publier/>} />
               </Routes>
-              <CreatePost />
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
             {/* <Footer /> */}
