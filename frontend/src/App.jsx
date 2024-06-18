@@ -1,5 +1,8 @@
 import React from 'react';
 import Home from './pages/Home/Home';
+import { ServiceProvider } from "../contexts/ServiceContext";
+import Publier from "@pages/Publier/Publier.jsx";
+import CreatePost from "@components/CreatePost/CreatePost";
 import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -46,17 +49,24 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/message" element={<Messenger friends={friends} conversations={conversations} fetchConversation={fetchConversation}/>} /> */}
-          </Routes>
-          <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
-        </main>
-      </div>
-    </Router>
+    <>
+      <ServiceProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen">
+            {/* <Header/> */}
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/publier" element={<Publier/>} />
+              </Routes>
+              <CreatePost />
+              <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
+            </main>
+            {/* <Footer /> */}
+          </div>
+        </Router>
+      </ServiceProvider>
+    </>
   );
 }
 
