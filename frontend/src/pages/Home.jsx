@@ -5,8 +5,8 @@ import logo from "../assets/logo.svg";
 
 export default function Home() {
   return (
-    <>
-      <section className='p-4'>
+    <div className="bgone">
+      <section className='p-4 '>
         <h2>Trouver tous les services de MINGLE immédiatement</h2>
         <div className='py-4'>
           <input className="p-1 rounded-md min-w-[85%]" type="text" id="search" placeholder="Rechercher votre service..." />
@@ -23,6 +23,6 @@ export default function Home() {
         </div>
         <CarouselDefault />
       </section>
-    </>
+    </div>
   );
 }
