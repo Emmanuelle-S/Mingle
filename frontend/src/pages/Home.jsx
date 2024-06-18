@@ -1,36 +1,28 @@
+import './Home.css'
+import CarouselDefault from '@components/Carousel/Carousel';
 import Counter from "../components/Counter";
 import logo from "../assets/logo.svg";
 
 export default function Home() {
   return (
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Hello Vite + React !</p>
-
-      <Counter />
-
-      <p>
-        Edit <code>App.jsx</code> and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {" | "}
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
+    <>
+      <section className='p-4'>
+        <h2>Trouver tous les services de MINGLE immédiatement</h2>
+        <div className='py-4'>
+          <input className="p-1 rounded-md min-w-[85%]" type="text" id="search" placeholder="Rechercher votre service..." />
+          <button type="button" id="searchButton">#</button>
+        </div>
+        <div>
+          <h4>Populaires :</h4>
+          <div className='flex justify-between py-3'>
+            <button className='btn-pop'>web</button>
+            <button className='btn-pop'>médencine </button>
+            <button className='btn-pop'>polytechnie</button>
+            <button className='btn-pop'>autres</button>
+          </div>
+        </div>
+        <CarouselDefault />
+      </section>
+    </>
   );
 }
