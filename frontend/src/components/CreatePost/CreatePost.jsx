@@ -1,17 +1,31 @@
 import { useRef } from "react"; // Importation de useRef de React
 import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
 import * as Yup from 'yup'; // Importation de Yup pour la validation
-
+import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
 // Composant réutilisable pour les champs de texte
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
 
     return (
         <div className="flex flex-col p-2">
-            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
-            <input className='border-solid border-2' {...field} {...props} /> {/* Champ de texte avec les propriétés Formik */}
+            <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
+            <input className='border-solid border-2 rounded-md border-dark bg-white box-border py-2 px-2' {...field} {...props} /> {/* Champ de texte avec les propriétés Formik */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error">{meta.error}</div>
+                <div className="error text-primary">{meta.error}</div>
+            ) : null}
+        </div>
+    );
+};
+
+const MyTextAreaInput = ({ label, ...props }) => {
+    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
+
+    return (
+        <div className="flex flex-col p-2">
+            <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
+            <textarea className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' {...field} {...props}  rows={5} /> {/* Champ de texte avec les propriétés Formik */}
+            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
+                <div className="error text-primary">{meta.error}</div>
             ) : null}
         </div>
     );
@@ -24,9 +38,9 @@ const MySelect = ({ label, ...props }) => {
     return (
         <div className="flex flex-col p-2">
             <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ select */}
-            <select className='border-solid border-2' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
+            <select className='border-solid border-2 rounded-md border-dark bg-white h-8' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error">{meta.error}</div>
+                <div className="error text-primary">{meta.error}</div>
             ) : null}
         </div>
     );
@@ -63,13 +77,15 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
         <div className="flex flex-col items-start p-2">
             <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ file input */}
             <input id="actual-btn" {...props} onChange={handleChange} ref={inputFile} hidden/> {/* Champ file input avec onChange */}
-            <div className="flex flex-col">
-                <label className="border-solid border-2 p-2 cursor-pointer" htmlFor="actual-btn">Choisir un fichier</label> {/* Étiquette cliquable pour l'input */}
+            <div className="flex flex-col  w-1/2">
+                <label className="border-solid border-2 p-2 rounded-md border-dark w-2/4 flex justify-center cursor-pointer" htmlFor="actual-btn">
+                    <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                </label> {/* Étiquette cliquable pour l'input */}
                 <span id="file-chosen" ref={fileChosen}>Aucun fichier choisi</span> {/* Texte affichant le nom du fichier */}
             </div>
-            <button className='border-solid border-2 p-2' type="button" onClick={handleRemove}>Retirer le fichier</button> {/* Bouton pour retirer le fichier */}
+            <button className='border-solid border-2 border-dark text-dark rounded-lg p-2' type="button" onClick={handleRemove}>Retirer le fichier</button> {/* Bouton pour retirer le fichier */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error">{meta.error}</div>
+                <div className="error text-primary">{meta.error}</div>
             ) : null}
         </div>
     );
@@ -141,7 +157,7 @@ const CreatePost = () => {
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
-                    <Form className="flex flex-col max-w-md p-1">
+                    <Form className="flex flex-col max-w-2xl p-1 bg-white rounded-lg drop-shadow-lg text-black">
                         <MyTextInput
                             label="Titre"
                             name="title"
@@ -149,7 +165,7 @@ const CreatePost = () => {
                             placeholder="Saisir un titre"
                         />
 
-                        <MyTextInput
+                        <MyTextAreaInput
                             label="Description"
                             name="desc"
                             type="text"
@@ -171,9 +187,9 @@ const CreatePost = () => {
                             setFieldValue={setFieldValue}
                         />
 
-                        <div>
-                            <button className='border-solid border-2 p-2' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
-                            <button className='border-solid border-2 p-2' type="submit">Publier</button>
+                        <div className="flex justify-end gap-2 m-2">
+                            <button className='border-solid border-2 rounded-lg p-2 bg-primary font-semibold' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
+                            <button className='border-solid border-2 rounded-lg p-2 bg-accent font-semibold text-white' type="submit">Publier</button>
                         </div>
                     </Form>
                 )}
