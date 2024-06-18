@@ -1,16 +1,16 @@
-import { useRef } from "react";
-import { Formik, Form, useField } from 'formik';
-import * as Yup from 'yup';
+import { useRef } from "react"; // Importation de useRef de React
+import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
+import * as Yup from 'yup'; // Importation de Yup pour la validation
 
 // Composant réutilisable pour les champs de texte
 const MyTextInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
+    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
 
     return (
-        <div className="flex flex-col max-w-72 p-2">
-            <label htmlFor={props.id}>{label}</label>
-            <input className='border-solid border-2' {...field} {...props} />
-            {meta.touched && meta.error ? (
+        <div className="flex flex-col p-2">
+            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
+            <input className='border-solid border-2' {...field} {...props} /> {/* Champ de texte avec les propriétés Formik */}
+            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error">{meta.error}</div>
             ) : null}
         </div>
@@ -19,13 +19,13 @@ const MyTextInput = ({ label, ...props }) => {
 
 // Composant réutilisable pour les champs select
 const MySelect = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
+    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
 
     return (
-        <div className="flex flex-col max-w-72 p-2">
-            <label htmlFor={props.id}>{label}</label>
-            <select className='border-solid border-2' {...field} {...props} />
-            {meta.touched && meta.error ? (
+        <div className="flex flex-col p-2">
+            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ select */}
+            <select className='border-solid border-2' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
+            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error">{meta.error}</div>
             ) : null}
         </div>
@@ -34,61 +34,64 @@ const MySelect = ({ label, ...props }) => {
 
 // Composant réutilisable pour les champs file input
 const MyFileInput = ({ label, setFieldValue, ...props }) => {
-    const [meta] = useField(props);
+    const [meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
+
+    const inputFile = useRef(null); // Création d'une référence pour l'input file
+    const fileChosen = useRef(null); // Création d'une référence pour afficher le nom du fichier choisi
 
     const handleChange = (event) => {
-        const file = event.currentTarget.files[0];
-        setFieldValue(props.name, file);
-        console.log(props.name, file);
+        const file = event.currentTarget.files[0]; // Récupération du fichier sélectionné
+        setFieldValue(props.name, file); // Mise à jour de la valeur du champ Formik avec le fichier
+        if (fileChosen.current) {
+            fileChosen.current.textContent = file ? file.name : "Aucun fichier choisi"; // Mise à jour du texte affiché
+        }
     };
-
-    // Utilisation de React useRef pour créer une référence mutable qui persiste pendant tout le cycle de vie du composant.
-    const inputFile = useRef(null);
 
     // Déclaration de la fonction handleRemove qui réinitialise l'input file.
     const handleRemove = () => {
-        // Vérifie si la référence inputFile pointe vers un élément DOM.
         if (inputFile.current) {
-            // Réinitialise la valeur de l'input file à une chaîne vide, effaçant ainsi le fichier sélectionné.
-            inputFile.current.value = "";
-            
-            // Change le type de l'input de "file" à "text" temporairement, puis le remet à "file". Cela force un re-render de l'input, permettant ainsi de sélectionner le même fichier à nouveau.
-            inputFile.current.type = "text";
+            inputFile.current.value = ""; // Réinitialisation de la valeur de l'input file
+            inputFile.current.type = "text"; // Changement temporaire du type pour forcer un re-render
             inputFile.current.type = "file";
+        }
+        if (fileChosen.current) {
+            fileChosen.current.textContent = "Aucun fichier choisi"; // Réinitialisation du texte affiché
         }
     };
 
     return (
-        <div className="flex flex-col items-start max-w-72 p-2">
-            <label htmlFor={props.id}>{label}</label>
-            <input {...props} onChange={handleChange} ref={inputFile} />
-            <button className='border-solid border-2 p-2' type="button" onClick={handleRemove}>Retirer le fichier</button>
-            {meta.touched && meta.error ? (
+        <div className="flex flex-col items-start p-2">
+            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ file input */}
+            <input id="actual-btn" {...props} onChange={handleChange} ref={inputFile} hidden/> {/* Champ file input avec onChange */}
+            <div className="flex flex-col">
+                <label className="border-solid border-2 p-2 cursor-pointer" htmlFor="actual-btn">Choisir un fichier</label> {/* Étiquette cliquable pour l'input */}
+                <span id="file-chosen" ref={fileChosen}>Aucun fichier choisi</span> {/* Texte affichant le nom du fichier */}
+            </div>
+            <button className='border-solid border-2 p-2' type="button" onClick={handleRemove}>Retirer le fichier</button> {/* Bouton pour retirer le fichier */}
+            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error">{meta.error}</div>
             ) : null}
         </div>
     );
 };
 
-const PublishForm = () => {
-    // Référence pour le contenu du formulaire
-    const postContent = useRef(null);
+// Composant principal pour créer un post
+const CreatePost = () => {
+    const postContent = useRef(null); // Référence pour le contenu du formulaire
 
     // Fonction handleReset pour réinitialiser le formulaire
     const handleReset = (resetForm) => {
-        // Si la référence postContent est définie, réinitialise sa valeur à une chaîne vide
         if (postContent.current) {
-            postContent.current.value = '';
+            postContent.current.value = ''; // Réinitialisation du contenu de la référence
         }
-        // Réinitialise tout le formulaire
-        resetForm();
+        resetForm(); // Réinitialisation du formulaire Formik
     };
 
     return (
         <div>
             <Formik
                 initialValues={{
-                    title: '',
+                    title: '', // Valeurs initiales pour les champs
                     desc: '',
                     category: '',
                     image: '',
@@ -132,13 +135,13 @@ const PublishForm = () => {
                         message_id: null
                     };
 
-                    console.log("Nouveau post :", post);
-                    setSubmitting(false);
-                    resetForm();
+                    console.log("Nouveau post :", post); // Affichage des données du post pour debug
+                    setSubmitting(false); // Arrêt de la soumission
+                    resetForm(); // Réinitialisation du formulaire après soumission
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
-                    <Form className="flex flex-col p-1">
+                    <Form className="flex flex-col max-w-md p-1">
                         <MyTextInput
                             label="Titre"
                             name="title"
@@ -179,4 +182,4 @@ const PublishForm = () => {
     );
 };
 
-export default PublishForm;
+export default CreatePost;
