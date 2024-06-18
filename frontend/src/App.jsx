@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes , Link } from 'react-router-dom';
 import "./App.css";
-
+import Formulaire from './components/Formulaire/Formulaire';
 function App() {
   return (
     <>
@@ -11,6 +11,7 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path= "/formulaire" element={<Formulaire />} />
             </Routes>
           </main>
           {/* <Footer /> */}
