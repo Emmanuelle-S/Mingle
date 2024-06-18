@@ -23,7 +23,7 @@ const MyTextAreaInput = ({ label, ...props }) => {
     return (
         <div className="flex flex-col p-2">
             <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
-            <textarea className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' {...field} {...props}  rows={5} /> {/* Champ de texte avec les propriétés Formik */}
+            <textarea className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' {...field} {...props}  rows={4} /> {/* Champ de texte avec les propriétés Formik */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error text-primary">{meta.error}</div>
             ) : null}
@@ -38,7 +38,7 @@ const MySelect = ({ label, ...props }) => {
     return (
         <div className="flex flex-col p-2">
             <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ select */}
-            <select className='border-solid border-2 rounded-md border-dark bg-white h-8' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
+            <select className='border-solid border-2 rounded-md border-dark bg-white py-2 px-2' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error text-primary">{meta.error}</div>
             ) : null}
@@ -157,7 +157,7 @@ const CreatePost = () => {
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
-                    <Form className="flex flex-col max-w-2xl p-1 bg-white rounded-lg drop-shadow-lg text-black">
+                    <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg drop-shadow-lg text-black">
                         <MyTextInput
                             label="Titre"
                             name="title"
