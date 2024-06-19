@@ -1,3 +1,5 @@
+import './Message.css'
+
 // src/components/Messenger.jsx
 import React, { useState, useEffect } from "react";
 
@@ -40,7 +42,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
 
   return (
     <>
-        <div className=" h-[97vh] w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden pt-6">
+        <div className=" h-[97vh] w-full flex antialiased text-gray-900 bg-message border-[1px] border-gray-600 rounded-xl shadow-lg overflow-hidden">
             <div className="flex-1 flex flex-col">
                 {!isMobile && ( 
                     <main className="flex-grow flex flex-row min-h-0">
@@ -55,7 +57,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                             <div
                                             key={index}
                                             className={`p-2 my-2 rounded shadow ${
-                                                msg.isMine ? "bg-blue-600" : "bg-gray-800"
+                                                msg.isMine ? "bg-blue-600" : "bg-gray-200"
                                             }`}
                                             >
                                             {msg.text}
@@ -78,8 +80,8 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                 </div>
                             </section>
                         )}
-                        <section className="relative flex flex-col flex-none overflow-auto md:w-[600px]">
-                            <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
+                        <section className="relative flex flex-col flex-none border-gray-800 overflow-auto md:w-[600px]">
+                            <button className="absolute top-6 right-4 text-gray-8 hover:text-gray-100" onClick={onClose}>
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"
@@ -96,7 +98,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                 </svg>
                             </button>
                             <div className="p-4 flex flex-row justify-between items-center flex-none">
-                                <div className="w-16 h-16 relative flex flex-shrink-0">
+                                <div className="w-16 h-16 relative flex flex-shrink-0 ">
                                     <img
                                     className="rounded-full w-full h-full object-cover"
                                     alt="User"
@@ -109,7 +111,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                     <div className="relative">
                                         <label>
                                             <input
-                                                className="rounded-full py-2 pr-6 pl-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
+                                                className="rounded-full py-2 pr-6 pl-10 w-full border border-gray-200 focus:border-gray-400 bg-gray-100 focus:bg-gray-200 focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in"
                                                 type="text"
                                                 placeholder="Search Messenger"
                                             />
@@ -128,7 +130,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                             <div className="flex flex-row p-2 overflow-auto w-0 min-w-full">
                                 <div className="text-sm text-center mr-4">
                                     <button
-                                        className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-20 h-20"
+                                        className="flex flex-shrink-0 focus:outline-none bg-gray-100 text-gray-400 rounded-full w-20 h-20"
                                         type="button"
                                         >
                                         <svg
@@ -200,7 +202,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                         <div
                                             key={index}
                                             className={`p-2 my-2 rounded shadow ${
-                                                msg.isMine ? "bg-blue-600" : "bg-gray-800"
+                                                msg.isMine ? "bg-blue-600" : "bg-gray-200"
                                             }`}
                                         >
                                             {msg.text}
@@ -221,7 +223,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                         </section>
                     ) : (
                         <section className="relative flex flex-col flex-none overflow-auto w-[320px]">
-                            <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
+                            <button className="absolute top-6 right-4 text-gray-900 hover:text-gray-100" onClick={onClose}>
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"
@@ -251,7 +253,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                     <div className="relative">
                                         <label>
                                             <input
-                                                className="rounded-full text-xs py-1 pr-3 pl-7 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
+                                                className="rounded-full text-xs py-1 pr-3 pl-7 w-full border border-gray-200 focus:border-gray-400 bg-gray-100 focus:bg-gray-200 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
                                                 type="text"
                                                 placeholder="Search Messenger"
                                             />
@@ -270,7 +272,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                             <div className="flex flex-row p-2 overflow-auto w-full">
                                 <div className="flex flex-col items-center text-xs text-center mr-4">
                                     <button
-                                        className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-10 h-10"
+                                        className="flex flex-shrink-0 focus:outline-none bg-gray-100 text-gray-400 rounded-full w-10 h-10"
                                         type="button"
                                     >
                                         <svg className="w-full h-full fill-current self-center" viewBox="0 0 24 24">
