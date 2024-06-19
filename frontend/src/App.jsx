@@ -6,6 +6,7 @@ import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import NotFound from './components/NotFound/NotFound.jsx';
+import Formulaire from './components/Formulaire/Formulaire.jsx'
 
 
 
@@ -61,6 +62,7 @@ function App() {
               <Routes>
               <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
