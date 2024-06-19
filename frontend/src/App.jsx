@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './pages/Home/Home';
+import Profil from '@pages/Profil/Profil';
 import { ServiceProvider } from "../contexts/ServiceContext";
 import Publier from "@pages/Publier/Publier.jsx";
 import ChatBubble from './pages/Message/Bubble';
@@ -56,6 +57,7 @@ function App() {
               <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/Profil" element={<Profil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
               </Routes>
