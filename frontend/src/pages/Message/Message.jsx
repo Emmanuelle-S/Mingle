@@ -1,6 +1,7 @@
 // src/components/Messenger.jsx
 import React, { useState, useEffect } from "react";
 
+
 const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -79,7 +80,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                             </section>
                         )}
                         <section className="relative flex flex-col flex-none overflow-auto md:w-[600px]">
-                            <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
+                            <button className="absolute top-6 right-4 text-gray-100 hover:text-gray-100" onClick={onClose}>
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"

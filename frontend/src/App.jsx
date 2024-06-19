@@ -7,17 +7,12 @@ import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import NotFound from './components/NotFound/NotFound.jsx';
+import Formulaire from './components/Formulaire/Formulaire.jsx'
 
 
 
 
 function App() {
-  // const friends = [];
-  // const conversations = [];
-
-  // const fetchConversation = async (conversationId) => {
-  //   return [];
-  // };
 
   const friends = [
     { id: 1, name: 'Alice', avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
@@ -58,11 +53,12 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             {/* <Header/> */}
-            <main className="flex-grow bg">
+            <main className="flex-grow bgone">
               <Routes>
-              <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/Profil" element={<Profil/>} />
+                <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
