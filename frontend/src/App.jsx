@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './pages/Home/Home';
+import Profil from '@pages/Profil/Profil';
 import { ServiceProvider } from "../contexts/ServiceContext";
 import Publier from "@pages/Publier/Publier.jsx";
 import ChatBubble from './pages/Message/Bubble';
@@ -12,12 +13,6 @@ import Header from './components/Header/Header.jsx';
 
 
 function App() {
-  // const friends = [];
-  // const conversations = [];
-
-  // const fetchConversation = async (conversationId) => {
-  //   return [];
-  // };
 
   const friends = [
     { id: 1, name: 'Alice', avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
@@ -57,11 +52,12 @@ function App() {
       <ServiceProvider>
         <Router>
           <div className="flex flex-col min-h-screen">
-            <Header/>
-            <main className="flex-grow bg">
+            {/* <Header/> */}
+            <main className="flex-grow bgone">
               <Routes>
-              <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/Profil" element={<Profil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
               </Routes>
