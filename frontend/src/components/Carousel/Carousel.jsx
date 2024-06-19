@@ -30,6 +30,14 @@ const CarouselDefault = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, []);
+
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
