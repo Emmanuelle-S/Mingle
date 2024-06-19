@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import NotFound from './components/NotFound/NotFound.jsx';
 import Formulaire from './components/Formulaire/Formulaire.jsx'
-
+import Header from './components/Header/Header.jsx';
 
 
 
@@ -58,6 +58,7 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             {/* <Header/> */}
+            <Header/>
             <main className="flex-grow bg">
               <Routes>
               <Route path="*" element={<NotFound />} />
