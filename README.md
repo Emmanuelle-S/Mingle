@@ -20,3 +20,8 @@
 - _Concurrently_ : Allows for several commands to run concurrently in the same CLI
 - _Vite_ : Alternative to _Create-React-App_, packaging less tools for a more fluid experience
 - _Nodemon_ : Allows to restart the server everytime a .js file is udated
+
+
+
+
+
