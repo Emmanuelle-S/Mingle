@@ -1,9 +1,10 @@
 import "./Home.css";
+import '../../App.css';
 import CarouselDefault from "@components/Carousel/Carousel";
 
 export default function Home() {
   return (
-    <>
+    <div className="bgone">
       <section className="p-4">
         <h2>Trouver tous les services de MINGLE immédiatement</h2>
         <div className="py-4">
@@ -65,6 +66,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 }
