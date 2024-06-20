@@ -52,8 +52,10 @@ function App() {
       <ServiceProvider>
         <Router>
           <div className="flex flex-col min-h-screen">
-            {/* <Header/> */}
+          
             <main className="flex-grow bgone">
+          <Header/>
+          
               <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
