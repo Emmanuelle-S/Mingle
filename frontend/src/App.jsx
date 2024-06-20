@@ -62,7 +62,7 @@ function App() {
                 <Route path="/Profil" element={<Profil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
-                <Route path="/ConnexionIscription" element={<ConnexionInscritpion/>} />
+                <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
