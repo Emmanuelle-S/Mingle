@@ -147,7 +147,7 @@ const Inscription = () => {
         <div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded"
+            className="w-full bg-darkslategray text-white py-2 rounded"
           >
             Inscription
           </button>
