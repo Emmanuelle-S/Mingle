@@ -16,7 +16,7 @@ export default function PolitiqueDeConfidentialité() {
     }, []);
 
     return (
-        <div className={`${styles.bgone} flex`}>
+        <div className={`${styles.bgone} flex py-8`}>
             <div className="w-3/6 flex">
                 <img 
                     src={illustration} 
