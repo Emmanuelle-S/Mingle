@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import NotFound from './components/NotFound/NotFound.jsx';
 import Formulaire from './components/Formulaire/Formulaire.jsx'
+import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
 
 
 
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/Profil" element={<Profil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
+                <Route path="/ConnexionIscription" element={<ConnexionInscritpion/>} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
