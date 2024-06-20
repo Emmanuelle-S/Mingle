@@ -30,7 +30,7 @@ export default function TextBlock({ title, content }) {
                 {showFullContent ? content : truncatedContent}
 
                 {/* Si le contenu est plus long que 120 caractères, affiche le lien approprié */}
-                {content.length > 120 && (
+                {content.length > 140 && (
                     <a className="flex justify-end text-dark pointer" href="#" onClick={showFullContent ? handleReadLess : handleReadMore}>
                         {/* Affiche "Lire moins" si le contenu complet est affiché, sinon "Lire la suite" */}
                         {showFullContent ? 'Lire moins' : 'Lire la suite'}
