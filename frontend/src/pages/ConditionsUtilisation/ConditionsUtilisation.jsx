@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import TextBlock from "@components/TextBlock/TextBlock";
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import illustration from '../../assets/illustration-conditions.svg'

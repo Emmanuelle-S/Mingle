@@ -57,8 +57,7 @@ function App() {
           <div className="flex flex-col min-h-screen">
           
             <main className="flex-grow bgone">
-          <Header/>
-          
+              <Header/>
               <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
