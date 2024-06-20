@@ -1,5 +1,5 @@
-import { TextBlock } from '@components/TextBlock/TextBlock'
-import { illustration } from '../../assets/illustration-politique.svg'
+import TextBlock from '@components/TextBlock/TextBlock';
+import illustration from '../../assets/illustration-politique.svg'
 import { DocumentArrowDownIcon } from '@heroicons/react/20/solid'
 
 const pdfUrl = '/politique_confidentialite.pdf';
