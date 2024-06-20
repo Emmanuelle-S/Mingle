@@ -5,11 +5,11 @@ import CarouselDefault from "@components/Carousel/Carousel";
 export default function Home() {
   return (
     <div className="bgone">
-      <section className="p-4">
-        <h2>Trouver tous les services de MINGLE immédiatement</h2>
+      <section className="p-4 md:p-8 xl:p-16">
+        <h2 className="max-w-[50%] md:text-xl xl:text-2xl md:max-w-64">Trouver tous les services de MINGLE immédiatement</h2>
         <div className="py-4">
           <input
-            className="p-1 rounded-md min-w-[85%]"
+            className="p-1 rounded-md min-w-[85%] xl:min-w-[25%]"
             type="text"
             id="search"
             placeholder="Rechercher votre service..."
@@ -20,19 +20,19 @@ export default function Home() {
         </div>
         <div>
           <h4>Populaires :</h4>
-          <div className="flex justify-between py-3">
-            <button className="btn-pop">web</button>
-            <button className="btn-pop">médencine </button>
-            <button className="btn-pop">polytechnie</button>
-            <button className="btn-pop">autres</button>
+          <div className="flex justify-between py-3 md:justify-normal">
+            <button className="btn-pop md:mr-4">web</button>
+            <button className="btn-pop md:mr-4">médencine </button>
+            <button className="btn-pop md:mr-4">polytechnie</button>
+            <button className="btn-pop md:mr-4">autres</button>
           </div>
         </div>
       </section>
       <CarouselDefault />
       <section>
-        <div className="p-4 pt-12">
+        <div className="p-4 pt-12 xl:flex xl:justify-evenly">
           <img src="https://via.placeholder.com/600x300?text=Image+1" alt="#" />
-          <p className="pt-4">
+          <p className="pt-4 xl:max-w-[40%]">
             Chez <strong>Mingle</strong>, nous croyons fermement en la puissance
             de la communauté et de l'entraide. Nos valeurs fondamentales sont la
             solidarité, la bienveillance et l'inclusivité. <br /> <br /> Nous
@@ -46,9 +46,9 @@ export default function Home() {
             empathique.
           </p>
         </div>
-        <div className="p-4">
+        <div className="p-4 xl:pt-20 xl:flex xl:flex-row-reverse xl:justify-evenly">
           <img src="https://via.placeholder.com/600x300?text=Image+2" alt="#" />
-          <p className="pt-4">
+          <p className="pt-4 md:max-w-[40%]">
             Dans un monde souvent centré sur l'individualisme,{" "}
             <strong>Mingle</strong> remet l'entraide et le partage au centre de
             nos préoccupations. <br />
