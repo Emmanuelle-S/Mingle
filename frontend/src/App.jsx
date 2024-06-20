@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import NotFound from './components/NotFound/NotFound.jsx';
 import Formulaire from './components/Formulaire/Formulaire.jsx'
+import Header from './components/Header/Header.jsx';
 import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
 
 
