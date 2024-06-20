@@ -157,7 +157,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                     </div>
                                 ))}
                             </div>
-                            <div className="p-2 flex-1 overflow-y-scroll">
+                            <div className="p-2 flex-1">
                                 {conversations.map((conv) => (
                                     <div
                                     key={conv.id}
