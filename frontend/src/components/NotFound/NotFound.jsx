@@ -1,6 +1,6 @@
-// src/pages/NotFound.jsx
 import React, { useEffect } from 'react';
 import styles from './NotFound.module.css';
+
 
 const NotFound = () => {
     useEffect(() => {
@@ -11,8 +11,8 @@ const NotFound = () => {
     }, []);
 
     return (
-        <div className={styles.container}>
-            <svg width="380px" height="500px" viewBox="0 0 837 1045" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <div className={`${styles.container} ${styles.bgone}`}>
+            <svg className={styles.vector} width="380px" height="500px" viewBox="0 0 837 1045" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <path d="M353,9 L626.664028,170 L626.664028,487 L353,642 L79.3359724,487 L79.3359724,170 L353,9 Z" stroke="#007FB2" strokeWidth="6" id="Polygon-1" className={styles.polygon}></path>
                     <path d="M78.5,529 L147,569.186414 L147,648.311216 L78.5,687 L10,648.311216 L10,569.186414 L78.5,529 Z" stroke="#EF4A5B" strokeWidth="6" id="Polygon-2" className={styles.polygon}></path>
@@ -29,11 +29,12 @@ const NotFound = () => {
                         <a onClick={() => window.history.back()} className={`${styles.planete} ${styles.linkButton}`}>Retour</a>
                         <a href="/" className={styles.atom}>Accueil</a>
                     </div>
-                </div>  
+
+                
+            </div>
             </div>
         </div>
     );
 };
 
 export default NotFound;
-
