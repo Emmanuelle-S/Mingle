@@ -1,6 +1,6 @@
 import TextBlock from "@components/TextBlock/TextBlock";
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
-import {illustration} from '../../assets/illustration-conditions.svg'
+import illustration from '../../assets/illustration-conditions.svg'
 
 export default function ConditionsUtilisation() {
     return (
