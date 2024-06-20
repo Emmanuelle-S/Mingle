@@ -10,6 +10,8 @@ import NotFound from './components/NotFound/NotFound.jsx';
 import Formulaire from './components/Formulaire/Formulaire.jsx'
 import Header from './components/Header/Header.jsx';
 import FAQ from '@pages/FAQ/FAQ';
+import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
+
 
 
 
@@ -63,6 +65,7 @@ function App() {
                 <Route path="/Profil" element={<Profil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
+                <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
                 <Route path="/FAQ" element={<FAQ />} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
