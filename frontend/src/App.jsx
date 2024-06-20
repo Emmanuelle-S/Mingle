@@ -11,7 +11,7 @@ import Formulaire from './components/Formulaire/Formulaire.jsx'
 import Header from './components/Header/Header.jsx';
 import FAQ from '@pages/FAQ/FAQ';
 import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
-import ConditionsUtilisation from '@pages/ConditionsDUtilisation/ConditionsUtilisation';
+import ConditionsUtilisation from '@pages/ConditionsUtilisation/ConditionsUtilisation';
 import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 
 
