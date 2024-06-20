@@ -11,8 +11,8 @@ import Formulaire from './components/Formulaire/Formulaire.jsx'
 import Header from './components/Header/Header.jsx';
 import FAQ from '@pages/FAQ/FAQ';
 import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
-
-
+import ConditionsUtilisation from '@pages/ConditionsUtilisation/ConditionsUtilisation';
+import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 
 
 function App() {
@@ -57,8 +57,7 @@ function App() {
           <div className="flex flex-col min-h-screen">
           
             <main className="flex-grow bgone">
-          <Header/>
-          
+              <Header/>
               <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
@@ -67,6 +66,8 @@ function App() {
                 <Route path="/publier" element={<Publier/>} />
                 <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
                 <Route path="/FAQ" element={<FAQ />} />
+                <Route path="ConditionsUtilisation" element={<ConditionsUtilisation />}/>
+                <Route path="PolitiqueDeConfidentialité" element={<PolitiqueDeConfidentialité />}/>
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
