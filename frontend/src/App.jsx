@@ -11,6 +11,7 @@ import Formulaire from './components/Formulaire/Formulaire.jsx'
 import Header from './components/Header/Header.jsx';
 import FAQ from '@pages/FAQ/FAQ';
 import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
+import EditProfil from '@components/Profil/EditProfil';
 
 
 
@@ -63,6 +64,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/Profil" element={<Profil/>} />
+                <Route path="/EditProfil" element={<EditProfil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
                 <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
