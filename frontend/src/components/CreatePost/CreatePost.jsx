@@ -167,41 +167,44 @@ const CreatePost = () => {
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
-                    <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg drop-shadow-lg text-black">
-                        <MyTextInput
-                            label="Titre"
-                            name="title"
-                            type="text"
-                            placeholder="Saisir un titre"
-                        />
+                    <div>
+                        <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg drop-shadow-lg text-black">
+                            <h1 className="text-xl font-semibold px-2">Créer un service</h1>
+                            <MyTextInput
+                                label="Titre"
+                                name="title"
+                                type="text"
+                                placeholder="Saisir un titre"
+                            />
 
-                        <MyTextAreaInput
-                            label="Description"
-                            name="desc"
-                            type="text"
-                            placeholder="Saisir une description"
-                        />
+                            <MyTextAreaInput
+                                label="Description"
+                                name="desc"
+                                type="text"
+                                placeholder="Saisir une description"
+                            />
 
-                        <MySelect label="Categorie" name="category">
-                            <option value="">Choisissez une catégorie</option>
-                            <option value="1">Category 1</option>
-                            <option value="2">Category 2</option>
-                            <option value="3">Category 3</option>
-                        </MySelect>
+                            <MySelect label="Categorie" name="category">
+                                <option value="">Choisissez une catégorie</option>
+                                <option value="1">Category 1</option>
+                                <option value="2">Category 2</option>
+                                <option value="3">Category 3</option>
+                            </MySelect>
 
-                        <MyFileInput
-                            label="Image (facultative)"
-                            name="image"
-                            type="file"
-                            accept="image/*"
-                            setFieldValue={setFieldValue}
-                        />
+                            <MyFileInput
+                                label="Image (facultative)"
+                                name="image"
+                                type="file"
+                                accept="image/*"
+                                setFieldValue={setFieldValue}
+                            />
 
-                        <div className="flex justify-end gap-2 m-2">
-                            <button className='border-solid border-2 rounded-lg p-2 bg-primary font-semibold' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
-                            <button className='border-solid border-2 rounded-lg p-2 bg-accent font-semibold text-white' type="submit">Publier</button>
-                        </div>
-                    </Form>
+                            <div className="flex justify-end gap-2 m-2">
+                                <button className='border-solid border-2 rounded-lg p-2 bg-primary font-semibold' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
+                                <button className='border-solid border-2 rounded-lg p-2 bg-accent font-semibold text-white' type="submit">Publier</button>
+                            </div>
+                        </Form>
+                    </div>
                 )}
             </Formik>
         </div>
