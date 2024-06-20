@@ -18,6 +18,7 @@ module.exports = withMT({
         accent: '#0590E5',
         darkslategray: '#2F4F4F',
         
+        
       },
     },
   },

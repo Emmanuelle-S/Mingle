@@ -113,7 +113,7 @@ const Connexion = () => {
             ) : null}
           </div>
           <div>
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">Envoyer la demande</button>
+            <button type="submit" className="w-full bg-accent text-white py-2 rounded">Envoyer la demande</button>
           </div>
         </form>
       )}
