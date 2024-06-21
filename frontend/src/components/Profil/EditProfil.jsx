@@ -136,7 +136,7 @@ const EditProfil = () => {
             <Form className="max-w-screen-lg mx-auto px-6 py-8 rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold mb-6 text-center text-darkslategray">Editer le profil</h1>
 
-                <div className="md:flex md:space-x-8 mb-8 bg-white rounded-lg p-4 border border-gray-300 shadow-2xl">
+                <div className="md:flex md:space-x-8 mb-8 bg-white p-4 rounded-lg  border border-gray-300 shadow-2xl">
                     <div className="md:w-1/2 bg-white rounded-lg p-4">
                         <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Informations personnelles</h2>
                         <MyTextInput label="Nom" name="name" type="text" />

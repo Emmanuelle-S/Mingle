@@ -61,16 +61,16 @@ const Profil = () => {
       <PersonalInfo userData={userData} isUserLoggedIn={isUserLoggedIn} />
 
       {/* Bloc de services publiés */}
-      <div className="mt-8  bg-white rounded-lg border border-gray-300 shadow-2xl p.8">
-        <h2 className="text-2xl font-bold mb-4 text-darkslategray">
+      <div className="mt-8  bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
+        <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray p.8">
           Services publiés
         </h2>
         <ServicesCarousel services={publishedServices} />
       </div>
 
       {/* Bloc des échanges récents */}
-      <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl">
-        <h2 className="text-2xl font-bold mb-4 text-darkslategray ">
+      <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
+        <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray p.8">
           Échanges récents
         </h2>
         <RecentChats chats={recentChats} />
