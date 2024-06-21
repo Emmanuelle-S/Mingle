@@ -13,6 +13,9 @@ import FAQ from '@pages/FAQ/FAQ';
 import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscription';
 import ConditionsUtilisation from '@pages/ConditionsUtilisation/ConditionsUtilisation';
 import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
+import EditProfil from '@components/Profil/EditProfil';
+
+
 
 
 function App() {
@@ -62,6 +65,7 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/Profil" element={<Profil/>} />
+                <Route path="/EditProfil" element={<EditProfil/>} />
                 <Route path="/formulaire" element={<Formulaire/>} />
                 <Route path="/publier" element={<Publier/>} />
                 <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
