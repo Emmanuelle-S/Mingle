@@ -70,8 +70,8 @@ function App() {
                 <Route path="/publier" element={<Publier/>} />
                 <Route path="/ConnexionInscription" element={<ConnexionInscritpion/>} />
                 <Route path="/FAQ" element={<FAQ />} />
-                <Route path="ConditionsUtilisation" element={<ConditionsUtilisation />}/>
-                <Route path="PolitiqueDeConfidentialité" element={<PolitiqueDeConfidentialité />}/>
+                <Route path="/conditions" element={<ConditionsUtilisation />} />
+                <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
