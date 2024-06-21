@@ -1,12 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PersonalInfo = ({ userData, isUserLoggedIn }) => {
+    const navigate = useNavigate();
   const { name, email, phone, address, profilePic, services, bio } = userData;
+  
 
    // Fonction pour gérer le clic sur le bouton Éditer
    const handleEditClick = () => {
     // Redirection vers le composant EditProfil lors du clic sur le bouton Éditer
-    history.push('/EditProfil');
+    navigate('/EditProfil', { state: { userData } });
   };
 
   return (
@@ -33,10 +36,18 @@ const PersonalInfo = ({ userData, isUserLoggedIn }) => {
           <label className="block text-darkslategray">Biographie</label>
           <p className="mt-1 text-sm">{bio}</p>
         </div>
+        <div className="col-span-2">
+          <label className="block text-darkslategray">Type de Service Proposés</label>
+          <p className="mt-1 text-sm">{services}</p>
+        </div>
+        <div className="col-span-2">
+          <label className="block text-darkslategray">Photo de profil</label>
+          <p className="mt-1 text-sm">{profilePic}</p>
+        </div>
       </div>
       {isUserLoggedIn && (
         <div className="mt-4 text-center">
-          <button className="bg-decent text-white px-4 py-2 rounded-md onClick={handleEditClick}">Éditer</button>
+          <button className="bg-accent hover:bg-blue-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleEditClick} >Éditer</button>
         </div>
       )}
     </div>
