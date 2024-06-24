@@ -1,56 +1,82 @@
-import { useState, useRef } from 'react';
-import { FaUser } from 'react-icons/fa';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { FaUser, FaBars } from 'react-icons/fa';
 
-// Composant Header
 const Header = () => {
-  // État du menu
-  const [isOpen, setOpen] = useState(false);
-  const menuRef = useRef(null);
+  // État pour gérer l'ouverture du menu principal
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // État pour gérer l'ouverture du menu utilisateur
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Setter Toggle menu
+  // Fonction pour basculer l'état du menu principal
   const toggleMenu = () => {
-    setOpen(!isOpen);
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Fonction pour basculer l'état du menu utilisateur
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
   };
 
   return (
-    <header className="p-4 bg-transparent">
+    <header className="p-4 bg-transparent relative">
       <div className="container mx-auto flex justify-between items-center">
-        
-        {/* Logo */}
-        <div className="logo text-white text-xl font-bold">
-          <NavLink to="/">Mingle</NavLink>
-        </div>
-        
-        {/* Navigation de bureau */}
-        <nav className="hidden md:flex space-x-4 ml-auto items-center p-3">
-          <NavLink to="/" className="text-black hover:text-gray-700">Accueil</NavLink>
-          <NavLink to="/about" className="text-black hover:text-gray-700">À propos</NavLink>
-          <NavLink to="/services" className="text-black hover:text-gray-700">Services</NavLink>
-          <NavLink to="/publier" className="text-black hover:text-gray-700">Publier</NavLink>
-          <NavLink to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4">
-            Contactez nous
-          </NavLink>
-          <FaUser className="ml-2 text-white" />
-        </nav>
 
-        {/* Bouton du menu burger */}
-        <button onClick={toggleMenu} className="md:hidden ml-10 text-white">
-          ☰
-        </button>
-      </div>
-      
-      {/* Menu mobile */}
-      {isOpen && (
-        <div ref={menuRef} className="md:hidden flex flex-col space-y-4 mt-4">
-          <NavLink to="/" className="text-black hover:text-gray-700" onClick={toggleMenu}>Accueil</NavLink>
-          <NavLink to="/about" className="text-black hover:text-gray-700" onClick={toggleMenu}>À propos</NavLink>
-          <NavLink to="/services" className="text-black hover:text-gray-700" onClick={toggleMenu}>Services</NavLink>
-          <NavLink to="/publier" className="text-black hover:text-gray-700" onClick={toggleMenu}>Publier</NavLink>
-          <NavLink to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4" onClick={toggleMenu}>
+        {/* Icône du menu burger pour mobile */}
+        <div className="md:hidden">
+          <FaBars className="text-white mr-2" onClick={toggleMenu} />
+        </div>
+
+        {/* Logo pour mobile (centré) et bureau (gauche) */}
+        <div className="text-white text-xl font-bold flex-none md:mr-auto">
+          <a href="/">Mingle</a>
+        </div>
+
+        {/* Icône utilisateur pour mobile */}
+        <div className="md:hidden relative">
+          <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
+          {isUserMenuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
+              <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+              <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+              <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+              <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation pour bureau */}
+        <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center relative">
+          <a href="/" className="text-black hover:text-gray-700">Accueil</a>
+          <a href="/about" className="text-black hover:text-gray-700">À propos</a>
+          <a href="/services" className="text-black hover:text-gray-700">Services</a>
+          <a href="/publier" className="text-black hover:text-gray-700">Publier</a>
+          <a href="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3">
             Contactez nous
-          </NavLink>
-          <FaUser className="ml-2 text-white" />
+          </a>
+          <div className="relative ">
+            <FaUser className="text-white ml-2 cursor-pointer " onClick={toggleUserMenu} />
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
+                <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+                <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+                <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+                <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+              </div>
+            )}
+          </div>
+        </nav>
+      </div>
+
+      {/* Menu mobile affiché lorsque isMenuOpen est vrai */}
+      {isMenuOpen && (
+        <div className="md:hidden flex flex-col items-start pl-4 mt-2 space-y-2">
+          <a href="/" className="text-black hover:text-gray-700">Accueil</a>
+          <a href="/about" className="text-black hover:text-gray-700">À propos</a>
+          <a href="/services" className="text-black hover:text-gray-700">Services</a>
+          <a href="/publier" className="text-black hover:text-gray-700">Publier</a>
+          <a href="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4">
+            Contactez nous
+          </a>
         </div>
       )}
     </header>
