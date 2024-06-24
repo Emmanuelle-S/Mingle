@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
+import axios from "axios";
 import * as Yup from "yup";
 import "../../App.css";
 
 const Inscription = () => {
+
+  const fetchUsersDB = async () => {
+    try {
+        const response = await axios.get("http://localhost:5000/users");
+        const data = response.data;
+        console.log(data);
+        setUsers(data);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+    }
+};
+
+useEffect(() => {
+    fetchUsersDB();
+}, []);
+
+
   const formik = useFormik({
     initialValues: {
       username: "",
