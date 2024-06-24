@@ -6,7 +6,7 @@ import Publier from "@pages/Publier/Publier.jsx";
 import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import NotFound from './components/NotFound/NotFound.jsx';
+import NotFound from './pages/NotFound/NotFound.jsx';
 import Formulaire from './components/Formulaire/Formulaire.jsx'
 import Header from './components/Header/Header.jsx';
 import FAQ from '@pages/FAQ/FAQ';

@@ -26,18 +26,26 @@ const Header = () => {
           <FaBars className="text-white mr-2" onClick={toggleMenu} />
         </div>
 
-        {/* Logo centré pour mobile et bureau */}
-        <div className="flex-1 text-center md:flex-none md:mx-auto text-white text-xl font-bold">
+        {/* Logo pour mobile (centré) et bureau (gauche) */}
+        <div className="text-white text-xl font-bold flex-none md:mr-auto">
           <a href="/">Mingle</a>
         </div>
 
         {/* Icône utilisateur pour mobile */}
-        <div className="md:hidden">
-          <FaUser className="text-white ml-2" onClick={toggleUserMenu} />
+        <div className="md:hidden relative">
+          <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
+          {isUserMenuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
+              <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+              <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+              <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+              <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+            </div>
+          )}
         </div>
 
         {/* Navigation pour bureau */}
-        <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center">
+        <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center relative">
           <a href="/" className="text-black hover:text-gray-700">Accueil</a>
           <a href="/about" className="text-black hover:text-gray-700">À propos</a>
           <a href="/services" className="text-black hover:text-gray-700">Services</a>
@@ -45,6 +53,17 @@ const Header = () => {
           <a href="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3">
             Contactez nous
           </a>
+          <div className="relative ">
+            <FaUser className="text-white ml-2 cursor-pointer " onClick={toggleUserMenu} />
+            {isUserMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
+                <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+                <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+                <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+                <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+              </div>
+            )}
+          </div>
         </nav>
       </div>
 
@@ -58,16 +77,6 @@ const Header = () => {
           <a href="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4">
             Contactez nous
           </a>
-        </div>
-      )}
-
-      {/* Menu utilisateur affiché lorsque isUserMenuOpen est vrai */}
-      {isUserMenuOpen && (
-        <div className="absolute right-0 mt-12 w-48 bg-secondary rounded-lg shadow-lg py-2">
-          <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
-          <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
-          <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
-          <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
         </div>
       )}
     </header>
