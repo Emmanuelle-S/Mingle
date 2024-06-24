@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PersonalInfo = ({ userData, isUserLoggedIn }) => {
     const navigate = useNavigate();
-  const { name, email, phone, address, profilePic, services, bio } = userData;
+  const { username, email, phone, address, profilePic, services, bio } = userData;
   
 
    // Fonction pour gérer le clic sur le bouton Éditer
@@ -19,7 +19,7 @@ const PersonalInfo = ({ userData, isUserLoggedIn }) => {
     <div className="flex-1 space-y-4">
       <div >
         <label className="block text-darkslategray">Nom</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{name}</p>
+        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{userData.username}</p>
       </div>
       <div>
         <label className="block text-darkslategray">Email</label>
