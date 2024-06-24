@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import "../../App.css";
 
 const Inscription = () => {
+  const [users, setUsers] = useState([]);
+
 
   const fetchUsersDB = async () => {
     try {
@@ -19,8 +21,8 @@ const Inscription = () => {
 
 useEffect(() => {
     fetchUsersDB();
+    console.log(users);
 }, []);
-
 
   const formik = useFormik({
     initialValues: {
