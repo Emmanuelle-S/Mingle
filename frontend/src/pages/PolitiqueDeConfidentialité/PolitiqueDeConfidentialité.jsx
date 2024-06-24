@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import TextBlock from '@components/TextBlock/TextBlock';
 import illustration from '../../assets/illustration-politique.svg'
 import { DocumentArrowDownIcon } from '@heroicons/react/20/solid'
-import styles from './PolitiqueDeCondidentialité.module.css'
+import styles from './PolitiqueDeConfidentialité.module.css'
 
 const pdfUrl = '/politique_confidentialite.pdf';
 
@@ -17,13 +17,13 @@ export default function PolitiqueDeConfidentialité() {
 
     return (
         <div className={`${styles.bgone} flex py-8`}>
-            <div className="w-3/6 flex">
+            <div className="flex">
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'un homme tenant un téléphone. L'homme est entouré de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 
                 />
             </div>
-            <div className="py-8 px-8 w-3/6">
+            <div className="py-8 px-8">
                 <TextBlock 
                     title="Politique de confidentialité"
                     content="Nous accordons une importance primordiale à la protection de votre vie privée. Cette politique de confidentialité explique comment nous recueillons, utilisons et protégeons vos informations lorsque vous utilisez notre plateforme."
