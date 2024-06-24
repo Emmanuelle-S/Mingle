@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef } from "react"; // Importation de useRef de React
+import { useContext,useState, useEffect, useRef } from "react"; // Importation de useRef de React
 import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
 import * as Yup from 'yup'; // Importation de Yup pour la validation
 import axios from "axios";
+import { format } from "date-fns";
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
 import { ServiceContext } from "../../contexts/ServiceContext";
 
@@ -26,7 +27,10 @@ const MyTextAreaInput = ({ label, ...props }) => {
     return (
         <div className="flex flex-col p-2">
             <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
-            <textarea className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' {...field} {...props}  rows={4} /> {/* Champ de texte avec les propriétés Formik */}
+            <textarea 
+                className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' 
+                {...field} {...props}  rows={4} 
+            /> {/* Champ de texte avec les propriétés Formik */}
             {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
                 <div className="error text-primary">{meta.error}</div>
             ) : null}
@@ -36,18 +40,46 @@ const MyTextAreaInput = ({ label, ...props }) => {
 
 // Composant réutilisable pour les champs select
 const MySelect = ({ label, ...props }) => {
-    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
+    const [field, meta, helpers] = useField(props);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/categoryservice');
+                setCategories(response.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchCategories();
+    }, []);
 
     return (
         <div className="flex flex-col p-2">
-            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ select */}
-            <select className='border-solid border-2 rounded-md border-dark bg-white py-2 px-2' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
-            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
+            <label htmlFor={props.id}>{label}</label>
+            <select
+                className='border-solid border-2 rounded-md border-dark bg-white py-2 px-2'
+                {...field}
+                {...props}
+                onChange={(e) => {
+                    helpers.setValue(e.target.value); // Set value in Formik
+                }}
+            >
+                <option value="">Choisissez une catégorie</option>
+                {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                        {category.titre_catégorie} - {category.titre_sous_catégorie}
+                    </option>
+                ))}
+            </select>
+            {meta.touched && meta.error ? (
                 <div className="error text-primary">{meta.error}</div>
             ) : null}
         </div>
     );
 };
+
 
 // Composant réutilisable pour les champs file input
 const MyFileInput = ({ label, setFieldValue, setHandleRemoveRef, ...props }) => {
@@ -124,14 +156,57 @@ const CreatePost = () => {
         resetForm(); // Réinitialisation du formulaire Formik
     };
 
-    const handleSubmit = async() => {
-        try {
-            const response = await axios.get('http://localhost:5000/service');
-            console.log(response.data);
-        } catch (err) {
-            console.log(err);
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+        // Création d'un nouvel objet FormData
+        const formData = new FormData();
+    
+        // Ajout des champs au FormData
+        formData.append('titre', values.title); // 'titre' correspond à la clé dans le backend pour le titre
+        formData.append('description', values.desc); // 'description' correspond à la clé dans le backend pour la description
+        formData.append('category', values.category); // 'category' correspond à la clé dans le backend pour la catégorie
+    
+        // Convertir les valeurs en nombre avant de les ajouter à FormData
+        formData.append('user_id', Number(values.user_id)); // Assurez-vous que values.user_id est déjà une valeur numérique valide
+        formData.append('message_id', Number(values.message_id)); // Assurez-vous que values.message_id est déjà une valeur numérique valide
+    
+        // Vérification si une image est sélectionnée avant de l'ajouter
+        if (values.image) {
+            formData.append('illustration', values.image); // 'illustration' correspond à la clé dans le backend pour l'image
         }
-    }
+    
+        // Formatage de la date actuelle au format 'jj/mm/aaaa' avec date-fns
+        const currentDate = new Date();
+        const formattedDate = format(currentDate, 'dd/MM/yyyy');
+        formData.append('date', formattedDate); // 'date' correspond à la clé dans le backend pour la date
+    
+        try {
+            // Envoi de la requête POST avec axios
+            const response = await axios.post('http://localhost:5000/service', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Spécifie que le contenu est de type FormData
+                }
+            });
+    
+            // Affichage de la réponse du serveur dans la console
+            console.log("Réponse serveur:", response.data);
+    
+            // Ajout du service à la liste des services (assumant addService est une fonction qui ajoute le service reçu)
+            addService(response.data);
+    
+            // Arrêt de la soumission et réinitialisation du formulaire
+            setSubmitting(false);
+            if (handleRemoveRef.current) {
+                handleRemoveRef.current(); // Réinitialisation du champ de fichier si une référence est définie
+            }
+            resetForm(); // Réinitialisation du formulaire Formik
+    
+        } catch (err) {
+            // Gestion des erreurs : Affichage de l'erreur dans la console en cas d'échec de la requête POST
+            console.log("Erreur lors de la soumission du formulaire:", err);
+        }
+    };
+    
+
 
     return (
         <div className="px-4 py-8">
@@ -141,6 +216,8 @@ const CreatePost = () => {
                     desc: '',
                     category: '',
                     image: '',
+                    user_id: 1, // Valeur numérique par défaut pour user_id
+                    message_id: 1, // Valeur numérique par défaut pour message_id
                 }}
                 validationSchema={Yup.object({
                     title: Yup.string()
@@ -171,25 +248,7 @@ const CreatePost = () => {
                         }),
                 })}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
-                    const post = {
-                        id: null, // Laisser null car l'id est auto-incrémenté
-                        title: values.title,
-                        description: values.desc,
-                        illustration: values.image ? values.image.name : '',
-                        date: new Date().toString(), // Date actuelle
-                        user_id: null,
-                        message_id: null
-                    };
-
-                    addService(post);
-
-                    console.log("Nouveau post :", post); // Affichage des données du post pour debug
-                    setSubmitting(false); // Arrêt de la soumission
-                    if (handleRemoveRef.current) {
-                        handleRemoveRef.current();
-                    }
-                    resetForm(); // Réinitialisation du formulaire après soumission
-                    handleSubmit();
+                    handleSubmit(values, { setSubmitting, resetForm });
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
