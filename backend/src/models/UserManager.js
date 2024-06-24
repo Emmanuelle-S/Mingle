@@ -2,7 +2,9 @@ const AbstractManager = require("./AbstractManager");
 
 class UserManager extends AbstractManager {
   constructor() {
+    // méthode qui initialise les  valeurs de la propriété instanciée
     super({ table: "users" });
+    // sert à faire un héritage en appelant le construct parent abstract manager
   }
 
   insert(users) {
