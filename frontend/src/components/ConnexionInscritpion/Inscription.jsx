@@ -7,22 +7,20 @@ import "../../App.css";
 const Inscription = () => {
   const [users, setUsers] = useState([]);
 
-
   const fetchUsersDB = async () => {
-    try {
-        const response = await axios.get("http://localhost:5000/users");
-        const data = response.data;
-        console.log(data);
-        setUsers(data);
-    } catch (error) {
-        console.error('Error fetching users:', error);
-    }
-};
+      try {
+          const response = await axios.get("http://localhost:5000/users");
+          const data = response.data;
+          console.log('Fetched users:', data);
+          setUsers(data);
+      } catch (error) {
+          console.error('Error fetching users:', error);
+      }
+  };
 
-useEffect(() => {
-    fetchUsersDB();
-    console.log(users);
-}, []);
+  useEffect(() => {
+      fetchUsersDB();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
