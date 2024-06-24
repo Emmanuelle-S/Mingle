@@ -8,7 +8,7 @@ const Accordion = ({ items }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto self-center">
       {items.map((item, index) => (
         <div key={index} className="mb-4 border border-gray-200 rounded">
           <div
@@ -42,8 +42,7 @@ const Accordion = ({ items }) => {
             </svg>
           </div>
           {index === activeIndex && (
-            <div className="p-4 border-t border-gray-200 bg-gray-400">
-              <p>{item.intro}</p>
+            <div className="p-4 border-t border-gray-200 bg-gray-100">
               <p>{item.content}</p>
             </div>
           )}
