@@ -46,38 +46,37 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                 {!isMobile && ( 
                     <main className="flex-grow flex flex-row min-h-0">
                         {selectedConversation && (
-                            <section className="relative flex flex-col items-center flex-auto border-l border-gray-800 md:w-[400px]">
+                            <section className="relative flex flex-col items-center flex-auto border-l md:w-[600px]">
                                 <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
                                     Close
                                 </button>
-                                <div className="flex flex-col h-full pt-8">
-                                    <div className="flex-1 overflow-y-auto p-4">
+                                <div className="flex flex-col h-full p-4 pt-8 w-full">
+                                    <div className="flex-1 overflow-y-auto p-4 pt-8 w-full">
                                         {messages.map((msg, index) => (
                                             <div
-                                            key={index}
-                                            className={`p-2 my-2 rounded shadow ${
-                                                msg.isMine ? "bg-blue-600" : "bg-gray-800"
-                                            }`}
+                                                key={index}
+                                                className={`w-max p-2 my-4 rounded shadow ${
+                                                    msg.isMine ? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
+                                                }`}
+                                                style={{ maxWidth: '45%' }}
                                             >
-                                            {msg.text}
+                                                {msg.text}
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="flex p-4">
-                                    <input
-                                        type="text"
-                                        className="flex-1 p-2 border rounded-l-md"
-                                        placeholder="Type a message"
-                                    />
-                                    <button className="p-2 bg-blue-500 text-white rounded-r-md">
-                                        Send
-                                    </button>
+                                    <div className="flex p-8 w-full">
+                                        <input
+                                            type="text"
+                                            className="flex-1 p-2 border rounded-l-md"
+                                            placeholder="Type a message"
+                                        />
+                                        <button className="p-2 bg-blue-500 text-white rounded-r-md">
+                                            Send
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="flex-1 flex items-center justify-center text-gray-500">
-                                    Select a conversation to start chatting
-                                </div>
                             </section>
+                                         
                         )}
                         <section className="relative flex flex-col flex-none overflow-auto md:w-[600px]">
                             <button className="absolute top-6 right-4 text-gray-100 hover:text-gray-100" onClick={onClose}>

@@ -1,15 +1,7 @@
 // src/components/Carousel.jsx
 import React, { useState, useEffect } from 'react';
 
-const slides = [
-  { id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1' },
-  { id: 2, url: 'https://via.placeholder.com/600x300?text=Slide+2' },
-  { id: 3, url: 'https://via.placeholder.com/600x300?text=Slide+3' },
-  { id: 4, url: 'https://via.placeholder.com/600x300?text=Slide+4' },
-  { id: 5, url: 'https://via.placeholder.com/600x300?text=Slide+5' },
-];
-
-const CarouselDefault = () => {
+const CarouselDefault = ( { slides } ) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(1);
 
