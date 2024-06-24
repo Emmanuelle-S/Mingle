@@ -14,7 +14,7 @@ import ConnexionInscritpion from '@pages/ConnexionInscription/ConnexionInscripti
 import ConditionsUtilisation from '@pages/ConditionsUtilisation/ConditionsUtilisation';
 import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 import EditProfil from '@components/Profil/EditProfil';
-
+import About from "./pages/About/About.jsx"
 
 
 
@@ -72,6 +72,8 @@ function App() {
                 <Route path="/FAQ" element={<FAQ />} />
                 <Route path="/conditions" element={<ConditionsUtilisation />} />
                 <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
+                <Route path="/about" element={<About />} />
+        
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
             </main>
