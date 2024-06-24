@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from "react"; // Importation de useRef 
 import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
 import * as Yup from 'yup'; // Importation de Yup pour la validation
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
-import { ServiceContext } from "../../../contexts/ServiceContext";
+import { ServiceContext } from "../../contexts/ServiceContext";
 
 // Composant réutilisable pour les champs de texte
 const MyTextInput = ({ label, ...props }) => {
@@ -49,7 +49,7 @@ const MySelect = ({ label, ...props }) => {
 };
 
 // Composant réutilisable pour les champs file input
-const MyFileInput = ({ label, setFieldValue, ...props }) => {
+const MyFileInput = ({ label, setFieldValue, setHandleRemoveRef, ...props }) => {
     const [meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
 
     const inputFile = useRef(null); // Création d'une référence pour l'input file
@@ -75,6 +75,12 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
         }
     };
 
+    useEffect(() => {
+        if (setHandleRemoveRef) {
+            setHandleRemoveRef.current = handleRemove;
+        }
+    }, [setHandleRemoveRef]);
+
     return (
         <div className="flex flex-col items-start p-2">
             <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ file input */}
@@ -96,6 +102,7 @@ const MyFileInput = ({ label, setFieldValue, ...props }) => {
 // Composant principal pour créer un post
 const CreatePost = () => {
     const { services, addService } = useContext(ServiceContext);
+    const handleRemoveRef = useRef(null);
 
     useEffect(() => {
         console.log("Services have been updated:", services)
@@ -108,11 +115,16 @@ const CreatePost = () => {
         if (postContent.current) {
             postContent.current.value = ''; // Réinitialisation du contenu de la référence
         }
+
+        if (handleRemoveRef.current) {
+            handleRemoveRef.current();
+        }
+
         resetForm(); // Réinitialisation du formulaire Formik
     };
 
     return (
-        <div>
+        <div className="px-4 py-8">
             <Formik
                 initialValues={{
                     title: '', // Valeurs initiales pour les champs
@@ -163,6 +175,9 @@ const CreatePost = () => {
 
                     console.log("Nouveau post :", post); // Affichage des données du post pour debug
                     setSubmitting(false); // Arrêt de la soumission
+                    if (handleRemoveRef.current) {
+                        handleRemoveRef.current();
+                    }
                     resetForm(); // Réinitialisation du formulaire après soumission
                 }}
             >
@@ -197,6 +212,7 @@ const CreatePost = () => {
                                 type="file"
                                 accept="image/*"
                                 setFieldValue={setFieldValue}
+                                setHandleRemoveRef={handleRemoveRef}
                             />
 
                             <div className="flex justify-end gap-2 m-2">
