@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PersonalInfo = ({ userData, isUserLoggedIn }) => {
     const navigate = useNavigate();
-  const { name, email, phone, address, profilePic, services, bio } = userData;
+  const { username, email, phone, address, profilePic, services, bio } = userData;
   
 
    // Fonction pour gérer le clic sur le bouton Éditer
@@ -19,33 +19,29 @@ const PersonalInfo = ({ userData, isUserLoggedIn }) => {
     <div className="flex-1 space-y-4">
       <div >
         <label className="block text-darkslategray">Nom</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{name}</p>
+        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{userData.username}</p>
       </div>
       <div>
         <label className="block text-darkslategray">Email</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{email}</p>
+        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{userData.mail}</p>
       </div>
       <div>
-        <label className="block text-darkslategray">Téléphone</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{phone}</p>
-      </div>
-      <div>
-        <label className="block text-darkslategray">Adresse</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{address}</p>
+        <label className="block text-darkslategray">Ville</label>
+        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{userData.localisation}</p>
       </div>
       <div>
         <label className="block text-darkslategray">Type de Service Proposés</label>
-        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{services}</p>
+        <p className="mt-1 text-m rounded-lg border border-darkslategray p-1">{userData.service_type}</p>
       </div>
     </div>
     <div className="flex-1 space-y-32">
       <div>
         <label className="block text-darkslategray text-center">Photo de profil</label>
-        <p className="mt-1 text-sm text-center">{profilePic}</p>
+        <p className="mt-1 text-sm text-center">{userData.avatar}</p>
       </div>
       <div>
         <label className="block text-darkslategray text-center">Biographie</label>
-        <p className="mt-1 rounded-lg border border-darkslategray p-1 w-1/2 mx-auto h-24 overflow-auto text-l">{bio}</p>
+        <p className="mt-1 rounded-lg border border-darkslategray p-1 w-1/2 mx-auto h-24 overflow-auto text-l">{userData.biographie}</p>
       </div>
     </div>
   </div>

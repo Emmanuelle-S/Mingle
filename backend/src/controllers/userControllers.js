@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const browse = (req, res) => {
   models.user
+  // objet models qui utilise les propriétés de la valeur user
     .findAll()
     .then(([rows]) => {
       res.send(rows);
