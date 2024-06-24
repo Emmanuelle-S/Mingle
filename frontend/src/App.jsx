@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './pages/Home/Home';
 import Profil from '@pages/Profil/Profil';
-import { ServiceProvider } from "../contexts/ServiceContext";
+import { ServiceProvider } from "./contexts/ServiceContext";
 import Publier from "@pages/Publier/Publier.jsx";
 import ChatBubble from './pages/Message/Bubble';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
