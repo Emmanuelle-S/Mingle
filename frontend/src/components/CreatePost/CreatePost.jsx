@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef } from "react"; // Importation de useRef de React
 import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
 import * as Yup from 'yup'; // Importation de Yup pour la validation
+import axios from "axios";
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
 import { ServiceContext } from "../../contexts/ServiceContext";
 
@@ -123,6 +124,15 @@ const CreatePost = () => {
         resetForm(); // Réinitialisation du formulaire Formik
     };
 
+    const handleSubmit = async() => {
+        try {
+            const response = await axios.get('http://localhost:5000/service');
+            console.log(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div className="px-4 py-8">
             <Formik
@@ -179,6 +189,7 @@ const CreatePost = () => {
                         handleRemoveRef.current();
                     }
                     resetForm(); // Réinitialisation du formulaire après soumission
+                    handleSubmit();
                 }}
             >
                 {({ setFieldValue, resetForm }) => (
