@@ -18,6 +18,7 @@ import About from "./pages/About/About.jsx"
 
 
 
+
 function App() {
 
   const friends = [
