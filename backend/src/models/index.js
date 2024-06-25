@@ -34,6 +34,8 @@ const UserManager = require("./UserManager")
 const MessageManager= require("./messageManager");
 const ServiceManager = require("./ServiceManager")
 const CategoryService = require ("./CategoryServiceManager")
+const FriendsManager = require("./FriendsManager");
+
 
 models.item = new ItemManager();
 models.item.setDatabase(pool); 
@@ -43,6 +45,10 @@ models.user.setDatabase(pool);
 
 models.message = new MessageManager();
 models.message.setDatabase(pool);
+
+models.friends = new FriendsManager();
+models.friends.setDatabase(pool);
+
 models.service= new ServiceManager();
 models.service.setDatabase(pool);
 

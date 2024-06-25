@@ -18,6 +18,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
       }
     }, [selectedConversation]);
 
+    // Detection de la taille d'écran
     useEffect(() => {
         // Fonction pour détecter si l'appareil est mobile
         const detectMobile = () => {
