@@ -18,12 +18,12 @@ const Header = () => {
   };
 
   return (
-    <header className="p-4 bg-transparent relative">
+    <header className="p-4 relative bg-transparent z-50">
       <div className="container mx-auto flex justify-between items-center">
 
         {/* Icône du menu burger pour mobile */}
         <div className="md:hidden">
-          <FaBars className="text-white mr-2" onClick={toggleMenu} />
+          <FaBars className="text-white mr-2 text-lg sm:text-base" onClick={toggleMenu} />
         </div>
 
         {/* Logo pour mobile (centré) et bureau (gauche) */}
@@ -33,7 +33,7 @@ const Header = () => {
 
         {/* Icône utilisateur pour mobile */}
         <div className="md:hidden relative">
-          <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
+          <FaUser className="text-white ml-2 cursor-pointer text-lg sm:text-base" onClick={toggleUserMenu} />
           {isUserMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
               <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
@@ -53,8 +53,8 @@ const Header = () => {
           <a href="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3">
             Contactez nous
           </a>
-          <div className="relative ">
-            <FaUser className="text-white ml-2 cursor-pointer " onClick={toggleUserMenu} />
+          <div className="relative">
+            <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
             {isUserMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
                 <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
