@@ -1,16 +1,10 @@
 import React from 'react';
+import CardList from './CardList'; // Ensure correct path
 
-const Card = ({ title, imageUrl, category, description, date }) => {
+const Card = () => {
+
   return (
-    <div className="card">
-      <img src={imageUrl} alt={title} />
-      <div className="card-body">
-        <h2>{title}</h2>
-        <p>{category}</p>
-        <p>{description}</p>
-        <p>{date}</p>
-      </div>
-    </div>
+    <CardList/>
   );
 };
 

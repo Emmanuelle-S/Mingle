@@ -49,7 +49,7 @@ router.post(
     userControllers.verifyPassword,    
 );
     
-router.use(userControllers.verifyToken); // tout ce qui est en dessous est privé
+// router.use(userControllers.verifyToken); // tout ce qui est en dessous est privé
 router.get("/user/protected", userControllers.browse)
     
 module.exports = router;

@@ -15,7 +15,7 @@ import ConditionsUtilisation from './pages/ConditionsUtilisation/ConditionsUtili
 import PolitiqueDeConfidentialité from './pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 import EditProfil from './components/Profil/EditProfil';
 import About from "./pages/About/About.jsx";
-import Card from './components/Liste de service/card'; 
+import Card from './components/Listedeservice/card'; 
 
 
 function App() {
