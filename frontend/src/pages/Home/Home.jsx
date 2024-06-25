@@ -40,7 +40,7 @@ export default function Home() {
             <h4 className="md:pr-4">Populaires :</h4>
             <div className="flex justify-between py-3 md:justify-normal">
               <button className="btn-pop md:mr-4">web</button>
-              <button className="btn-pop md:mr-4">médencine </button>
+              <button className="btn-pop md:mr-4">médecine </button>
               <button className="btn-pop md:mr-4">polytechnie</button>
               <button className="btn-pop md:mr-4">autres</button>
             </div>

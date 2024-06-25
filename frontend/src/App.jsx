@@ -16,7 +16,7 @@ import PolitiqueDeConfidentialité from './pages/PolitiqueDeConfidentialité/Pol
 import EditProfil from './components/Profil/EditProfil';
 import About from "./pages/About/About.jsx";
 import Card from './components/Listedeservice/card'; 
-
+import Dashboard from '@pages/Dashboardservice/Dashboardservice';
 
 function App() {
   const friends = [
@@ -88,6 +88,7 @@ function App() {
               <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
               <Route path="/about" element={<About />} />
               <Route path="/listeService" element={<Card/>} /> 
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
             <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
           </main>
