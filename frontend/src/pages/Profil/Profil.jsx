@@ -14,7 +14,7 @@ const Profil = () => {
 
   const fetchData = async () => {
     try {
-      const userResponse = await axios.get("http://localhost:5000/users/1"); // Remplacer par l'ID utilisateur dynamique
+      const userResponse = await axios.get("http://localhost:5000/users/8"); // Remplacer par l'ID utilisateur dynamique
       setUserData(userResponse.data);
 
       // const servicesResponse = await axios.get("/api/services");
