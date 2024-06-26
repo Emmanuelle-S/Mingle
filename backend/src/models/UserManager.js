@@ -21,20 +21,49 @@ class UserManager extends AbstractManager {
   }
 
   update(users) {
-    return this.database.query(`update ${this.table} set username = ?, mail = ?, localisation = ?, user_pass = ?, avatar = ?, biographie = ?, service_type = ?, service_count = ? where id = ?`,
-      [
-        users.username, 
-        users.mail, 
-        users.localisation, 
-        users.user_pass, 
-        users.avatar, 
-        users.biographie, 
-        users.service_type, 
-        users.service_count, 
-        users.id
-      ]
-    );
+    const fields = [];
+    const values = [];
+  
+    if (users.username) {
+      fields.push("username = ?");
+      values.push(users.username);
+    }
+    if (users.mail) {
+      fields.push("mail = ?");
+      values.push(users.mail);
+    }
+    if (users.localisation) {
+      fields.push("localisation = ?");
+      values.push(users.localisation);
+    }
+    if (users.user_pass) {
+      fields.push("user_pass = ?");
+      values.push(users.user_pass);
+    }
+    if (users.avatar) {
+      fields.push("avatar = ?");
+      values.push(users.avatar);
+    }
+    if (users.biographie) {
+      fields.push("biographie = ?");
+      values.push(users.biographie);
+    }
+    if (users.service_type) {
+      fields.push("service_type = ?");
+      values.push(users.service_type);
+    }
+    if (users.service_count !== undefined) {
+      fields.push("service_count = ?");
+      values.push(users.service_count);
+    }
+  
+    values.push(users.id);
+  
+    const sql = `UPDATE ${this.table} SET ${fields.join(", ")} WHERE id = ?`;
+  
+    return this.database.query(sql, values);
   }
+  
 
 
 findUserByEmail(mail) {

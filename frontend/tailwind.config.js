@@ -23,5 +23,8 @@ module.exports = withMT({
       },
     },
   },
+  variants: {
+    extend: {},
+  },
   plugins: [],
 });
