@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const browse = (req, res) => {
   models.user
+  // objet models qui utilise les propriétés de la valeur user
     .findAll()
     .then(([rows]) => {
       res.send(rows);
@@ -29,13 +30,25 @@ const read = (req, res) => {
       res.sendStatus(500);
     });
 };
+// rajoute logique pour pas supprimer le mdp
 
-const edit = (req, res) => {
+const edit = async (req, res) => {
   const user = req.body;
 
   // TODO validations (length, format...)
 
   user.id = parseInt(req.params.id, 10);
+
+  if (user.user_pass) {
+    try {
+      user.user_pass = await argon2.hash(user.user_pass);
+    } catch (err) {
+      console.error(err);
+      return res.sendStatus(500);
+    }
+  } else {
+    delete user.user_pass;
+  }
 
   models.user
     .update(user)
