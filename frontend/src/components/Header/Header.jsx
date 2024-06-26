@@ -2,17 +2,13 @@ import React, { useState } from 'react';
 import { FaUser, FaBars } from 'react-icons/fa';
 
 const Header = () => {
-  // État pour gérer l'ouverture du menu principal
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // État pour gérer l'ouverture du menu utilisateur
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Fonction pour basculer l'état du menu principal
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Fonction pour basculer l'état du menu utilisateur
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
@@ -20,18 +16,14 @@ const Header = () => {
   return (
     <header className="p-4 relative bg-transparent z-50">
       <div className="container mx-auto flex justify-between items-center">
-
-        {/* Icône du menu burger pour mobile */}
         <div className="md:hidden">
           <FaBars className="text-white mr-2 text-lg sm:text-base" onClick={toggleMenu} />
         </div>
 
-        {/* Logo pour mobile (centré) et bureau (gauche) */}
         <div className="text-white text-xl font-bold flex-none md:mr-auto">
           <a href="/">Mingle</a>
         </div>
 
-        {/* Icône utilisateur pour mobile */}
         <div className="md:hidden relative">
           <FaUser className="text-white ml-2 cursor-pointer text-lg sm:text-base" onClick={toggleUserMenu} />
           {isUserMenuOpen && (
@@ -44,7 +36,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Navigation pour bureau */}
         <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center relative">
           <a href="/" className="text-black hover:text-gray-700">Accueil</a>
           <a href="/about" className="text-black hover:text-gray-700">À propos</a>
@@ -67,7 +58,6 @@ const Header = () => {
         </nav>
       </div>
 
-      {/* Menu mobile affiché lorsque isMenuOpen est vrai */}
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-start pl-4 mt-2 space-y-2">
           <a href="/" className="text-black hover:text-gray-700">Accueil</a>

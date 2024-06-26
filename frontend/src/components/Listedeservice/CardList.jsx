@@ -1,55 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Card from './Card'; // Assurez-vous que le chemin est correct
+
+const Card = ({ card }) => {
+  return (
+    <div className="bg-white shadow-md rounded-lg p-4 m-2 w-64 h-60">
+      <h3 className="text-lg font-bold mb-2">{card.titre_catégorie}</h3>
+      <p className="text-gray-600">{card.titre_sous_catégorie}</p>
+    </div>
+  );
+};
 
 const CardList = () => {
-  // Définir les états locaux pour les cartes, le chargement et les erreurs
   const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Utiliser useEffect pour effectuer l'appel API une fois que le composant est monté
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/categoryservice');
+      console.log('Response:', response); // Log de la réponse pour débogage
+      setCards(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error.message || error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Effectuer une requête GET à l'API pour récupérer les données des catégories de service
-        const response = await axios.get('http://localhost:5000/categoryservice');
-        console.log(response); // Log de la réponse pour débogage
-        setCards(response.data); // Mettre à jour l'état des cartes avec les données reçues
-        setLoading(false); // Indiquer que le chargement est terminé
-      } catch (error) {
-        // Gérer les erreurs en les enregistrant dans l'état
-        console.error('Error fetching data:', error);
-        setError(error);
-        setLoading(false);
-      }
-    };
+    fetchData();
+  }, []);
 
-    fetchData(); // Appeler la fonction fetchData pour récupérer les données
-  }, []); // Le tableau vide signifie que ce useEffect s'exécute uniquement au montage du composant
+  // Exemple de données statiques pour les cartes
+  const exampleCards = [
+    { id: 1, titre_catégorie: 'Catégorie 1', titre_sous_catégorie: 'Sous-catégorie 1' },
+    { id: 2, titre_catégorie: 'Catégorie 2', titre_sous_catégorie: 'Sous-catégorie 2' },
+    { id: 3, titre_catégorie: 'Catégorie 3', titre_sous_catégorie: 'Sous-catégorie 3' },
+    { id: 4, titre_catégorie: 'Catégorie 4', titre_sous_catégorie: 'Sous-catégorie 4' },
+    { id: 5, titre_catégorie: 'Catégorie 5', titre_sous_catégorie: 'Sous-catégorie 5' },
+  ];
 
-  // Afficher un message de chargement pendant que les données sont en cours de récupération
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  // Afficher un message d'erreur si une erreur est survenue lors de la récupération des données
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  // Afficher les cartes une fois les données récupérées avec succès
   return (
-    <div className="flex flex-wrap bg-red-500">
-      {cards.map((card, index) => (
-        <Card
-          key={index} // Utiliser l'index comme clé pour chaque élément de la liste
-          title={card.titre_catégorie} // Passer le titre de la catégorie comme prop au composant Card
-          imageUrl={card.imageUrl} // Assurez-vous que cette colonne existe dans votre table
-          category={card.titre_sous_catégorie} // Passer le titre de la sous-catégorie comme prop au composant Card
-          description={card.description} // Assurez-vous que cette colonne existe dans votre table
-          date={card.date} // Assurez-vous que cette colonne existe dans votre table
-        />
+    <div className="flex flex-wrap justify-center">
+      {exampleCards.map((card) => (
+        <Card key={card.id} card={card} />
       ))}
     </div>
   );
