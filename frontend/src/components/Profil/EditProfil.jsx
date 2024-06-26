@@ -2,15 +2,16 @@ import React from "react";
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { useLocation } from 'react-router-dom';
+import axios from "axios";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required('Champs obligatoire'),
-  email: Yup.string().email('Adresse mail invalide').required('Champs obligatoire'),
-  ville: Yup.string().required('Champs obligatoire'),
-  bio: Yup.string(),
-  services: Yup.string().required('Champs obligatoire'),
-  profilPic: Yup.mixed(),
+  username: Yup.string().required('Champs obligatoire'),
+  mail: Yup.string().email('Adresse mail invalide').required('Champs obligatoire'),
+  localisation: Yup.string().required('Champs obligatoire'),
+  biographie: Yup.string(),
+  service_type: Yup.string().required('Champs obligatoire'),
+  avatar: Yup.mixed(),
 });
 
 // Custom input components
@@ -51,7 +52,14 @@ const MyFileInput = ({ label, ...props }) => {
   const { setValue } = helpers;
 
   const handleChange = (e) => {
-    setValue(e.currentTarget.files[0]);
+    const file = e.currentTarget.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setValue(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -65,8 +73,8 @@ const MyFileInput = ({ label, ...props }) => {
       {meta.touched && meta.error ? (
         <div className="text-red-500 text-xs italic">{meta.error}</div>
       ) : null}
-      {field.value && typeof field.value === 'object' && (
-        <div className="text-sm mt-2">{field.value.name}</div>
+      {field.value && (
+        <div className="text-sm mt-2">{typeof field.value === 'string' ? 'Image sélectionnée' : field.value.name}</div>
       )}
     </div>
   );
@@ -77,21 +85,52 @@ const EditProfil = () => {
   const { userData } = location.state || { userData: {} };
 
   const initialValues = {
-    name: userData.username || '',
-    email: userData.mail || '',
-    ville: userData.localisation || '',
-    bio: userData.biographie || '',
-    services: userData.service_type || '',
-    profilPic: null,
+    username: userData.username || '',
+    mail: userData.mail || '',
+    localisation: userData.localisation || '',
+    biographie: userData.biographie || '', // Corrigé de 'biographiegraphie'
+    service_type: userData.service_type || '',
+    avatar: userData.avatar || '',
   };
 
-  const handleSubmit = (values) => {
-    const formattedValues = {
-      ...values,
-      services: values.services,  // Just a string, no need to transform
-    };
-    console.log(formattedValues);
-    // Send formattedValues to the server here
+  const handleSubmit = async (values) => {
+    try {
+      // Créer l'objet payload pour envoyer les données y compris le fichier (si présent)
+      const payload = {
+        username: values.username,
+        mail: values.mail,
+        localisation: values.localisation,
+        biographie: values.biographie, // Corrigé de 'biographiegraphie'
+        service_type: values.service_type,
+        avatar: values.avatar,
+      }; 
+
+      // Récupérer l'ID de l'utilisateur depuis le localStorage
+      const userId = localStorage.getItem('userId');
+
+      // Utiliser Axios pour envoyer les données au serveur via PUT
+      const response = await axios.put(`http://localhost:5000/users/${userId}`, payload, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajouter le token aux en-têtes
+          'Content-Type': 'application/json', // Spécifier le type de contenu JSON
+        },
+      });
+      console.log('Réponse de l\'API:', response);
+
+      if (!response.data.success) {
+        throw new Error('Erreur lors de la mise à jour du profil');
+      }
+
+      // Gérer la réponse du serveur comme nécessaire
+      console.log('Profil mis à jour avec succès:', response.data.message);
+
+      // Redirection ou autre logique après la mise à jour réussie
+      // history.push('/profil'); // Exemple de redirection après la mise à jour
+
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil:', error);
+      // Gérer les erreurs et afficher un message à l'utilisateur si nécessaire
+    }
   };
 
   return (
@@ -107,9 +146,9 @@ const EditProfil = () => {
           <div className="md:flex md:space-x-8 mb-8 bg-white p-4 rounded-lg border border-gray-300 shadow-2xl">
             <div className="md:w-1/2 bg-white rounded-lg p-4">
               <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Informations personnelles</h2>
-              <MyTextInput label="Nom" name="name" type="text"/>
-              <MyTextInput label="Email" name="email" type="email" />
-              <MyTextInput label="Ville" name="ville" type="text"/>
+              <MyTextInput label="Nom" name="username" type="text"/> {/* Corrigé de 'name' */}
+              <MyTextInput label="Email" name="mail" type="email" /> {/* Corrigé de 'email' */}
+              <MyTextInput label="Ville" name="localisation" type="text"/> {/* Corrigé de 'ville' */}
             </div>
             <div className="md:w-1/2 mt-6 md:mt-0 bg-white rounded-lg p-4">
               <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Photo de profil</h2>
@@ -122,18 +161,18 @@ const EditProfil = () => {
                   />
                 </div>
               )}
-              <MyFileInput label="Changer de photo de profil" name="profilPic" />
+              <MyFileInput label="Changer de photo de profil" name="avatar" /> {/* Corrigé de 'profilPic' */}
             </div>
           </div>
 
           <div className="mb-8 bg-white rounded-lg p-4 border border-gray-300 shadow-2xl">
             <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Biographie</h2>
-            <MyTextarea label="" name="bio" />
+            <MyTextarea label="" name="biographie" /> {/* Corrigé de 'bio' */}
           </div>
 
           <div className="mb-8 bg-white rounded-lg p-4 border border-gray-300 shadow-2xl">
             <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Types de services proposés</h2>
-            <MyTextarea label="" name="services" />
+            <MyTextarea label="" name="service_type" /> {/* Corrigé de 'services' */}
           </div>
 
           <div className="text-center">
