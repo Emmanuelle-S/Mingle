@@ -10,6 +10,13 @@ const PersonalInfo = ({ userData, isUserLoggedIn }) => {
     navigate('/EditProfil', { state: { userData } });
   };
 
+   // Fonction pour gérer le clic sur le bouton Supprimer
+   const handleDeleteClick = () => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
+      onDelete();
+    }
+  };
+
   return (
     <div className="w-full p-8 border-solid bg-white rounded-lg border border-gray-300 shadow-2xl">
       <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">Informations personnelles</h2>
@@ -44,9 +51,12 @@ const PersonalInfo = ({ userData, isUserLoggedIn }) => {
         </div>
       </div>
       {isUserLoggedIn && (
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center space-x-4">
           <button className="bg-accent hover:bg-blue-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleEditClick}>
             Éditer
+          </button>
+          <button className="bg-red-600 hover:bg-red-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleDeleteClick}>
+            Supprimer
           </button>
         </div>
       )}
