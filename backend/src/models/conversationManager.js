@@ -9,12 +9,12 @@ class ConversationManager extends AbstractManager {
 
   insert(conversations) {
     return this.database.query(
-      `INSERT INTO ${this.table} (name, avatar, last_message, last_message_time) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO ${this.table} (name, avatar, last_message, last_message_time, friend_id) VALUES (?, ?, ?, NOW(), ?)`,
       [
         conversations.name,
         conversations.avatar,
         conversations.last_message,
-        conversations.last_message_time,
+        conversations.friend_id,
       ]
     );
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Home from './pages/Home/Home';
 import Profil from './pages/Profil/Profil';
 import { ServiceProvider } from "./contexts/ServiceContext";
@@ -17,15 +17,62 @@ import EditProfil from './components/Profil/EditProfil';
 import About from "./pages/About/About.jsx";
 import Card from './components/Listedeservice/card'; 
 import Dashboard from '@pages/Dashboardservice/Dashboardservice';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 
 
 function App() {
-  const friends = [
-    { id: 1, name: 'Alice', avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
-    { id: 2, name: 'Bob', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
-    // Ajoutez d'autres amis
-  ];
+
+  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [friends, setFriends] = useState([]);
+  const [conversation, setConversation] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
+  const [message, setMessage] = useState([]);
+
+  // Nouveau code a faire fonctionner
+  const fetchMingle = async () => {
+    try {
+      const responseUsers = await axios.get("http://localhost:5000/users");
+
+      const responseFriends = await axios.get("http://localhost:5000/friends");
+      
+      // const currentFriends = ;
+
+      const responseConversation = await axios.get("http://localhost:5000/conversation");
+
+      const responseMessage = await axios.get("http://localhost:5000/message");
+    } 
+    catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMingle();
+  }, []);
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.sub) {
+          setUser(decodedToken.sub);
+          console.log("User ID:", decodedToken.sub); // Ajoutez un log pour vérifier
+        } else {
+          console.log("Token is missing 'sub' property");
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    } else {
+      console.log("No token found in localStorage");
+    }
+  }, []);
+
+  // Ancien code pour tester
 
   const conversations = [
     {
@@ -70,6 +117,8 @@ function App() {
     },
     // Ajoutez d'autres cartes ici
   ];
+
+  // Fin du code pour tester
 
   return (
     <ServiceProvider>
