@@ -105,13 +105,16 @@ const EditProfil = () => {
         avatar: values.avatar,
       }; 
 
+      // Récupérer l'ID de l'utilisateur depuis le localStorage
+      const userId = localStorage.getItem('userId');
+
       // Utiliser Axios pour envoyer les données au serveur via PUT
-      const response = await axios.put(`http://localhost:5000/users/8`, payload, {
+      const response = await axios.put(`http://localhost:5000/users/${userId}`, payload, {
         headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajouter le token aux en-têtes
           'Content-Type': 'application/json', // Spécifier le type de contenu JSON
         },
       });
-
       console.log('Réponse de l\'API:', response);
 
       if (!response.data.success) {
