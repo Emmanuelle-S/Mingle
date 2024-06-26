@@ -3,32 +3,23 @@ import axios from "axios";
 import PersonalInfo from "@components/Profil/PersonalInfo";
 // import ServicesCarousel from "@components/Profil/ServicesCarousel";
 // import RecentChats from "@components/Profil/RecentChats";
-
 import "./Profil.css";
 
 const Profil = () => {
   const [userData, setUserData] = useState(null);
-  // const [publishedServices, setPublishedServices] = useState([]);
-  // const [recentChats, setRecentChats] = useState([]);
   const isUserLoggedIn = true;
 
   const fetchData = async () => {
     try {
-      const userId = localStorage.getItem('userId'); // Récupérer l'ID de l'utilisateur depuis le localStorage
-      const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
 
       const userResponse = await axios.get(`http://localhost:5000/users/${userId}`, {
         headers: {
-          'Authorization': `Bearer ${token}` // Ajouter le token aux en-têtes
+          'Authorization': `Bearer ${token}`
         }
       });
       setUserData(userResponse.data);
-
-      // const servicesResponse = await axios.get("/api/services");
-      // setPublishedServices(servicesResponse.data);
-
-      // const chatsResponse = await axios.get("/api/chats");
-      // setRecentChats(chatsResponse.data);
     } catch (error) {
       console.error("Error fetching data", error);
     }
@@ -36,12 +27,12 @@ const Profil = () => {
 
   const handleDeleteProfile = async () => {
     try {
-      const userId = localStorage.getItem('userId'); // Récupérer l'ID de l'utilisateur depuis le localStorage
-      const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
 
       const response = await axios.delete(`http://localhost:5000/users/${userId}`, {
         headers: {
-          'Authorization': `Bearer ${token}` // Ajouter le token aux en-têtes
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -49,7 +40,7 @@ const Profil = () => {
         console.log('Profil supprimé avec succès.');
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
-        window.location.href = '/'; // Redirection vers la page d'accueil
+        window.location.href = '/';
       } else {
         console.error('Erreur lors de la suppression du profil');
       }
@@ -61,8 +52,6 @@ const Profil = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log(userData);
 
   if (!userData) {
     return <div>Loading...</div>;
