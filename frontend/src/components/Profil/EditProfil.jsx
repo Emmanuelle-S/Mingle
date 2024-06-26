@@ -115,7 +115,6 @@ const EditProfil = () => {
           'Content-Type': 'application/json', // Spécifier le type de contenu JSON
         },
       });
-
       console.log('Réponse de l\'API:', response);
 
       if (!response.data.success) {

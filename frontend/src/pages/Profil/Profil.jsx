@@ -14,7 +14,14 @@ const Profil = () => {
 
   const fetchData = async () => {
     try {
-      const userResponse = await axios.get("http://localhost:5000/users/${userId}"); // Remplacer par l'ID utilisateur dynamique
+      const userId = localStorage.getItem('userId'); // Récupérer l'ID de l'utilisateur depuis le localStorage
+      const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+
+      const userResponse = await axios.get(`http://localhost:5000/users/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}` // Ajouter le token aux en-têtes
+        }
+      });
       setUserData(userResponse.data);
 
       // const servicesResponse = await axios.get("/api/services");
@@ -26,8 +33,8 @@ const Profil = () => {
       console.error("Error fetching data", error);
     }
   };
-  useEffect(() => {
 
+  useEffect(() => {
     fetchData();
   }, []);
 

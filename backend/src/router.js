@@ -7,6 +7,7 @@ const userControllers= require ("./controllers/userControllers")
 const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
 const friendsControllers = require("./controllers/friendsControllers");
+const conversationControllers = require("./controllers/conversationControllers");
 
 
 router.get("/items", itemControllers.browse);
@@ -39,6 +40,12 @@ router.put("/friends/:id", friendsControllers.edit);
 router.post("/friends", friendsControllers.add);
 router.delete("/friends/:id",friendsControllers.destroy);
 
+router.get("/conversation", conversationControllers.browse);
+router.get("/conversation/:id",conversationControllers.read);
+router.put("/conversation/:id", conversationControllers.edit);
+router.post("/conversation", conversationControllers.add);
+router.delete("/conversation/:id",conversationControllers.destroy);
+
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
 router.put("/categoryservice/:id", categoryserviceControllers.edit);
@@ -56,7 +63,7 @@ router.post(
     userControllers.verifyPassword,    
 );
     
-router.use(userControllers.verifyToken); // tout ce qui est en dessous est privé
+// router.use(userControllers.verifyToken); // tout ce qui est en dessous est privé
 router.get("/user/protected", userControllers.browse)
     
 module.exports = router;
