@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
 
 // Validation schema using Yup
@@ -82,6 +82,7 @@ const MyFileInput = ({ label, ...props }) => {
 
 const EditProfil = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { userData } = location.state || { userData: {} };
 
   const initialValues = {
@@ -105,6 +106,11 @@ const EditProfil = () => {
         avatar: values.avatar,
       }; 
 
+          // Ajouter le mot de passe seulement s'il est présent
+    if (values.user_pass) {
+      payload.user_pass = values.user_pass;
+    }
+
       // Récupérer l'ID de l'utilisateur depuis le localStorage
       const userId = localStorage.getItem('userId');
 
@@ -117,19 +123,21 @@ const EditProfil = () => {
       });
       console.log('Réponse de l\'API:', response);
 
-      if (!response.data.success) {
-        throw new Error('Erreur lors de la mise à jour du profil');
+      if (response.status === 204) {
+        console.log('Profil mis à jour avec succès.');
+        navigate('/profil'); // Rediriger vers le composant profil
+      } else {
+        console.log('Réponse de l\'API:', response);
+
+        if (!response.data.success) {
+          throw new Error('Erreur lors de la mise à jour du profil');
+        }
+
+        console.log('Profil mis à jour avec succès:', response.data.message);
       }
-
-      // Gérer la réponse du serveur comme nécessaire
-      console.log('Profil mis à jour avec succès:', response.data.message);
-
-      // Redirection ou autre logique après la mise à jour réussie
-      // history.push('/profil'); // Exemple de redirection après la mise à jour
 
     } catch (error) {
       console.error('Erreur lors de la mise à jour du profil:', error);
-      // Gérer les erreurs et afficher un message à l'utilisateur si nécessaire
     }
   };
 
