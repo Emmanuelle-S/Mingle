@@ -34,6 +34,30 @@ const Profil = () => {
     }
   };
 
+  const handleDeleteProfile = async () => {
+    try {
+      const userId = localStorage.getItem('userId'); // Récupérer l'ID de l'utilisateur depuis le localStorage
+      const token = localStorage.getItem('token'); // Récupérer le token depuis le localStorage
+
+      const response = await axios.delete(`http://localhost:5000/users/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}` // Ajouter le token aux en-têtes
+        }
+      });
+
+      if (response.status === 204) {
+        console.log('Profil supprimé avec succès.');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        window.location.href = '/'; // Redirection vers la page d'accueil
+      } else {
+        console.error('Erreur lors de la suppression du profil');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression du profil', error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -49,7 +73,7 @@ const Profil = () => {
       <h1 className="text-3xl font-bold mb-6 text-center text-darkslategray">
         Profil Mingle de {userData.username}
       </h1>
-      <PersonalInfo userData={userData} isUserLoggedIn={isUserLoggedIn} />
+      <PersonalInfo userData={userData} isUserLoggedIn={isUserLoggedIn} onDelete={handleDeleteProfile} />
       <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés
