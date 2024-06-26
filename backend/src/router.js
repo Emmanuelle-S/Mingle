@@ -6,6 +6,7 @@ const itemControllers = require("./controllers/itemControllers");
 const userControllers= require ("./controllers/userControllers")
 const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
+const friendsControllers = require("./controllers/friendsControllers");
 
 
 router.get("/items", itemControllers.browse);
@@ -31,6 +32,12 @@ router.get("/message/:id",messageControllers.read);
 router.put("/message/:id", messageControllers.edit);
 router.post("/message", messageControllers.add);
 router.delete("/message/:id",messageControllers.destroy);
+
+router.get("/friends", friendsControllers.browse);
+router.get("/friends/:id",friendsControllers.read);
+router.put("/friends/:id", friendsControllers.edit);
+router.post("/friends", friendsControllers.add);
+router.delete("/friends/:id",friendsControllers.destroy);
 
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);

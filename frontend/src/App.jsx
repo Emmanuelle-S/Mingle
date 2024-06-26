@@ -15,7 +15,7 @@ import ConditionsUtilisation from '@pages/ConditionsUtilisation/ConditionsUtilis
 import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 import EditProfil from '@components/Profil/EditProfil';
 import About from "./pages/About/About.jsx"
-
+import Dashboard from '@pages/Dashboardservice/Dashboardservice';
 
 
 
@@ -74,6 +74,7 @@ function App() {
                 <Route path="/conditions" element={<ConditionsUtilisation />} />
                 <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/dashboard" element={<Dashboard />} />
         
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
