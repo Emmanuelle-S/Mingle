@@ -38,6 +38,7 @@ const Connexion = () => {
           const { token, userId } = response.data;
           // Stocker le token dans le localStorage ou dans un contexte pour l'utiliser dans les requêtes futures
           localStorage.setItem('token', token);
+          // Peux peut-être se retirer si le token le stock deja via son payload
           localStorage.setItem('userId', userId);
 
           navigate('/Profil');
