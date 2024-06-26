@@ -1,17 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PersonalInfo = ({ userData, isUserLoggedIn }) => {
+const PersonalInfo = ({ userData, isUserLoggedIn, onDelete }) => {
   const navigate = useNavigate();
-  
-  // Fonction pour gérer le clic sur le bouton Éditer
+
   const handleEditClick = () => {
-    // Redirection vers le composant EditProfil lors du clic sur le bouton Éditer
     navigate('/EditProfil', { state: { userData } });
   };
 
-   // Fonction pour gérer le clic sur le bouton Supprimer
-   const handleDeleteClick = () => {
+  const handleDeleteClick = () => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.")) {
       onDelete();
     }

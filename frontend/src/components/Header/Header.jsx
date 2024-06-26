@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaUser, FaBars } from 'react-icons/fa';
+import logo from "../../assets/SVG/logo1.svg"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +22,9 @@ const Header = () => {
         </div>
 
         <div className="text-white text-xl font-bold flex-none md:mr-auto">
-          <a href="/">Mingle</a>
+        <a href="/">
+            <img src={logo} alt="Mingle Logo" className="h-10 w-auto" />
+          </a>
         </div>
 
         <div className="md:hidden relative">
