@@ -16,6 +16,7 @@ import PolitiqueDeConfidentialité from '@pages/PolitiqueDeConfidentialité/Poli
 import EditProfil from '@components/Profil/EditProfil';
 import About from "./pages/About/About.jsx"
 import Dashboard from '@pages/Dashboardservice/Dashboardservice';
+import Service from "./pages/Service/Service.jsx"
 
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
                 <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/service" element={<Service />} />
         
               </Routes>
               <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
