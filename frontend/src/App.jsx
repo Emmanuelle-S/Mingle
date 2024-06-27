@@ -24,44 +24,48 @@ import Service from "./pages/Service/Service.jsx"
 
 
 function App() {
-
-  const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
+
+  const [currentToken, setCurrentToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [userFriends, setUserFriends] = useState(null);
+  
   const [conversation, setConversation] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
-  const [message, setMessage] = useState([]);
 
   // Nouveau code a faire fonctionner
-  const fetchMingle = async () => {
+  const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
+      setUsers(responseUsers.data)
 
       const responseFriends = await axios.get("http://localhost:5000/friends");
-      
-      // const currentFriends = ;
+      const filteredFriends = await responseFriends.data.filter(friend => friend.user_id === userId);
+      setFriends(filteredFriends);
 
       const responseConversation = await axios.get("http://localhost:5000/conversation");
+      const filteredConversation = await responseConversation.data.filter(conversation => conversation.user_id === userId);
+      setConversation(filteredConversation);
+      console.log(filteredConversation);
+
 
       const responseMessage = await axios.get("http://localhost:5000/message");
+
     } 
     catch (error) {
       console.error("Error fetching data", error);
     }
   };
 
-  useEffect(() => {
-    fetchMingle();
-  }, []);
 
-
+  // Recupére l'id dans le payload via jwt-decode 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
         if (decodedToken.sub) {
-          setUser(decodedToken.sub);
-          console.log("User ID:", decodedToken.sub); // Ajoutez un log pour vérifier
+          setCurrentToken(decodedToken.sub);
         } else {
           console.log("Token is missing 'sub' property");
         }
@@ -73,7 +77,36 @@ function App() {
     }
   }, []);
 
-  // Ancien code pour tester
+  // Si get token alors fetchMingle
+  useEffect(() => {
+    if (currentToken) {
+      fetchMingle(currentToken);
+    }
+  }, [currentToken]);
+
+
+  // Récupére l'user de la session
+  useEffect(() => {
+    if (users) {
+      const filteredUser = users.filter(user => user.id === currentToken);
+      setUser(filteredUser[0]);
+    }
+  }, [users])
+
+  // Récupére les data des amis du user
+  useEffect(() => {
+    if (friends) {
+      const filteredUserFriends = friends.map(friend => {
+        const user = users.find(user => user.id === friend.friend_id);
+        return { user };
+      });
+      setUserFriends(filteredUserFriends);
+      console.log(filteredUserFriends);
+    }
+  }, [friends])
+
+
+  // Ancien code pour phase de test
 
   const conversations = [
     {
@@ -101,6 +134,7 @@ function App() {
     ];
   };
 
+  // TODO A supprimer 
   const cards = [
     {
       title: 'Card 1',
@@ -143,7 +177,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/service" element={<Service />} />
             </Routes>
-            <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
+            <ChatBubble user={user} friends={userFriends} conversations={conversations} fetchConversation={fetchConversation} />
           </main>
           {/* <Footer /> */}
         </div>

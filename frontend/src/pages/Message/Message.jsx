@@ -2,12 +2,11 @@
 import React, { useState, useEffect } from "react";
 
 
-const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
+const Messenger = ({ user, friends, conversations, fetchConversation, onClose }) => {
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messages, setMessages] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
 
-  
     useEffect(() => {
       if (selectedConversation) {
         const fetchMessages = async () => {
@@ -81,6 +80,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                         )}
                         <section className="relative flex flex-col flex-none overflow-auto md:w-[600px]">
                             <button className="absolute top-6 right-4 text-gray-100 hover:text-gray-100" onClick={onClose}>
+                                {/* SVG petite croix */}
                                 <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"
@@ -101,7 +101,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                     <img
                                     className="rounded-full w-full h-full object-cover"
                                     alt="User"
-                                    src="https://via.placeholder.com/150"
+                                    src={user.avatar}
                                     />
                                 </div>
                             </div>
@@ -112,7 +112,7 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                             <input
                                                 className="rounded-full py-2 pr-6 pl-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
                                                 type="text"
-                                                placeholder="Search Messenger"
+                                                placeholder="Search Friends"
                                             />
                                             <span className="absolute top-0 left-0 mt-2 ml-3 inline-block">
                                                 <svg viewBox="0 0 24 24" className="w-6 h-6">
@@ -142,18 +142,18 @@ const Messenger = ({ friends, conversations, fetchConversation, onClose }) => {
                                     <p>Your Story</p>
                                 </div>
                                 {friends.map((friend) => (
-                                    <div key={friend.id} className="text-sm text-center mr-4">
+                                    <div key={friend.user.id} className="text-sm text-center mr-4">
                                         <button
                                             className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-20 h-20"
                                             type="button"
                                         >
                                             <img
                                             className="rounded-full w-full h-full object-cover"
-                                            src={friend.avatar}
-                                            alt={friend.name}
+                                            src={friend.user.avatar}
+                                            alt={friend.user.username}
                                             />
                                         </button>
-                                        <p>{friend.name}</p>
+                                        <p>{friend.user.username}</p>
                                     </div>
                                 ))}
                             </div>
