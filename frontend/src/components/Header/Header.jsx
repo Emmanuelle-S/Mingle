@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaBars } from 'react-icons/fa';
 import logo from "../../assets/SVG/logo1.svg"
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in by verifying the presence of a token in localStorage
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -22,7 +29,7 @@ const Header = () => {
         </div>
 
         <div className="text-white text-xl font-bold flex-none md:mr-auto">
-        <a href="/">
+          <a href="/">
             <img src={logo} alt="Mingle Logo" className="h-10 w-auto" />
           </a>
         </div>
@@ -31,10 +38,16 @@ const Header = () => {
           <FaUser className="text-white ml-2 cursor-pointer text-lg sm:text-base" onClick={toggleUserMenu} />
           {isUserMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
-              <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
-              <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
-              <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
-              <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+              {isLoggedIn ? (
+                <>
+                  <a href="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+                  <a href="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+                  <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+                  <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+                </>
+              ) : (
+                <a href="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Connexion/Inscription</a>
+              )}
             </div>
           )}
         </div>
@@ -51,10 +64,16 @@ const Header = () => {
             <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
             {isUserMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
-                <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
-                <a href="/modify" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
-                <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
-                <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+                {isLoggedIn ? (
+                  <>
+                    <a href="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</a>
+                    <a href="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</a>
+                    <a href="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</a>
+                    <a href="/logout" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Déconnexion</a>
+                  </>
+                ) : (
+                  <a href="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Connexion/Inscription</a>
+                )}
               </div>
             )}
           </div>

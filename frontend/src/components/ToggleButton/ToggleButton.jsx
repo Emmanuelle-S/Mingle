@@ -1,4 +1,7 @@
+// npm install classnames
+
 import React, { useState } from 'react';
+import classNames from 'classnames'; 
 
 const ToggleButton = ({ label }) => {
   const [isOn, setIsOn] = useState(false);
@@ -12,14 +15,17 @@ const ToggleButton = ({ label }) => {
       <span>{label}</span>
       <button
         onClick={toggle}
-        className={`w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 duration-300 ease-in-out ${
-          isOn ? 'bg-green-400' : 'bg-gray-300'
-        }`}
+        className={classNames(
+          'w-12 h-6 flex items-center rounded-full p-1 duration-300 ease-in-out',
+          { 'bg-green-400': isOn, 'bg-gray-300': !isOn }
+        )}
+        aria-label={isOn ? 'Switch off' : 'Switch on'}
       >
         <div
-          className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out ${
-            isOn ? 'translate-x-6' : ''
-          }`}
+          className={classNames(
+            'bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out',
+            { 'translate-x-6': isOn }
+          )}
         ></div>
       </button>
     </div>
