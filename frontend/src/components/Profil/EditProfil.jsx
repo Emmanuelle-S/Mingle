@@ -89,7 +89,7 @@ const EditProfil = () => {
     username: userData.username || '',
     mail: userData.mail || '',
     localisation: userData.localisation || '',
-    biographie: userData.biographie || '', // Corrigé de 'biographiegraphie'
+    biographie: userData.biographie || '', 
     service_type: userData.service_type || '',
     avatar: userData.avatar || '',
   };
@@ -101,7 +101,7 @@ const EditProfil = () => {
         username: values.username,
         mail: values.mail,
         localisation: values.localisation,
-        biographie: values.biographie, // Corrigé de 'biographiegraphie'
+        biographie: values.biographie, 
         service_type: values.service_type,
         avatar: values.avatar,
       }; 

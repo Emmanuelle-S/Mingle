@@ -1,5 +1,10 @@
+// npm install react-toastify
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PersonalInfo from "@components/Profil/PersonalInfo";
 import "./Profil.css";
 
@@ -7,6 +12,7 @@ const Profil = () => {
   // Déclaration du composant fonctionnel Profil
   const [userData, setUserData] = useState(null);
   // Utilisation du hook useState pour créer une variable d'état userData initialisée à null, et une fonction setUserData pour la mettre à jour.
+  const [isDeleted, setIsDeleted] = useState(false);
   const isUserLoggedIn = true;
   // Déclaration d'une constante isUserLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
 
@@ -60,8 +66,17 @@ const Profil = () => {
         // Suppression de l'ID de l'utilisateur du localStorage.
         localStorage.removeItem("token");
         // Suppression du token du localStorage.
-        window.location.href = "/";
-        // Suppression du token du localStorage.
+        toast.success("Votre profil a été supprimé avec succès.", {
+          // Utilisation de react-toastify
+          position: "top-center", 
+          // Position centrée en haut
+          className: "custom-toast", 
+          // Classe CSS personnalisée
+          autoClose: 2000, 
+          // Durée de fermeture automatique
+        });
+       
+        setIsDeleted(true);
       } else {
         console.error("Erreur lors de la suppression du profil");
         // Log d'une erreur si la suppression n'est pas réussie.
@@ -76,6 +91,14 @@ const Profil = () => {
     fetchData();
   }, []);
   // Utilisation du hook useEffect pour appeler fetchData une seule fois après le premier rendu du composant.
+
+  useEffect(() => {
+    if (isDeleted) {
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 3000); // Redirection après 3 secondes
+    }
+  }, [isDeleted]);
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -103,6 +126,8 @@ const Profil = () => {
           Échanges récents
         </h2>
       </div>
+      <ToastContainer />
+      {/* Ajout du ToastContainer pour afficher les notifications */}
     </div>
   );
 };
