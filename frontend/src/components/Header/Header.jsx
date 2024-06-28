@@ -1,10 +1,11 @@
 //  But du composant : une navigation l'application, avec des fonctionnalités adaptées aux utilisateurs connectés et non connectés, et une compatibilité avec différents appareils et tailles d'écran.
 
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaUser, FaBars } from 'react-icons/fa';
 import logo from "../../assets/SVG/logo1.svg";
-import { useNavigate, Link } from 'react-router-dom'; // Importez useNavigate et Link depuis React Router
+import { Link } from 'react-router-dom'; // Importez useNavigate et Link depuis React Router
 import Logout from '@components/Logout/Logout';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Header = () => {
   // Déclare une fonction fléchée qui définit le composant Header.
@@ -12,14 +13,8 @@ const Header = () => {
   // Déclare l'état isMenuOpen pour gérer l'ouverture du menu.
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   //  Déclare l'état isUserMenuOpen pour gérer l'ouverture du menu utilisateur.
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // Déclare l'état isLoggedIn pour savoir si l'utilisateur est connecté.
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-  //  Utilise useEffect pour vérifier si l'utilisateur est connecté en vérifiant la présence d'un token dans localStorage.
+  const { isLoggedIn } = useContext(AuthContext); 
+  // Utilise le contexte pour obtenir l'état de connexion
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
