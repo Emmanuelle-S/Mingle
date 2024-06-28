@@ -49,7 +49,7 @@ const CarouselDefault = ( { slides } ) => {
           <div
             key={slide.id}
             className="flex-shrink-0 w-full"
-            style={{ flex: `0 0 ${100 / slidesToShow}%` }}
+            style={{ flex: `0 0 ${(100 / slidesToShow)}%` }}
           >
             <img src={slide.url} alt={`Slide ${slide.id}`} className="w-full p-4" />
           </div>
