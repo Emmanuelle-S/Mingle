@@ -1,21 +1,32 @@
 // src/components/Messenger.jsx
 import React, { useState, useEffect } from "react";
+import ChatInput from "@components/ChatSendInput/ChatSendInput";
+import axios from "axios";
 
 
-const Messenger = ({ user, friends, conversations, fetchConversation, onClose }) => {
+const Messenger = ({ user, friends, conversations, setConversations, fetchConversation, onClose }) => {
     const [selectedConversation, setSelectedConversation] = useState(null);
-    const [messages, setMessages] = useState([]);
+    const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
 
     useEffect(() => {
-      if (selectedConversation) {
-        const fetchMessages = async () => {
-          const messages = await fetchConversation(selectedConversation.id);
-          setMessages(messages);
-        };
-        fetchMessages();
-      }
-    }, [selectedConversation]);
+        if (selectedConversation) {
+          const fetchMessages = async () => {
+            try {
+              const response = await fetchConversation(selectedConversation.id);
+              console.log('Response:', response);
+              const currentMessages = response[0]?.messages || [];
+              console.log('Current Messages:', currentMessages);
+              setMessagesList(currentMessages);
+            } catch (error) {
+              console.error('Error fetching messages:', error);
+              setMessagesList([]);
+            }
+          };
+          fetchMessages();
+        }
+      }, [selectedConversation]);
+      
 
     // Detection de la taille d'écran
     useEffect(() => {
@@ -38,6 +49,40 @@ const Messenger = ({ user, friends, conversations, fetchConversation, onClose })
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const handleCreateConv = async (friend) => {
+        try {
+          // Crée une nouvelle conversation
+          const conversationData = {
+            name: friend.user.username,
+            avatar: friend.user.avatar,
+            lastMessage: messagesList[-1],
+            lastMessage_time: new Date().toISOString(),
+            friend_id: friend.user.id,
+            user_id: user.id,
+            messages: messagesList,
+          };
+    
+          const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
+          return conversationResponse;
+
+        } catch (error) {
+          console.error('Error creating conversation:', error);
+        }
+      };
+
+      const handleMessageSent = (newMessage) => {
+        console.log(newMessage);
+        setMessagesList((prevMessages) => [...prevMessages, newMessage]);
+        // Mettre à jour la dernière conversation
+        setConversations((prevConversations) => {
+          return prevConversations.map((conv) => {
+            if (conv.id === selectedConversation.id) {
+              return { ...conv, lastMessage: newMessage.content, lastMessageTime: newMessage.sent_at };
+            }
+            return conv;
+          });
+        });
+      };
 
   return (
     <>
@@ -52,28 +97,25 @@ const Messenger = ({ user, friends, conversations, fetchConversation, onClose })
                                 </button>
                                 <div className="flex flex-col h-full p-4 pt-8 w-full">
                                     <div className="flex-1 overflow-y-auto p-4 pt-8 w-full">
-                                        {messages.map((msg, index) => (
-                                            <div
+                                        {Array.isArray(messagesList) && messagesList.length > 0 ? (
+                                            messagesList.map((msg, index) => (
+                                                <div
                                                 key={index}
                                                 className={`w-max p-2 my-4 rounded shadow ${
-                                                    msg.isMine ? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
+                                                    user === msg.user_id ? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
                                                 }`}
                                                 style={{ maxWidth: '45%' }}
-                                            >
-                                                {msg.text}
+                                                >
+                                                {msg.content}
+                                                </div>
+                                            ))
+                                            ) : (
+                                            <div className="w-max p-2 my-4 rounded shadow bg-gray-800 mr-auto" style={{ maxWidth: '45%' }}>
+                                                No messages yet.
                                             </div>
-                                        ))}
+                                        )}
                                     </div>
-                                    <div className="flex p-8 w-full">
-                                        <input
-                                            type="text"
-                                            className="flex-1 p-2 border rounded-l-md"
-                                            placeholder="Type a message"
-                                        />
-                                        <button className="p-2 bg-blue-500 text-white rounded-r-md">
-                                            Send
-                                        </button>
-                                    </div>
+                                    <ChatInput conversationId={selectedConversation.id} sender_id={user.id} onMessageSent={handleMessageSent} />
                                 </div>
                             </section>
                                          
@@ -146,6 +188,7 @@ const Messenger = ({ user, friends, conversations, fetchConversation, onClose })
                                         <button
                                             className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-20 h-20"
                                             type="button"
+                                            onClick={() => {handleCreateConv(friend)}}
                                         >
                                             <img
                                             className="rounded-full w-full h-full object-cover"
