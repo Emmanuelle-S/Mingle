@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
 
-// Validation schema using Yup
 const validationSchema = Yup.object({
   username: Yup.string().required('Champs obligatoire'),
   mail: Yup.string().email('Adresse mail invalide').required('Champs obligatoire'),
@@ -13,9 +12,10 @@ const validationSchema = Yup.object({
   service_type: Yup.string().required('Champs obligatoire'),
   avatar: Yup.mixed(),
 });
+//  Définition du schéma de validation pour le formulaire utilisant Yup.
 
-// Custom input components
 const MyTextInput = ({ label, ...props }) => {
+  // Déclaration du composant fonctionnel MyTextInput qui prend label et d'autres props en paramètres
   const [field, meta] = useField(props);
   return (
     <div className="mb-4">
@@ -89,7 +89,7 @@ const EditProfil = () => {
     username: userData.username || '',
     mail: userData.mail || '',
     localisation: userData.localisation || '',
-    biographie: userData.biographie || '', // Corrigé de 'biographiegraphie'
+    biographie: userData.biographie || '', 
     service_type: userData.service_type || '',
     avatar: userData.avatar || '',
   };
@@ -101,7 +101,7 @@ const EditProfil = () => {
         username: values.username,
         mail: values.mail,
         localisation: values.localisation,
-        biographie: values.biographie, // Corrigé de 'biographiegraphie'
+        biographie: values.biographie, 
         service_type: values.service_type,
         avatar: values.avatar,
       }; 
