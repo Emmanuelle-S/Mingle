@@ -29,11 +29,7 @@ const CardList = () => {
 
   // Exemple de données statiques pour les cartes
   const exampleCards = [
-    { id: 1, titre_catégorie: 'Catégorie 1', titre_sous_catégorie: 'Sous-catégorie 1' },
-    { id: 2, titre_catégorie: 'Catégorie 2', titre_sous_catégorie: 'Sous-catégorie 2' },
-    { id: 3, titre_catégorie: 'Catégorie 3', titre_sous_catégorie: 'Sous-catégorie 3' },
-    { id: 4, titre_catégorie: 'Catégorie 4', titre_sous_catégorie: 'Sous-catégorie 4' },
-    { id: 5, titre_catégorie: 'Catégorie 5', titre_sous_catégorie: 'Sous-catégorie 5' },
+   
   ];
 
   return (
