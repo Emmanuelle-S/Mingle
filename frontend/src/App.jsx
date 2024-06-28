@@ -15,12 +15,13 @@ import ConditionsUtilisation from './pages/ConditionsUtilisation/ConditionsUtili
 import PolitiqueDeConfidentialité from './pages/PolitiqueDeConfidentialité/PolitiqueDeConfidentialité';
 import EditProfil from './components/Profil/EditProfil';
 import About from "./pages/About/About.jsx";
-import Card from './components/Listedeservice/ListeService'; 
+
 import Dashboard from '@pages/Dashboardservice/Dashboardservice';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Service from "./pages/Service/Service.jsx"
 import Logout from './components/Logout/Logout';
+import CardList from '@components/Listedeservice/CardList';
 
 
 
@@ -163,6 +164,7 @@ function App() {
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow bgone">
           <Header /> {/* Assurez-vous que le Header est en dehors de la balise <main> pour conserver sa couleur */}
+            
             <Routes>
               <Route path="*" element={<NotFound />} />
               <Route path="/" element={<Home />} />
@@ -172,10 +174,10 @@ function App() {
               <Route path="/publier" element={<Publier />} />
               <Route path="/ConnexionInscription" element={<ConnexionInscription />} />
               <Route path="/FAQ" element={<FAQ />} />
+              <Route path="/ListeService" element={<CardList/>} />
               <Route path="/conditions" element={<ConditionsUtilisation />} />
               <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
               <Route path="/about" element={<About />} />
-              <Route path="/listeService" element={<Card/>} /> 
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/service" element={<Service />} />
               <Route path="/Logout" element={<Logout />} />
