@@ -18,6 +18,8 @@ import About from "./pages/About/About.jsx";
 import Card from './components/Listedeservice/card'; 
 import Dashboard from '@pages/Dashboardservice/Dashboardservice';
 import Service from "./pages/Service/Service.jsx"
+import Logout from './components/Logout/Logout';
+
 
 
 
@@ -93,6 +95,7 @@ function App() {
               <Route path="/listeService" element={<Card/>} /> 
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/service" element={<Service />} />
+              <Route path="/Logout" element={<Logout />} />
             </Routes>
             <ChatBubble friends={friends} conversations={conversations} fetchConversation={fetchConversation} />
           </main>

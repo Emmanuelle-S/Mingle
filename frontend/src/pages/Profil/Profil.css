@@ -3,3 +3,23 @@
     color: white;
     border-radius: 1em;
 }
+
+/* ToastStyles.css */
+.custom-toast {
+    font-size: 24px; 
+    text-align: center; 
+    width: 300px; 
+    padding: 20px; 
+  }
+  
+  .Toastify__toast-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .Toastify__toast--success {
+    background-color: #0590E5; 
+    color: white;
+  }
