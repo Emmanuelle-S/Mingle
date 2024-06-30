@@ -13,8 +13,8 @@ const Profil = () => {
   const [userData, setUserData] = useState(null);
   // Utilisation du hook useState pour créer une variable d'état userData initialisée à null, et une fonction setUserData pour la mettre à jour.
   const [isDeleted, setIsDeleted] = useState(false);
-  const isUserLoggedIn = true;
-  // Déclaration d'une constante isUserLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
+  const isLoggedIn = true;
+  // Déclaration d'une constante isLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
 
   const fetchData = async () => {
     // Déclaration d'une fonction asynchrone fetchData pour récupérer les données utilisateur.
@@ -112,10 +112,10 @@ const Profil = () => {
       </h1>
       <PersonalInfo
         userData={userData}
-        isUserLoggedIn={isUserLoggedIn}
+        isLoggedIn={isLoggedIn}
         onDelete={handleDeleteProfile}
       />
-      {/* Rendu du composant PersonalInfo avec les props userData, isUserLoggedIn, et onDelete. */}
+      {/* Rendu du composant PersonalInfo avec les props userData, isLoggedIn, et onDelete. */}
       <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés

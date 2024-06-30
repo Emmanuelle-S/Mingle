@@ -21,6 +21,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Service from "./pages/Service/Service.jsx"
 import Logout from './components/Logout/Logout';
+import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 
 
 
