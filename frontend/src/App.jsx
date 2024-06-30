@@ -21,7 +21,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Service from "./pages/Service/Service.jsx"
 import Logout from './components/Logout/Logout';
-import CardList from '@components/Listedeservice/CardList';
+// import CardList from '@components/Listedeservice/CardList';
 import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 
 
@@ -139,23 +139,23 @@ function App() {
   };
 
   // TODO A supprimer 
-  const cards = [
-    {
-      title: "Card 1",
-      imageUrl: "https://via.placeholder.com/150",
-      category: "Category 1",
-      description: "Description 1",
-      date: "2023-01-01",
-    },
-    {
-      title: "Card 2",
-      imageUrl: "https://via.placeholder.com/150",
-      category: "Category 2",
-      description: "Description 2",
-      date: "2023-01-02",
-    },
-    // Ajoutez d'autres cartes ici
-  ];
+  // const cards = [
+  //   {
+  //     title: "Card 1",
+  //     imageUrl: "https://via.placeholder.com/150",
+  //     category: "Category 1",
+  //     description: "Description 1",
+  //     date: "2023-01-01",
+  //   },
+  //   {
+  //     title: "Card 2",
+  //     imageUrl: "https://via.placeholder.com/150",
+  //     category: "Category 2",
+  //     description: "Description 2",
+  //     date: "2023-01-02",
+  //   },
+  //   // Ajoutez d'autres cartes ici
+  // ];
 
   // Fin du code pour tester
 
@@ -185,7 +185,7 @@ function App() {
                   element={<PolitiqueDeConfidentialité />}
                 />
                 <Route path="/about" element={<About />} />
-                <Route path="/listeService" element={<Card />} />
+                {/* <Route path="/listeService" element={<Card />} /> */}
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/service" element={<Service />} />
                 <Route path="/Logout" element={<Logout />} />
