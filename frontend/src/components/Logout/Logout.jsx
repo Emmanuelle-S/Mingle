@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LogoutPopup from "./LogoutPopup";
 import { AuthContext } from '../../contexts/AuthContext';
 
-const Logout = () => {
+const Logout = ({ closeMenu }) => { // Ajoutez closeMenu comme prop
   const [showPopup, setShowPopup] = useState(false);
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const Logout = () => {
     logout(); // Déconnecter l'utilisateur via le contexte AuthContext
     setShowPopup(false);
     navigate("/");
+    closeMenu(); // Fermer le menu après la déconnexion
   };
 
   return (
