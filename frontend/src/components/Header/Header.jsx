@@ -18,9 +18,18 @@ const Header = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   useEffect(() => {
     console.log('isLoggedIn changed:', isLoggedIn);
   }, [isLoggedIn]);
+
+  const handleLinkClick = () => {
+    closeMenu();
+    setIsUserMenuOpen(false); // Ferme également le menu utilisateur si ouvert
+  };
 
   return (
     <header className="p-4 relative bg-transparent z-50">
@@ -39,13 +48,13 @@ const Header = () => {
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
               {isLoggedIn ? (
                 <>
-                  <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</Link>
-                  <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</Link>
-                  <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</Link>
-                  <Logout />
+                  <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
+                  <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
+                  <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                  <Logout closeMenu={closeMenu} /> {/* Passez closeMenu comme prop */}
                 </>
               ) : (
-                <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Connexion/Inscription</Link>
+                <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>
               )}
             </div>
           )}
@@ -64,13 +73,13 @@ const Header = () => {
               <div className="absolute right-0 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
                 {isLoggedIn ? (
                   <>
-                    <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Profil</Link>
-                    <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Modifier</Link>
-                    <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Gérer mes services</Link>
-                    <Logout />
+                    <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
+                    <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
+                    <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                    <Logout closeMenu={closeMenu} /> {/* Passez closeMenu comme prop */}
                   </>
                 ) : (
-                  <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">Connexion/Inscription</Link>
+                  <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>
                 )}
               </div>
             )}
@@ -79,11 +88,11 @@ const Header = () => {
       </div>
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-start pl-4 mt-2 space-y-2">
-          <Link to="/" className="text-black hover:text-gray-700">Accueil</Link>
-          <Link to="/about" className="text-black hover:text-gray-700">À propos</Link>
-          <Link to="/services" className="text-black hover:text-gray-700">Services</Link>
-          <Link to="/publier" className="text-black hover:text-gray-700">Publier</Link>
-          <Link to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4">
+          <Link to="/" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Accueil</Link>
+          <Link to="/about" className="text-black hover:text-gray-700" onClick={handleLinkClick}>À propos</Link>
+          <Link to="/services" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Services</Link>
+          <Link to="/publier" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Publier</Link>
+          <Link to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4" onClick={handleLinkClick}>
             Contactez nous
           </Link>
         </div>
