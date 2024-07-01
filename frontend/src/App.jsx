@@ -100,6 +100,7 @@ function App() {
       });
       const filteredConversation = friends.map(friend => {
         const conversation = conversations.filter(conversation => conversation.friend_id === friend.friend_id);
+        console.log(conversation);
         return {conversation};
       }); // Ajout de la logique de filtre de conversation ici
       setUserFriends(filteredUserFriends);

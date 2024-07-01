@@ -15,7 +15,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
             try {
               const response = await fetchConversation(selectedConversation.id);
               console.log('Response:', response);
-              const currentMessages = response[0]?.messages || [];
+              const currentMessages = await response[0]?.messages || [];
               console.log('Current Messages:', currentMessages);
               setMessagesList(currentMessages);
             } catch (error) {
@@ -48,6 +48,9 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
         // Nettoyage de l'écouteur lors du démontage du composant
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+    
+    // Mettre à jour Conversation quand modif de Message List
+    useEffect(() => {}, []);
 
     const handleCreateConv = async (friend) => {
         try {
@@ -68,21 +71,21 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
         } catch (error) {
           console.error('Error creating conversation:', error);
         }
-      };
+    };
 
-      const handleMessageSent = (newMessage) => {
-        console.log(newMessage);
-        setMessagesList((prevMessages) => [...prevMessages, newMessage]);
-        // Mettre à jour la dernière conversation
-        setConversations((prevConversations) => {
-          return prevConversations.map((conv) => {
-            if (conv.id === selectedConversation.id) {
-              return { ...conv, lastMessage: newMessage.content, lastMessageTime: newMessage.sent_at };
-            }
-            return conv;
-          });
+    const handleMessageSent = (newMessage) => {
+      console.log(newMessage);
+      setMessagesList((messagesList) => [...messagesList, newMessage]);
+      // Mettre à jour la dernière conversation
+      setConversations((conversations) => {
+        return conversations.map((conv) => {
+          if (conv.id === selectedConversation.id) {
+            return { ...conv, lastMessage: newMessage.content, lastMessageTime: newMessage.sent_at };
+          }
+          return conv;
         });
-      };
+      });
+    };
 
   return (
     <>
