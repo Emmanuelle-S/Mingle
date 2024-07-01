@@ -35,7 +35,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [userFriends, setUserFriends] = useState(null);
   
-  const [conversation, setConversation] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
+  const [conversations, setConversations] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
 
   // Nouveau code a faire fonctionner
   const fetchMingle = async (userId) => {
@@ -49,11 +49,7 @@ function App() {
 
       const responseConversation = await axios.get("http://localhost:5000/conversation");
       const filteredConversation = await responseConversation.data.filter(conversation => conversation.user_id === userId);
-      setConversation(filteredConversation);
-      console.log(filteredConversation);
-
-
-      const responseMessage = await axios.get("http://localhost:5000/message");
+      setConversations(filteredConversation);
 
     } 
     catch (error) {
@@ -97,45 +93,31 @@ function App() {
     }
   }, [users])
 
-  // Récupére les data des amis du user
+  // Récupére les data des amis du user et définis les conversations liés à ceux-ci
   useEffect(() => {
     if (friends) {
       const filteredUserFriends = friends.map(friend => {
         const user = users.find(user => user.id === friend.friend_id);
         return { user };
       });
+      const filteredConversation = friends.map(friend => {
+        const conversation = conversations.filter(conversation => conversation.friend_id === friend.friend_id);
+        console.log(conversation);
+        return {conversation};
+      }); // Ajout de la logique de filtre de conversation ici
       setUserFriends(filteredUserFriends);
-      console.log(filteredUserFriends);
+      setConversations(filteredConversation);
     }
   }, [friends])
 
 
+
   // Ancien code pour phase de test
 
-  const conversations = [
-    {
-      id: 1,
-      name: "Alice",
-      avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-      lastMessage: "Hi there!",
-      lastMessageTime: "2 min ago",
-    },
-    {
-      id: 2,
-      name: "Bob",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      lastMessage: "Hello!",
-      lastMessageTime: "5 min ago",
-    },
-    // Ajoutez d'autres conversations
-  ];
-
   const fetchConversation = async (conversationId) => {
-    return [
-      { text: "Hello!", isMine: false },
-      { text: "Hi!", isMine: true },
-      { text: "How are you?", isMine: false },
-    ];
+    const getConversationByConvId = conversations.filter(conv => conv.id === conversationId);
+    console.log(getConversationByConvId);
+    return getConversationByConvId;
   };
 
   // TODO A supprimer 
