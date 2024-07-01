@@ -19,8 +19,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    // Cette fonction sera appelée à chaque fois que isLoggedIn change
-    // Vous pouvez mettre à jour des états locaux ou effectuer d'autres actions ici si nécessaire
     console.log('isLoggedIn changed:', isLoggedIn);
   }, [isLoggedIn]);
 
