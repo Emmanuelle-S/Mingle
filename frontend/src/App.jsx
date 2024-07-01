@@ -28,14 +28,16 @@ import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 
 
 function App() {
+  const [currentToken, setCurrentToken] = useState(null);
+
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [conversations, setConversations] = useState([]); 
 
-  const [currentToken, setCurrentToken] = useState(null);
   const [user, setUser] = useState(null);
+  
   const [userFriends, setUserFriends] = useState(null);
   
-  const [conversations, setConversations] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
 
   // Nouveau code a faire fonctionner
   const fetchMingle = async (userId) => {
@@ -102,7 +104,6 @@ function App() {
       });
       const filteredConversation = friends.map(friend => {
         const conversation = conversations.filter(conversation => conversation.friend_id === friend.friend_id);
-        console.log(conversation);
         return {conversation};
       }); // Ajout de la logique de filtre de conversation ici
       setUserFriends(filteredUserFriends);
@@ -116,7 +117,6 @@ function App() {
 
   const fetchConversation = async (conversationId) => {
     const getConversationByConvId = conversations.filter(conv => conv.id === conversationId);
-    console.log(getConversationByConvId);
     return getConversationByConvId;
   };
 
@@ -173,8 +173,10 @@ function App() {
                 <Route path="/Logout" element={<Logout />} />
               </Routes>
               <ChatBubble
-                friends={friends}
+                user={user}
+                friends={userFriends}
                 conversations={conversations}
+                setConversations={setConversations}
                 fetchConversation={fetchConversation}
               />
             </main>

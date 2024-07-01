@@ -1,5 +1,3 @@
-// TODO this
-
 const AbstractManager = require("./AbstractManager");
 
 class ConversationManager extends AbstractManager {
@@ -8,7 +6,6 @@ class ConversationManager extends AbstractManager {
   }
 
   insert(conversations) {
-    // Assurez-vous que 'messages' est encodé en JSON, même s'il est vide
     const messages = JSON.stringify(conversations.messages || []);
     
     return this.database.query(
@@ -19,7 +16,20 @@ class ConversationManager extends AbstractManager {
         conversations.last_message,
         conversations.friend_id,
         conversations.user_id,
-        messages,  // Encodez les messages en JSON
+        messages, // Encodage des messages en JSON
+      ]
+    );
+  }
+
+  update(conversations) {
+    const messages = JSON.stringify(conversations.messages || []);
+    
+    return this.database.query(
+      `UPDATE ${this.table} SET last_message = ?, last_message_time = NOW(), messages = ? WHERE id = ?`,
+      [
+        conversations.last_message,
+        messages, // Encodage des messages en JSON
+        conversations.id
       ]
     );
   }

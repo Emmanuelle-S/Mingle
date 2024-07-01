@@ -10,23 +10,26 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
 
     useEffect(() => {
+        console.log(messagesList);
+        
         if (selectedConversation) {
           const fetchMessages = async () => {
             try {
-              const response = await fetchConversation(selectedConversation.id);
-              console.log('Response:', response);
-              const currentMessages = await response[0]?.messages || [];
-              console.log('Current Messages:', currentMessages);
-              setMessagesList(currentMessages);
+                const response = await fetchConversation(selectedConversation.id);
+                console.log(response);
+                const currentMessages = JSON.parse(response[0]?.messages);
+                console.log(currentMessages);
+                if (currentMessages !== "[]") {
+                    setMessagesList(currentMessages);
+                }
             } catch (error) {
-              console.error('Error fetching messages:', error);
-              setMessagesList([]);
+                console.error('Error fetching messages:', error);
+                setMessagesList([]);
             }
           };
           fetchMessages();
         }
       }, [selectedConversation]);
-      
 
     // Detection de la taille d'écran
     useEffect(() => {
@@ -48,44 +51,90 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
         // Nettoyage de l'écouteur lors du démontage du composant
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-    
-    // Mettre à jour Conversation quand modif de Message List
-    useEffect(() => {}, []);
 
+    
     const handleCreateConv = async (friend) => {
         try {
-          // Crée une nouvelle conversation
-          const conversationData = {
-            name: friend.user.username,
-            avatar: friend.user.avatar,
-            lastMessage: messagesList[-1],
-            lastMessage_time: new Date().toISOString(),
-            friend_id: friend.user.id,
-            user_id: user.id,
-            messages: messagesList,
-          };
+            // Vérifie si la conversation existe déjà avec le ami
+            // Crée une nouvelle conversation
+            const conversationData = {
+                name: friend.user.username,
+                avatar: friend.user.avatar,
+                lastMessage: messagesList[-1],
+                lastMessage_time: new Date().toISOString(),
+                friend_id: friend.user.id,
+                user_id: user.id,
+                messages: [messagesList],
+            };
+            
+            
+            const existingConv = conversations.find((conv) => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
+            if (existingConv) {
+                setSelectedConversation(existingConv);
+                return;
+            }
     
           const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
-          return conversationResponse;
+          setConversations((prevConversations) => [
+            ...prevConversations,
+            conversationResponse.data
+        ]);
+
+        // Sélectionner la nouvelle conversation
+        setSelectedConversation(conversationResponse.data);
 
         } catch (error) {
           console.error('Error creating conversation:', error);
         }
     };
 
-    const handleMessageSent = (newMessage) => {
-      console.log(newMessage);
-      setMessagesList((messagesList) => [...messagesList, newMessage]);
-      // Mettre à jour la dernière conversation
-      setConversations((conversations) => {
-        return conversations.map((conv) => {
-          if (conv.id === selectedConversation.id) {
-            return { ...conv, lastMessage: newMessage.content, lastMessageTime: newMessage.sent_at };
-          }
-          return conv;
-        });
-      });
+    const handleMessageSent = async (newMessage) => {
+        try {
+            // Récupérer la conversation existante
+            const existingConversationResponse = await axios.get(`http://localhost:5000/conversation/${selectedConversation.id}`);
+            const existingConversation = existingConversationResponse.data;
+            console.log(existingConversation);
+    
+            // Mettez à jour uniquement les champs nécessaires
+            const updatedConversation = await {
+                ...existingConversation,
+                lastMessage: newMessage.content,
+                lastMessageTime: newMessage.sent_at,
+                messages: [...existingConversation.messages, newMessage]
+            };
+    
+
+            // Envoyer la mise à jour à la base de données
+            const response = await axios.put(`http://localhost:5000/conversation/${selectedConversation.id}`, updatedConversation);
+    
+            // Mettre à jour l'état des conversations avec la conversation mise à jour
+            setConversations((prevConversations) => {
+                return prevConversations.map((conv) => {
+                    if (conv.id === updatedConversation.id) {
+                        return updatedConversation;
+                    }
+                    return conv;
+                });
+            });
+    
+            // Ajouter le nouveau message à la liste des messages
+            setMessagesList((prevMessages) => {
+                if (prevMessages.length === 0) {
+                    return [newMessage];
+                }
+                else {
+                    return [...prevMessages, newMessage];
+                }
+            });
+    
+        } catch (error) {
+            console.error('Error updating conversation:', error);
+        }
     };
+    
+    
+
+
 
   return (
     <>
