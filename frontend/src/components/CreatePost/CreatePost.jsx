@@ -1,226 +1,213 @@
-import { useContext, useEffect, useRef } from "react"; // Importation de useRef de React
-import { Formik, Form, useField } from 'formik'; // Importation de Formik et des hooks Formik nécessaires
-import * as Yup from 'yup'; // Importation de Yup pour la validation
-import { DocumentArrowUpIcon } from '@heroicons/react/20/solid'
-import { ServiceContext } from "../../contexts/ServiceContext";
+import React, { useContext, useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { format } from 'date-fns';
+import { DocumentArrowUpIcon } from '@heroicons/react/20/solid';
+import { ServiceContext } from '../../contexts/ServiceContext';
+import { AuthContext } from '../../contexts/AuthContext'; // Assurez-vous de fournir le bon chemin vers votre AuthContext
 
-// Composant réutilisable pour les champs de texte
-const MyTextInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
-
-    return (
-        <div className="flex flex-col p-2">
-            <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
-            <input className='border-solid border-2 rounded-md border-dark bg-white box-border py-2 px-2' {...field} {...props} /> {/* Champ de texte avec les propriétés Formik */}
-            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error text-primary">{meta.error}</div>
-            ) : null}
-        </div>
-    );
-};
-
-const MyTextAreaInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
-
-    return (
-        <div className="flex flex-col p-2">
-            <label  htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ de texte */}
-            <textarea className='border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2' {...field} {...props}  rows={4} /> {/* Champ de texte avec les propriétés Formik */}
-            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error text-primary">{meta.error}</div>
-            ) : null}
-        </div>
-    );
-};
-
-// Composant réutilisable pour les champs select
-const MySelect = ({ label, ...props }) => {
-    const [field, meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
-
-    return (
-        <div className="flex flex-col p-2">
-            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ select */}
-            <select className='border-solid border-2 rounded-md border-dark bg-white py-2 px-2' {...field} {...props} /> {/* Champ select avec les propriétés Formik */}
-            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error text-primary">{meta.error}</div>
-            ) : null}
-        </div>
-    );
-};
-
-// Composant réutilisable pour les champs file input
-const MyFileInput = ({ label, setFieldValue, setHandleRemoveRef, ...props }) => {
-    const [meta] = useField(props); // Utilisation de useField pour se lier aux champs Formik
-
-    const inputFile = useRef(null); // Création d'une référence pour l'input file
-    const fileChosen = useRef(null); // Création d'une référence pour afficher le nom du fichier choisi
-
-    const handleChange = (event) => {
-        const file = event.currentTarget.files[0]; // Récupération du fichier sélectionné
-        setFieldValue(props.name, file); // Mise à jour de la valeur du champ Formik avec le fichier
-        if (fileChosen.current) {
-            fileChosen.current.textContent = file ? file.name : "Aucun fichier choisi"; // Mise à jour du texte affiché
-        }
-    };
-
-    // Déclaration de la fonction handleRemove qui réinitialise l'input file.
-    const handleRemove = () => {
-        if (inputFile.current) {
-            inputFile.current.value = ""; // Réinitialisation de la valeur de l'input file
-            inputFile.current.type = "text"; // Changement temporaire du type pour forcer un re-render
-            inputFile.current.type = "file";
-        }
-        if (fileChosen.current) {
-            fileChosen.current.textContent = "Aucun fichier choisi"; // Réinitialisation du texte affiché
-        }
-    };
-
-    useEffect(() => {
-        if (setHandleRemoveRef) {
-            setHandleRemoveRef.current = handleRemove;
-        }
-    }, [setHandleRemoveRef]);
-
-    return (
-        <div className="flex flex-col items-start p-2">
-            <label htmlFor={props.id}>{label}</label> {/* Étiquette pour le champ file input */}
-            <input id="actual-btn" {...props} onChange={handleChange} ref={inputFile} hidden/> {/* Champ file input avec onChange */}
-            <div className="flex flex-col  w-1/2">
-                <label className="border-solid border-2 p-2 rounded-md border-dark w-2/4 flex justify-center cursor-pointer" htmlFor="actual-btn">
-                    <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
-                </label> {/* Étiquette cliquable pour l'input */}
-                <span id="file-chosen" ref={fileChosen}>Aucun fichier choisi</span> {/* Texte affichant le nom du fichier */}
-            </div>
-            <button className='border-solid border-2 border-dark text-dark rounded-lg p-2' type="button" onClick={handleRemove}>Retirer le fichier</button> {/* Bouton pour retirer le fichier */}
-            {meta.touched && meta.error ? ( // Affichage des erreurs de validation si le champ a été touché et qu'il y a une erreur
-                <div className="error text-primary">{meta.error}</div>
-            ) : null}
-        </div>
-    );
-};
-
-// Composant principal pour créer un post
 const CreatePost = () => {
-    const { services, addService } = useContext(ServiceContext);
-    const handleRemoveRef = useRef(null);
+    const { addService } = useContext(ServiceContext);
+    const { isLoggedIn } = useContext(AuthContext); // Utilisez le contexte d'authentification pour vérifier l'état de connexion
+
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        console.log("Services have been updated:", services)
-    }, [services])
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/categoryservice');
+                setCategories(response.data);
+            } catch (err) {
+                console.error('Erreur lors du chargement des catégories:', err);
+            }
+        };
+        fetchCategories();
+    }, []);
 
-    const postContent = useRef(null); // Référence pour le contenu du formulaire
+    const initialValues = {
+        title: '',
+        description: '',
+        category: '',
+        image: null,
+    };
 
-    // Fonction handleReset pour réinitialiser le formulaire
-    const handleReset = (resetForm) => {
-        if (postContent.current) {
-            postContent.current.value = ''; // Réinitialisation du contenu de la référence
+    const validationSchema = Yup.object({
+        title: Yup.string()
+            .max(100, 'Doit comporter 100 caractères ou moins')
+            .required('Requis'),
+        description: Yup.string()
+            .max(250, 'Doit comporter 250 caractères ou moins')
+            .required('Requis'),
+        category: Yup.string().required('Requis'),
+        image: Yup.mixed()
+            .notRequired()
+            .test('fileFormat', 'Seuls les fichiers image sont autorisés', (value) => {
+                if (value) {
+                    const supportedFormats = ['image/jpeg', 'image/png', 'image/gif'];
+                    return supportedFormats.includes(value.type);
+                }
+                return true;
+            })
+            .test('fileSize', 'La taille du fichier ne doit pas dépasser 3 Mo', (value) => {
+                if (value) {
+                    return value.size <= 3145728;
+                }
+                return true;
+            }),
+    });
+
+    const onSubmit = async (values, { setSubmitting, setFieldError, resetForm }) => {
+        if (!isLoggedIn) {
+            console.error('L\'utilisateur n\'est pas connecté.');
+            return;
         }
 
-        if (handleRemoveRef.current) {
-            handleRemoveRef.current();
+        const currentDate = new Date();
+        const formattedDate = format(currentDate, 'dd/MM/yyyy');
+        const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur connecté depuis localStorage
+
+        let illustration = null;
+
+        if (values.image) {
+            illustration = await convertImage(values.image);
         }
 
-        resetForm(); // Réinitialisation du formulaire Formik
+        const postData = {
+            titre: values.title,
+            description: values.description,
+            date: formattedDate,
+            user_id: userId,
+            message_id: 1,
+        };
+
+        if (illustration) {
+            postData.illustration = illustration; // Ajoutez l'illustration seulement si elle est présente
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/service', postData);
+            addService(response.data);
+            resetForm();
+        } catch (error) {
+            console.error('Erreur lors de la publication:', error);
+            setFieldError('general', 'Échec de la publication, veuillez réessayer plus tard');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const convertImage = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
     };
 
     return (
         <div className="px-4 py-8">
             <Formik
-                initialValues={{
-                    title: '', // Valeurs initiales pour les champs
-                    desc: '',
-                    category: '',
-                    image: '',
-                }}
-                validationSchema={Yup.object({
-                    title: Yup.string()
-                        .max(100, 'Doit comporter 100 caractères ou moins')
-                        .required('Requis'),
-                    desc: Yup.string()
-                        .max(250, 'Doit comporter 250 caractères ou moins')
-                        .required('Requis'),
-                    category: Yup.string()
-                        .oneOf(['1', '2', '3'], 'Catégorie invalide')
-                        .required('Requis'),
-                    image: Yup.mixed()
-                        .test('fileFormat', 'Seuls les fichiers image sont autorisés', (value) => {
-                            if (value) {
-                                if (typeof value.type === 'string') {
-                                    const supportedFormats = ['jpg', 'jpeg', 'png', 'gif'];
-                                    return supportedFormats.includes(value.type.split('/')[1].toLowerCase());
-                                }
-                                return false;
-                            }
-                            return true; // Aucun fichier sélectionné, la validation réussit
-                        })
-                        .test('fileSize', 'La taille du fichier ne doit pas dépasser 3 Mo', (value) => {
-                            if (value) {
-                                return value.size <= 3145728; // 3 MB en octets
-                            }
-                            return true; // La validation réussit si aucun fichier n'est sélectionné
-                        }),
-                })}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                    const post = {
-                        id: null, // Laisser null car l'id est auto-incrémenté
-                        title: values.title,
-                        description: values.desc,
-                        illustration: values.image ? values.image.name : '',
-                        date: new Date().toString(), // Date actuelle
-                        user_id: null,
-                        message_id: null
-                    };
-
-                    addService(post);
-
-                    console.log("Nouveau post :", post); // Affichage des données du post pour debug
-                    setSubmitting(false); // Arrêt de la soumission
-                    if (handleRemoveRef.current) {
-                        handleRemoveRef.current();
-                    }
-                    resetForm(); // Réinitialisation du formulaire après soumission
-                }}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
             >
-                {({ setFieldValue, resetForm }) => (
-                    <div>
-                        <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg drop-shadow-lg text-black">
-                            <h1 className="text-xl font-semibold px-2">Créer un service</h1>
-                            <MyTextInput
-                                label="Titre"
-                                name="title"
-                                type="text"
-                                placeholder="Saisir un titre"
-                            />
+                {({ getFieldProps, setFieldValue, resetForm, values, errors, isSubmitting }) => (
+                    <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg shadow-lg text-black">
+                        <h1 className="text-xl font-semibold px-2">Créer un service</h1>
 
-                            <MyTextAreaInput
-                                label="Description"
-                                name="desc"
+                        <div className="flex flex-col p-2">
+                            <label htmlFor="title">Titre</label>
+                            <Field
+                                id="title"
                                 type="text"
-                                placeholder="Saisir une description"
+                                {...getFieldProps('title')}
+                                className="border-solid border-2 rounded-md border-dark bg-white box-border py-2 px-2"
                             />
+                            <ErrorMessage name="title" component="div" className="error text-primary" />
+                        </div>
 
-                            <MySelect label="Categorie" name="category">
+                        <div className="flex flex-col p-2">
+                            <label htmlFor="description">Description</label>
+                            <Field
+                                id="description"
+                                as="textarea"
+                                {...getFieldProps('description')}
+                                className="border-solid border-2 rounded-md border-dark bg-white resize-none box-border py-2 px-2"
+                                rows={4}
+                            />
+                            <ErrorMessage name="description" component="div" className="error text-primary" />
+                        </div>
+
+                        <div className="flex flex-col p-2">
+                            <label htmlFor="category">Catégorie</label>
+                            <Field
+                                id="category"
+                                as="select"
+                                {...getFieldProps('category')}
+                                className="border-solid border-2 rounded-md border-dark bg-white py-2 px-2"
+                            >
                                 <option value="">Choisissez une catégorie</option>
-                                <option value="1">Category 1</option>
-                                <option value="2">Category 2</option>
-                                <option value="3">Category 3</option>
-                            </MySelect>
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.titre_catégorie} - {category.titre_sous_catégorie}
+                                    </option>
+                                ))}
+                            </Field>
+                            <ErrorMessage name="category" component="div" className="error text-primary" />
+                        </div>
 
-                            <MyFileInput
-                                label="Image (facultative)"
-                                name="image"
+                        <div className="flex flex-col items-start p-2">
+                            <label htmlFor="image">Image (facultative)</label>
+                            <input
+                                id="image"
                                 type="file"
                                 accept="image/*"
-                                setFieldValue={setFieldValue}
-                                setHandleRemoveRef={handleRemoveRef}
+                                onChange={(event) => setFieldValue('image', event.currentTarget.files[0])}
+                                className="hidden"
                             />
-
-                            <div className="flex justify-end gap-2 m-2">
-                                <button className='border-solid border-2 rounded-lg p-2 bg-primary font-semibold' type="button" onClick={() => handleReset(resetForm)}>Supprimer</button>
-                                <button className='border-solid border-2 rounded-lg p-2 bg-accent font-semibold text-white' type="submit">Publier</button>
+                            <div className="flex flex-col w-1/2">
+                                <label
+                                    htmlFor="image"
+                                    className="border-solid border-2 p-2 rounded-md border-dark w-2/4 flex justify-center cursor-pointer"
+                                >
+                                    <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                                </label>
+                                <span id="file-chosen">
+                                    {values.image ? values.image.name : 'Aucun fichier choisi'}
+                                </span>
                             </div>
-                        </Form>
-                    </div>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setFieldValue('image', null);
+                                    document.getElementById('image').value = '';
+                                }}
+                                className="border-solid border-2 border-dark text-dark rounded-lg p-2"
+                            >
+                                Retirer le fichier
+                            </button>
+                            <ErrorMessage name="image" component="div" className="error text-primary" />
+                        </div>
+
+                        <div className="flex justify-end gap-2 m-2">
+                            <button
+                                type="button"
+                                onClick={() => resetForm()}
+                                className="border-solid border-2 rounded-lg p-2 bg-primary font-semibold"
+                            >
+                                Supprimer
+                            </button>
+                            <button
+                                type="submit"
+                                className="border-solid border-2 rounded-lg p-2 bg-accent font-semibold text-white"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Publication en cours...' : 'Publier'}
+                            </button>
+                        </div>
+                    </Form>
                 )}
             </Formik>
         </div>

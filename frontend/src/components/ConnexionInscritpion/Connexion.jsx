@@ -40,6 +40,7 @@ const Connexion = () => {
       }
     },
   });
+  
   const handleForgotPasswordClick = () => {
     setForgotPassword(true);
      // Change l'apparence de bloc "Connexion" pour activer l'envoi d'un nv mdp
