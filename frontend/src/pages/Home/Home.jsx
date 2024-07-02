@@ -7,6 +7,7 @@ import CarouselDefault from '@components/Carousel/Carousel';
 export default function Home() {
 
   const [userData, setUserData] = useState(null); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const slidesServices = [
     {id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1'},
@@ -30,27 +31,47 @@ export default function Home() {
         }
       );
       setUserData(userResponse.data); 
+      setIsLoggedIn(true);
     } catch (error) {
       console.error("Error fetching data", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+  
+    if (userId && token) {
+      fetchData();
+    } else {
+      // Si aucun token n'est disponible, traiter comme non connecté
+      setIsLoggedIn(false);
+    }
   }, []);
-
-  if (!userData) {
-    return <div>Loading...</div>; 
-  }
 
   return (
     <div className="">
       <section className="md:p-8 xl:p-16 flex justify-center">
         <div className="p-4">
-          <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl text-center py-4">Bienvenue <span className='text-darkslategray font-bold text-3xl'>{userData.username}</span></h2>
-          <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
-            Trouver tous les services de <strong>MINGLE</strong> immédiatement
-          </h1>
+        {isLoggedIn ? (
+            <>
+              <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl text-center py-4">
+                Bienvenue <span className='text-darkslategray font-bold text-3xl'>{userData?.username}</span>
+              </h2>
+              <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
+                Trouver tous les services de <strong>MINGLE</strong> immédiatement
+              </h1>
+            </>
+          ) : (
+            <>
+              <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl text-center py-4">
+                Bienvenue sur <span className='text-darkslategray text-3xl'><strong>MINGLE</strong></span>
+              </h2>
+              <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
+                Trouver tous les services de <strong>MINGLE</strong> immédiatement
+              </h1>
+            </>
+          )}
           <form
             id="serchHome"
             onSubmit={(e) => e.preventDefault()}

@@ -48,7 +48,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/Profil"
+          path="/Profil/:userId"
           element={
             <m.div {...pageTransition}>
               <Profil />
