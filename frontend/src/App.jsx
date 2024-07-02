@@ -147,7 +147,7 @@ function App() {
         <Router>
           <div className="flex flex-col min-h-screen">
             <main className="flex-grow bgone">
-              <Header />{" "}
+              <Header />
               {/* Assurez-vous que le Header est en dehors de la balise <main> pour conserver sa couleur */}
               <Routes>
                 <Route path="*" element={<NotFound />} />
