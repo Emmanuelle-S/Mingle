@@ -15,7 +15,7 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-
+import CardList from '../../components/Listedeservice/CardList';
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -140,6 +140,14 @@ function AnimatedRoutes() {
           element={
             <m.div {...pageTransition}>
               <Logout />
+            </m.div>
+          }
+        />
+        <Route
+          path="/listeService"
+          element={
+            <m.div {...pageTransition}>
+              <CardList />
             </m.div>
           }
         />
