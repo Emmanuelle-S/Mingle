@@ -1,8 +1,13 @@
 import './Home.css';
 import '../../App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import CarouselDefault from '@components/Carousel/Carousel';
 
 export default function Home() {
+
+  const [userData, setUserData] = useState(null); 
+
   const slidesServices = [
     {id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1'},
     {id: 2, url: 'https://via.placeholder.com/600x300?text=Slide+2'},
@@ -11,13 +16,41 @@ export default function Home() {
     {id: 5, url: 'https://via.placeholder.com/600x300?text=Slide+5'},
   ];
 
+  const fetchData = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+
+      const userResponse = await axios.get(
+        `http://localhost:5000/users/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserData(userResponse.data); 
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!userData) {
+    return <div>Loading...</div>; 
+  }
+
   return (
     <div className="">
       <section className="md:p-8 xl:p-16 flex justify-center">
         <div className="p-4">
-          <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl">
+          <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl text-center py-4">Bienvenue <span className='text-darkslategray font-bold text-3xl'>{userData.username}</span></h2>
+          <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
             Trouver tous les services de <strong>MINGLE</strong> immédiatement
-          </h2>
+          </h1>
           <form
             id="serchHome"
             onSubmit={(e) => e.preventDefault()}
