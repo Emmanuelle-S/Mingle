@@ -63,18 +63,6 @@ const browse = (req, res) => {
     const add = (req, res) => {
     const service = req.body;
     
-    // Validations (length, format...)
-    if (
-        typeof service.titre !== 'string' || service.titre.length === 0 ||
-        typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.illustration !== 'string' || service.illustration.length === 0 ||
-        typeof service.date !== 'string' || service.date.length === 0 || 
-        typeof service.user_id !== 'number' ||
-        typeof service.message_id !== 'number'
-    ) {
-        return res.status(400).json({ error: "Invalid input data" });
-    }
-    
     models.service
         .insert(service)
         .then(([result]) => {
