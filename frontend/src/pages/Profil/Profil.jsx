@@ -6,6 +6,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfo from "@components/Profil/PersonalInfo";
+// import ServicesCarousel from "@components/Profil/ServicesCarousel"; // Importez votre composant
+import { useNavigate } from "react-router-dom";
 import "./Profil.css";
 
 const Profil = () => {
@@ -15,6 +17,7 @@ const Profil = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const isLoggedIn = true;
   // Déclaration d'une constante isLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     // Déclaration d'une fonction asynchrone fetchData pour récupérer les données utilisateur.
@@ -105,6 +108,13 @@ const Profil = () => {
     //  Affichage d'un message de chargement si userData est encore null.
   }
 
+  const handleSeeMoreClick = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  };
+
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center text-darkslategray">
@@ -120,12 +130,16 @@ const Profil = () => {
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés
         </h2>
-      </div>
-      <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
-        <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
-          Échanges récents
-        </h2>
-      </div>
+        {/* <ServicesCarousel services={userData.services} isLoggedIn={isLoggedIn} /> */}
+        <div className="text-center mt-4">
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline"
+            onClick={handleSeeMoreClick}
+          >
+            Voir plus
+          </button>
+        </div>
+        </div>
       <ToastContainer />
       {/* Ajout du ToastContainer pour afficher les notifications */}
     </div>
