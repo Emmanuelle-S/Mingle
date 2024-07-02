@@ -5,7 +5,6 @@ import axios from "axios";
 
 
 const Messenger = ({ user, friends, conversations, setConversations, fetchConversation, onClose }) => {
-    console.log('conversations:', conversations)
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
@@ -58,19 +57,23 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
             };
 
             const existingConv = conversations.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
+
             if (existingConv) {
                 setSelectedConversation(existingConv);
                 return;
             }
+
             const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
             const newConversation = await axios.get('http://localhost:5000/conversation');
+            const newConvFiltered = newConversation.data.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id)
+            console.log('newConvFiltered:', newConvFiltered)
             console.log('newConversation:', newConversation)
 
             setConversations(prevConversations => [
-                newConversation.data,
+                newConvFiltered,
                ...prevConversations
             ]);
-            setSelectedConversation(newConversation.data);
+            setSelectedConversation(newConversation.data[0]);
             
         } catch (error) {
             console.error('Error creating conversation:', error);
