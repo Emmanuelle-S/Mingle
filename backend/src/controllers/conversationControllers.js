@@ -19,7 +19,16 @@ const read = (req, res) => {
       if (rows[0] == null) {
         res.sendStatus(404);
       } else {
-        res.send(rows[0]);
+        const conversation = rows[0];
+        // Décoder les messages depuis le JSON
+        try {
+          conversation.messages = JSON.parse(conversation.messages);
+        } catch (e) {
+          console.error('Erreur de décodage JSON:', e);
+          res.sendStatus(500);
+          return;
+        }
+        res.send(conversation);
       }
     })
     .catch((err) => {
@@ -36,6 +45,9 @@ const add = (req, res) => {
     conversations.messages = [];
   }
 
+  // Encode les messages en JSON avant l'insertion
+  conversations.messages = JSON.stringify(conversations.messages);
+
   models.conversations
     .insert(conversations)
     .then(([result]) => {
@@ -51,10 +63,10 @@ const edit = (req, res) => {
   const conversations = req.body;
   conversations.id = parseInt(req.params.id, 10);
 
-  // Assurez-vous que 'messages' est un tableau, même s'il n'est pas fourni
-  if (!Array.isArray(conversations.messages)) {
-    conversations.messages = [];
-  }
+  // Assurez-vous que 'messages' est JSOn, même s'il n'est pas fourni.
+  // if (!Array.isArray(conversations.messages)) {
+  //   conversations.messages = json.stringify(conversations.messages);
+  // }
 
   models.conversations
     .update(conversations)
