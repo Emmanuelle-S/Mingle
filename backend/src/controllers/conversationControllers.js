@@ -1,5 +1,3 @@
-// TODO this
-
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -32,6 +30,12 @@ const read = (req, res) => {
 
 const add = (req, res) => {
   const conversations = req.body;
+
+  // Assurez-vous que 'messages' est un tableau, même s'il n'est pas fourni
+  if (!Array.isArray(conversations.messages)) {
+    conversations.messages = [];
+  }
+
   models.conversations
     .insert(conversations)
     .then(([result]) => {
@@ -46,6 +50,12 @@ const add = (req, res) => {
 const edit = (req, res) => {
   const conversations = req.body;
   conversations.id = parseInt(req.params.id, 10);
+
+  // Assurez-vous que 'messages' est un tableau, même s'il n'est pas fourni
+  if (!Array.isArray(conversations.messages)) {
+    conversations.messages = [];
+  }
+
   models.conversations
     .update(conversations)
     .then(([result]) => {
