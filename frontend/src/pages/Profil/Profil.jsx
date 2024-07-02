@@ -121,11 +121,6 @@ const Profil = () => {
           Services publiés
         </h2>
       </div>
-      <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
-        <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
-          Échanges récents
-        </h2>
-      </div>
       <ToastContainer />
       {/* Ajout du ToastContainer pour afficher les notifications */}
     </div>
