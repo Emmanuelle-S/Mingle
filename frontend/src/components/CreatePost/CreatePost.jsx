@@ -5,9 +5,12 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid';
 import { ServiceContext } from '../../contexts/ServiceContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import defaultImage from '../../assets/user-icon.jpg'
 
 const CreatePost = () => {
+    const { isLoggedIn } = useContext(AuthContext);
+
     // Utilisation du contexte ServiceContext pour accéder à la fonction addService
     const { addService } = useContext(ServiceContext);
 
@@ -63,6 +66,11 @@ const CreatePost = () => {
 
     // Fonction onSubmit appelée lors de la soumission du formulaire
     const onSubmit = async (values, { setSubmitting, setFieldError, resetForm }) => {
+        if (!isLoggedIn) {
+            console.error('L\'utilisateur n\'est pas connecté.');
+            return
+        };
+
         const currentDate = new Date();
         const formattedDate = format(currentDate, 'dd/MM/yyyy'); // Formatage de la date actuelle
 
@@ -76,6 +84,8 @@ const CreatePost = () => {
             // Utilise l'image par défaut si aucune image n'est sélectionnée
             illustration = await getDefaultImage();
         }
+
+        console.log(localStorage.getItem('userId'));
 
         // Crée l'objet postData à envoyer dans la requête POST
         const postData = {
