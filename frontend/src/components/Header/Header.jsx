@@ -32,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <header className="p-4 relative bg-transparent z-50">
+    <header className="p-4 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="md:hidden">
           <FaBars className="text-white mr-2 text-lg sm:text-base" onClick={toggleMenu} />
@@ -62,7 +62,7 @@ const Header = () => {
         <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center relative">
           <Link to="/" className="text-black hover:text-gray-700">Accueil</Link>
           <Link to="/about" className="text-black hover:text-gray-700">À propos</Link>
-          <Link to="/services" className="text-black hover:text-gray-700">Services</Link>
+          <Link to="/listeService" className="text-black hover:text-gray-700">Services</Link>
           <Link to="/publier" className="text-black hover:text-gray-700">Publier</Link>
           <Link to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3">
             Contactez nous
