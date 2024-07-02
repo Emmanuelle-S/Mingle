@@ -7,35 +7,41 @@ import axios from 'axios';
 import Header from "./components/Header/Header.jsx";
 import ChatBubble from "./pages/Message/Bubble";
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes'; // Déplacez AnimatedRoutes dans un fichier séparé
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
+  const [currentToken, setCurrentToken] = useState(null);
+
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [currentToken, setCurrentToken] = useState(null);
+  const [conversations, setConversations] = useState([]); 
+
   const [user, setUser] = useState(null);
+  
   const [userFriends, setUserFriends] = useState(null);
-  const [conversations, setConversations] = useState([]); // TODO Rajouter un "s" afin de remplacer la constante de testing 
+  
 
   const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
-      setUsers(responseUsers.data);
+      setUsers(responseUsers.data)
 
       const responseFriends = await axios.get("http://localhost:5000/friends");
-      const filteredFriends = responseFriends.data.filter(friend => friend.user_id === userId);
+      const filteredFriends = await responseFriends.data.filter(friend => friend.user_id === userId);
       setFriends(filteredFriends);
 
       const responseConversation = await axios.get("http://localhost:5000/conversation");
-      const filteredConversation = responseConversation.data.filter(conversation => conversation.user_id === userId);
-      setConversation(filteredConversation);
-      console.log(filteredConversation);
+      const filteredConversation = await responseConversation.data.filter(conversation => conversation.user_id === userId);
+      setConversations(filteredConversation);
 
-      const responseMessage = await axios.get("http://localhost:5000/message");
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error fetching data", error);
     }
   };
 
+
+  // Recupére l'id dans le payload via jwt-decode 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -54,18 +60,21 @@ function App() {
     }
   }, []);
 
+  // Si get token alors fetchMingle
   useEffect(() => {
     if (currentToken) {
       fetchMingle(currentToken);
     }
   }, [currentToken]);
 
+
+  // Récupére l'user de la session
   useEffect(() => {
     if (users) {
       const filteredUser = users.filter(user => user.id === currentToken);
       setUser(filteredUser[0]);
     }
-  }, [users]);
+  }, [users])
 
   // Récupére les data des amis du user et définis les conversations liés à ceux-ci
   useEffect(() => {
@@ -76,17 +85,16 @@ function App() {
       });
       const filteredConversation = friends.map(friend => {
         const conversation = conversations.filter(conversation => conversation.friend_id === friend.friend_id);
-        console.log(conversation);
         return {conversation};
       }); // Ajout de la logique de filtre de conversation ici
       setUserFriends(filteredUserFriends);
       setConversations(filteredConversation);
     }
-  }, [friends]);
+  }, [friends])
 
-  const fetchConversation = async (conversationId) => {
+
+  const fetchConversation = (conversationId) => {
     const getConversationByConvId = conversations.filter(conv => conv.id === conversationId);
-    console.log(getConversationByConvId);
     return getConversationByConvId;
   };
 
@@ -99,10 +107,12 @@ function App() {
           <AnimatedRoutes />
 
           
-            <ChatBubble
-              friends={friends}
-              conversations={conversations}
-              fetchConversation={fetchConversation}
+          <ChatBubble
+                user={user}
+                friends={userFriends}
+                conversations={conversations}
+                setConversations={setConversations}
+                fetchConversation={fetchConversation}
               />
           
               </div>
