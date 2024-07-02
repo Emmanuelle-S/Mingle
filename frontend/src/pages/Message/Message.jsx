@@ -5,137 +5,130 @@ import axios from "axios";
 
 
 const Messenger = ({ user, friends, conversations, setConversations, fetchConversation, onClose }) => {
+    console.log('conversations:', conversations)
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
+    
+    useEffect(() => {
+
+    }, [])
 
     useEffect(() => {
-        console.log(messagesList);
-        
-        if (selectedConversation) {
-          const fetchMessages = async () => {
-            try {
-                const response = await fetchConversation(selectedConversation.id);
-                console.log(response);
-                const currentMessages = JSON.parse(response[0]?.messages);
-                console.log(currentMessages);
-                if (currentMessages !== "[]") {
-                    setMessagesList(currentMessages);
-                }
-            } catch (error) {
-                console.error('Error fetching messages:', error);
-                setMessagesList([]);
-            }
-          };
-          fetchMessages();
-        }
-      }, [selectedConversation]);
-
-    // Detection de la taille d'écran
-    useEffect(() => {
-        // Fonction pour détecter si l'appareil est mobile
-        const detectMobile = () => {
-            return window.innerWidth <= 1020; // Changer 768 selon les besoins
-        };
-
-        // Met à jour l'état isMobile lors du chargement initial
+        const detectMobile = () => window.innerWidth <= 1020;
         setIsMobile(detectMobile());
-
-        // Ajoute un écouteur de changement de taille d'écran pour détecter les changements lors du redimensionnement
-        const handleResize = () => {
-            setIsMobile(detectMobile());
-        };
-
+        const handleResize = () => setIsMobile(detectMobile());
         window.addEventListener("resize", handleResize);
-
-        // Nettoyage de l'écouteur lors du démontage du composant
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        if (selectedConversation) {
+            const fetchMessages = async () => {
+                try {
+                    const response = await fetchConversation(selectedConversation.id);
+                    console.log('response:', response)
+                    const currentMessages = response[0]?.messages ? JSON.parse(response[0].messages) : [];
+                    let parsedMessages = [];
+                    if (typeof currentMessages === 'string') {
+                        parsedMessages = JSON.parse(currentMessages);
+                    } else if (Array.isArray(currentMessages)) {
+                        parsedMessages = currentMessages; // Supposer que c'est déjà un tableau d'objets
+                    }
+                    console.log('parsedMessages:', parsedMessages)
+                    setMessagesList(parsedMessages);
+                } catch (error) {
+                    console.error('Error fetching messages:', error);
+                }
+            };
+            fetchMessages();
+        }
+    }, [selectedConversation]);
     
     const handleCreateConv = async (friend) => {
         try {
-            // Vérifie si la conversation existe déjà avec le ami
-            // Crée une nouvelle conversation
             const conversationData = {
                 name: friend.user.username,
                 avatar: friend.user.avatar,
-                lastMessage: messagesList[-1],
-                lastMessage_time: new Date().toISOString(),
+                lastMessage: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
+                lastMessageTime: new Date().toISOString(),
                 friend_id: friend.user.id,
                 user_id: user.id,
-                messages: [messagesList],
+                messages: JSON.stringify([]),
             };
-            
-            
-            const existingConv = conversations.find((conv) => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
+
+            const existingConv = conversations.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
             if (existingConv) {
                 setSelectedConversation(existingConv);
                 return;
             }
-    
-          const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
-          setConversations((prevConversations) => [
-            ...prevConversations,
-            conversationResponse.data
-        ]);
+            const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
+            const newConversation = await axios.get('http://localhost:5000/conversation');
+            console.log('newConversation:', newConversation)
 
-        // Sélectionner la nouvelle conversation
-        setSelectedConversation(conversationResponse.data);
-
+            setConversations(prevConversations => [
+                newConversation.data,
+               ...prevConversations
+            ]);
+            setSelectedConversation(newConversation.data);
+            
         } catch (error) {
-          console.error('Error creating conversation:', error);
+            console.error('Error creating conversation:', error);
         }
     };
 
     const handleMessageSent = async (newMessage) => {
         try {
-            // Récupérer la conversation existante
-            const existingConversationResponse = await axios.get(`http://localhost:5000/conversation/${selectedConversation.id}`);
-            const existingConversation = existingConversationResponse.data;
-            console.log(existingConversation);
-    
-            // Mettez à jour uniquement les champs nécessaires
-            const updatedConversation = await {
+            const response = await axios.get(`http://localhost:5000/conversation/${selectedConversation.id}`);
+            const existingConversation = response.data;
+
+            // Vérifiez la validité des messages avant de les parser
+            console.log('Existing conversation messages:', existingConversation.messages);
+
+            let parsedMessages = [];
+            try {
+                if (typeof existingConversation.messages === 'string') {
+                    parsedMessages = JSON.parse(existingConversation.messages);
+                } else if (Array.isArray(existingConversation.messages)) {
+                    parsedMessages = existingConversation.messages; // Supposer que c'est déjà un tableau d'objets
+                }
+            } catch (error) {
+                console.error('Invalid JSON in existing conversation messages:', existingConversation.messages);
+                // Définir un tableau vide si JSON.parse échoue
+                parsedMessages = [];
+            }
+            
+            console.log('parsedMessages:', parsedMessages)
+            
+
+            // Mettre à jour les messages
+            const updatedMessages = [...parsedMessages, newMessage];
+
+            // Préparer les données pour la mise à jour
+            const updatedConversation = {
                 ...existingConversation,
                 lastMessage: newMessage.content,
                 lastMessageTime: newMessage.sent_at,
-                messages: [...existingConversation.messages, newMessage]
+                messages: JSON.stringify(updatedMessages),
             };
-    
 
-            // Envoyer la mise à jour à la base de données
-            const response = await axios.put(`http://localhost:5000/conversation/${selectedConversation.id}`, updatedConversation);
-    
-            // Mettre à jour l'état des conversations avec la conversation mise à jour
-            setConversations((prevConversations) => {
-                return prevConversations.map((conv) => {
-                    if (conv.id === updatedConversation.id) {
-                        return updatedConversation;
-                    }
-                    return conv;
-                });
-            });
-    
-            // Ajouter le nouveau message à la liste des messages
-            setMessagesList((prevMessages) => {
-                if (prevMessages.length === 0) {
-                    return [newMessage];
-                }
-                else {
-                    return [...prevMessages, newMessage];
-                }
-            });
-    
+            // Envoyer la mise à jour
+            const updateResponse = await axios.put(`http://localhost:5000/conversation/${selectedConversation.id}`, updatedConversation);
+            
+            // Mettre à jour l'état des conversations
+            setConversations(prevConversations => prevConversations.map(conv => conv.id === updatedConversation.id ? updatedConversation : conv));
+            
+            // Mettre à jour la liste des messages
+            setMessagesList(updatedMessages);
         } catch (error) {
             console.error('Error updating conversation:', error);
         }
     };
     
+
+
+
     
-
-
-
   return (
     <>
         <div className=" h-[97vh] w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden pt-6">
@@ -154,7 +147,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                                 <div
                                                 key={index}
                                                 className={`w-max p-2 my-4 rounded shadow ${
-                                                    user === msg.user_id ? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
+                                                    (msg.sender_id === user.id)? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
                                                 }`}
                                                 style={{ maxWidth: '45%' }}
                                                 >
@@ -270,10 +263,10 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                             <p>{conv.name}</p>
                                             <div className="flex items-center text-sm text-gray-600">
                                                 <div className="min-w-0">
-                                                    <p className="truncate">{conv.lastMessage}</p>
+                                                    <p className="truncate">{conv.last_message}</p>
                                                 </div>
                                                 <p className="ml-2 whitespace-no-wrap">
-                                                    {conv.lastMessageTime}
+                                                    {conv.last_message_time}
                                                 </p>
                                             </div>
                                         </div>

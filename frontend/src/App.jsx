@@ -39,7 +39,6 @@ function App() {
   const [userFriends, setUserFriends] = useState(null);
   
 
-  // Nouveau code a faire fonctionner
   const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
@@ -112,34 +111,10 @@ function App() {
   }, [friends])
 
 
-
-  // Ancien code pour phase de test
-
-  const fetchConversation = async (conversationId) => {
+  const fetchConversation = (conversationId) => {
     const getConversationByConvId = conversations.filter(conv => conv.id === conversationId);
     return getConversationByConvId;
   };
-
-  // TODO A supprimer 
-  // const cards = [
-  //   {
-  //     title: "Card 1",
-  //     imageUrl: "https://via.placeholder.com/150",
-  //     category: "Category 1",
-  //     description: "Description 1",
-  //     date: "2023-01-01",
-  //   },
-  //   {
-  //     title: "Card 2",
-  //     imageUrl: "https://via.placeholder.com/150",
-  //     category: "Category 2",
-  //     description: "Description 2",
-  //     date: "2023-01-02",
-  //   },
-  //   // Ajoutez d'autres cartes ici
-  // ];
-
-  // Fin du code pour tester
 
   return (
     <AuthProvider>

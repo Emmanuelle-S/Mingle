@@ -63,10 +63,10 @@ const edit = (req, res) => {
   const conversations = req.body;
   conversations.id = parseInt(req.params.id, 10);
 
-  // Assurez-vous que 'messages' est un tableau, même s'il n'est pas fourni
-  if (!Array.isArray(conversations.messages)) {
-    conversations.messages = [];
-  }
+  // Assurez-vous que 'messages' est JSOn, même s'il n'est pas fourni.
+  // if (!Array.isArray(conversations.messages)) {
+  //   conversations.messages = json.stringify(conversations.messages);
+  // }
 
   models.conversations
     .update(conversations)

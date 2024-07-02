@@ -17,6 +17,7 @@ function ChatInput({ conversationId, sender_id, onMessageSent }) {
       content: message,
       sent_at: new Date().toISOString(),
     };
+    
     try {
       const response = await axios.post('http://localhost:5000/message', messageData);
       // Réinitialiser l'input après l'envoi du message
