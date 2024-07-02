@@ -174,7 +174,7 @@ function App() {
               <Route path="/publier" element={<Publier />} />
               <Route path="/ConnexionInscription" element={<ConnexionInscription />} />
               <Route path="/FAQ" element={<FAQ />} />
-              <Route path="/ListeService" element={<CardList/>} />
+              <Route path="/listeService" element={<CardList/>} />
               <Route path="/conditions" element={<ConditionsUtilisation />} />
               <Route path="/politique" element={<PolitiqueDeConfidentialité />} />
               <Route path="/about" element={<About />} />
