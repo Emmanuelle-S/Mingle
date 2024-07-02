@@ -32,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <header className="p-4 relative bg-transparent z-50">
+    <header className="p-4 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="md:hidden">
           <FaBars className="text-white mr-2 text-lg sm:text-base" onClick={toggleMenu} />
