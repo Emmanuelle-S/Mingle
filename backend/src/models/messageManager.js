@@ -6,12 +6,11 @@ class MessageManager extends AbstractManager {
   }
 
   insert(messages) {
-    return this.database.query(`insert into ${this.table} (objet, message, date_heure, user_id) values (?,?,?,?)`, [
-      messages.objet,
-      messages.message,
-      messages.date_heure,
-      messages.user_id,
-  
+    return this.database.query(`insert into ${this.table} (conversation_id, sender_id, content, sent_at) values (?,?,?,NOW())`, [
+      messages.conversation_id,
+      messages.sender_id,
+      messages.content,
+      messages.sent_at,
     ]);
   }
 

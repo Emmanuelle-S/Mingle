@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as Yup from 'yup';
 import '../../App.css';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Connexion = () => {
   const [forgotPassword, setForgotPassword] = useState(false); 
   //UseState pour gérer l'oubli de mot de passe lorsqu'on clique sur mdp oublié
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
 
   const formik = useFormik({
@@ -28,32 +30,17 @@ const Connexion = () => {
       // AJOUTER LE LIEN AVEC LE BACKEND
   
       try {
-        const response = await axios.post('http://localhost:5000/user/login', {
-          mail: values.email,
-          user_pass: values.password,
-        });
-        
-        // Si la réponse est correcte, rediriger vers la page de profil
-        if (response.status === 201) {
-          const { token, userId } = response.data;
-          // Stocker le token dans le localStorage ou dans un contexte pour l'utiliser dans les requêtes futures
-          localStorage.setItem('token', token);
-          // Peux peut-être se retirer si le token le stock deja via son payload
-          localStorage.setItem('userId', userId);
-
-          navigate('/Profil');
-        } else {
-          console.error('Login failed:', response.status);
-        }
+        await login(values.email, values.password);
+        // Redirection après connexion réussie
+        navigate('/Profil');
       } catch (error) {
         console.error('Error logging in:', error);
       } finally {
         setSubmitting(false);
       }
-
     },
   });
-
+  
   const handleForgotPasswordClick = () => {
     setForgotPassword(true);
      // Change l'apparence de bloc "Connexion" pour activer l'envoi d'un nv mdp
