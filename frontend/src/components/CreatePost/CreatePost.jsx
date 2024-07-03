@@ -124,7 +124,7 @@ const CreatePost = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
-                {({ getFieldProps, setFieldValue, resetForm, values, errors, isSubmitting }) => (
+                {({ getFieldProps, setFieldValue, resetForm, values, isSubmitting }) => (
                     <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg shadow-lg text-black">
                         <h1 className="text-xl font-semibold px-2">Créer un service</h1>
 
@@ -183,7 +183,11 @@ const CreatePost = () => {
                                     htmlFor="image"
                                     className="border-solid border-2 p-2 rounded-md border-dark w-2/4 flex justify-center cursor-pointer"
                                 >
-                                    <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                                    {values.image ? (
+                                        <img src={URL.createObjectURL(values.image)} alt={values.image.name} className="w-full h-auto" />
+                                    ) : (
+                                        <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                                    )}
                                 </label>
                                 <span id="file-chosen">
                                     {values.image ? values.image.name : 'Aucun fichier choisi'}
