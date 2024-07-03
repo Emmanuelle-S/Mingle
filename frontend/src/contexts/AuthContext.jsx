@@ -10,14 +10,18 @@ export const AuthProvider = ({ children }) => {
   // Composant fournisseur du contexte d'authentification
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // Déclare l'état isLoggedIn pour suivre si l'utilisateur est connecté.
+  const [userId, setUserId] = useState(null); 
+  // Ajout de userId dans le contexte
 
   useEffect(() => {
-    // Utilisation de useEffect pour vérifier le statut de connexion lors du montage du composant
+    // Utilisation de useEffect pour vérifier le statut de connexion 
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     // Récupération du token et de l'ID utilisateur depuis le localStorage
     setIsLoggedIn(!!token && !!userId);
-    // Utilise useEffect pour vérifier si un token/id est présent dans le localStorage lors du montage du composant. Si oui, isLoggedIn est mis à jour à true.
+    // Utilise useEffect pour vérifier si un token/id est présent dans le localStorage. Si oui, isLoggedIn est mis à jour à true.
+    setUserId(userId); 
+    // Mise à jour de userId dans le contexte
   }, []);
 
 
@@ -38,6 +42,8 @@ export const AuthProvider = ({ children }) => {
         // Stockage du token et de l'ID utilisateur dans le localStorage
         setIsLoggedIn(true);
         // Mise à jour de l'état isLoggedIn à true pour indiquer que l'utilisateur est connecté
+        setUserId(userId); 
+        // Mise à jour de userId dans le contexte après connexion
       } else {
         console.error('Login failed:', response.status);
         // Affichage d'une erreur en cas d'échec de la connexion
@@ -55,10 +61,12 @@ export const AuthProvider = ({ children }) => {
     // Suppression du token et de l'ID utilisateur du localStorage
     setIsLoggedIn(false);
     // Mise à jour de l'état isLoggedIn à false pour indiquer que l'utilisateur est déconnecté
+    setUserId(null); 
+    // Réinitialisation de userId dans le contexte après déconnexion
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );}
