@@ -52,7 +52,11 @@ router.put("/categoryservice/:id", categoryserviceControllers.edit);
 router.post("/categoryservice", categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
-
+router.get("/service_type", serviceControllers.browse);
+router.get("/service_type/:id", serviceControllers.read);
+router.put("/service_type/:id", serviceControllers.edit);
+router.post("/service_type", serviceControllers.add);
+router.delete("/service_type/:id", serviceControllers.destroy);
 
 
 // ROUTE LOGIN

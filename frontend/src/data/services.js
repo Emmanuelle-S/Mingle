@@ -6,7 +6,6 @@ export const services = [
         "illustration": "illustration1.png",
         "date": "2024-06-03 12:00:00",
         "user_id": 4,
-        "message_id": 10
     },
     {
         "id": 29,
@@ -15,6 +14,5 @@ export const services = [
         "illustration": "illustration2.png",
         "date": "2024-06-04 14:00:00",
         "user_id": 5,
-        "message_id": 12
     }
 ]
