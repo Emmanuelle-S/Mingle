@@ -12,15 +12,15 @@ import { parseJSON } from 'date-fns';
 
 function App() {
   const [currentToken, setCurrentToken] = useState(null);
-
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [conversations, setConversations] = useState([]); 
-
+  
   const [user, setUser] = useState(null);
   
+  const [conversations, setConversations] = useState([]); 
   const [userFriends, setUserFriends] = useState(null);
-  
+    
+
 
   const fetchMingle = async (userId) => {
     try {
@@ -108,6 +108,7 @@ function App() {
           <ChatBubble
                 user={user}
                 users={users}
+                friendsTable={friends}
                 friends={userFriends}
                 setFriends={setUserFriends}
                 conversations={conversations}

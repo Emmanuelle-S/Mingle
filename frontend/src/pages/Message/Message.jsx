@@ -5,7 +5,7 @@ import SearchComponent from "@components/SearchComponant/SearchComponant";
 import axios from "axios";
 
 
-const Messenger = ({ user, users, friends, setFriends, conversations, setConversations, fetchConversation, onClose }) => {
+const Messenger = ({ user, users, friendsTable, friends, setFriends, conversations, setConversations, fetchConversation, onClose }) => {
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
@@ -203,7 +203,7 @@ const Messenger = ({ user, users, friends, setFriends, conversations, setConvers
                                 </div>
                                 <div className="p-4 flex-none">
                                     <form id="serchMessage" onSubmit={(e) => e.preventDefault()}>
-                                        <SearchComponent users={users} setFriends={setFriends}/>
+                                        <SearchComponent user={user} users={users} friendsTable={friendsTable} friends={friends} setFriends={setFriends}/>
                                     </form>
                                 </div>
                                 <div className="flex flex-row p-2 overflow-auto w-0 min-w-full">

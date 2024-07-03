@@ -7,7 +7,8 @@ class FriendsManager extends AbstractManager {
 
   insert(friends) {
     const friendsJson = JSON.stringify(friends.friends || []);
-    
+    console.log('Insert friends:', friends); // Ajoutez ce log
+
     return this.database.query(
       `INSERT INTO ${this.table} (user_id, friends) VALUES (?, ?)`,
       [
@@ -19,7 +20,9 @@ class FriendsManager extends AbstractManager {
 
   update(friends) {
     const friendsJson = JSON.stringify(friends.friends || []);
-    
+    console.log('Update friends:', friends); // Ajoutez ce log
+    console.log('Friends JSON:', friendsJson); // Ajoutez ce log
+
     return this.database.query(
       `UPDATE ${this.table} SET friends = ? WHERE id = ?`,
       [

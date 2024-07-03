@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios'; // Assurez-vous d'installer axios
 
-function SearchComponent({users, setFriends}) {
+function SearchComponent({ user, users, friendsTable, friends, setFriends }) {
+    console.log('user:', user);
+    console.log('friendsTable:', friendsTable);
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
 
@@ -13,7 +15,7 @@ function SearchComponent({users, setFriends}) {
         // Envoi de la requête de recherche au serveur
         if (term.length > 2) { // Exemple: déclencher la recherche après 2 caractères
             try {
-                const filtered = users.filter(user => user.username.toLowerCase().includes(term))
+                const filtered = users.filter(user => user.username.toLowerCase().includes(term));
                 setResults(filtered);
             } catch (error) {
                 console.error('Erreur de recherche:', error);
@@ -23,10 +25,39 @@ function SearchComponent({users, setFriends}) {
         }
     };
 
-    const AddFriend = async (result) => {
-        const newFriend = result.id;
-        // const response = await axios.put(http://localhost:5000/friends/${})
+    const AddFriend = async (newFriend) => {
+        try {
+            // Récupérer la liste actuelle des amis
+            const currentFriends = JSON.parse(friendsTable[0].friends);
+            console.log('currentFriends:', currentFriends);
+    
+            // Ajouter le nouvel ami à la liste
+            if (!currentFriends.includes(newFriend.id)) {
+                const updatedFriends = [...currentFriends, newFriend.id];
+                console.log('updatedFriends:', updatedFriends);
+    
+                // Mettre à jour la base de données
+                const response = await axios.put(`http://localhost:5000/friends/${friendsTable[0].id}`, {
+                    user_id: user.id,
+                    friends: updatedFriends // Assurez-vous que ceci est un tableau et non une chaîne JSON
+                });
+    
+                console.log('response:', response);
+    
+                if (response.status === 204) {
+                    // Mettre à jour l'état des amis seulement si la mise à jour est réussie
+                    setFriends(updatedFriends);
+                } else {
+                    console.error('Erreur inattendue lors de la mise à jour de la base de données:', response);
+                }
+            } else {
+                console.log("Cet utilisateur est déjà dans votre liste d'amis.");
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de l\'ami:', error);
+        }
     };
+    
 
     return (
         <div className="relative">
@@ -51,12 +82,12 @@ function SearchComponent({users, setFriends}) {
                 {results.length > 0 && (
                     <ul className="list-none mt-2">
                         {results.map((result) => (
-                            <div className='flex'>
-                                <li key={result.id} className="p-2 border-b border-gray-700">
+                            <div className='flex' key={result.id}>
+                                <li className="p-2 border-b border-gray-700">
                                     {result.username}
                                 </li>
                                 <button
-                                    onClick={() => {AddFriend(result)}}
+                                    onClick={() => { AddFriend(result); }}
                                 >
                                     +
                                 </button>

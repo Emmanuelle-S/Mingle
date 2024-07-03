@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Message from './Message';
 
-const ChatBubble = ({ user, users, friends, conversations, setConversations, fetchConversation }) => {
+const ChatBubble = ({ user, users, friendsTable, friends, setFriends, conversations, setConversations, fetchConversation }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ const ChatBubble = ({ user, users, friends, conversations, setConversations, fet
           💬
         </button>
       )}
-      {isOpen && <Message users={users} user={user} friends={friends} setFriends={setUserFriends} conversations={conversations} setConversations={setConversations} fetchConversation={fetchConversation} onClose={() => setIsOpen(false)} />}
+      {isOpen && <Message users={users} user={user} friendsTable={friendsTable} friends={friends} setFriends={setFriends} conversations={conversations} setConversations={setConversations} fetchConversation={fetchConversation} onClose={() => setIsOpen(false)} />}
     </div>
   );
 };
