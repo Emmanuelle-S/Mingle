@@ -5,6 +5,7 @@ import axios from "axios";
 
 
 const Messenger = ({ user, friends, conversations, setConversations, fetchConversation, onClose }) => {
+    console.log('conversations:', conversations)
     console.log('friends:', friends)
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
@@ -48,7 +49,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
     const handleCreateConv = async (friend) => {
         try {
             const conversationData = {
-                name: friend.username,
+                name: friend.username + user.username,
                 avatar: friend.avatar,
                 lastMessage: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
                 lastMessageTime: new Date().toISOString(),
@@ -57,9 +58,21 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                 messages: JSON.stringify([]),
             };
 
-            const existingConv = conversations.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
+            const existingConv = conversations.find(conv => {
+                // Assurez-vous que les propriétés existent sur chaque objet
+                if (conv.user_id !== undefined && conv.friend_id !== undefined) {
+                    console.log('Checking conversation:', conv);
+                    return (
+                        (conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id) ||
+                        (conv.user_id === conversationData.friend_id && conv.friend_id === conversationData.user_id)
+                    );
+                }
+                return false;
+            });
+            
+            console.log('Existing Conversation:', existingConv);
 
-            if (existingConv) {
+            if (existingConv) { 
                 setSelectedConversation(existingConv);
                 return;
             }

@@ -33,7 +33,7 @@ function App() {
       setFriends(filteredFriends);
 
       const responseConversation = await axios.get("http://localhost:5000/conversation");
-      const filteredConversation = await responseConversation.data.filter(conversation => conversation.user_id === userId);
+      const filteredConversation = await responseConversation.data.filter(conversation => (conversation.user_id === userId) || (conversation.friend_id === userId));
       setConversations(filteredConversation);
     } 
     catch (error) {
