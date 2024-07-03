@@ -62,9 +62,7 @@ const CreatePost = () => {
             console.error('L\'utilisateur n\'est pas connecté.');
             return;
         }
-    
-        const currentDate = new Date();
-        const formattedDate = format(currentDate, 'dd/MM/yyyy');
+
         const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur connecté depuis localStorage
     
         let illustration = null;
@@ -78,7 +76,6 @@ const CreatePost = () => {
         const serviceData = {
             titre: values.title,
             description: values.description,
-            date: formattedDate,
             user_id: userId,
             category_id: values.category, // Ajout de category_id
         };

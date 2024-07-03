@@ -60,7 +60,7 @@ const browse = (req, res) => {
     };
     
     const add = async (req, res) => {
-        const { titre, description, illustration, date, user_id, category_id } = req.body;
+        const { titre, description, illustration, user_id, category_id } = req.body;
     
         console.log("Starting add service process...");
         console.log("Request body:", req.body); // Log les données de la requête
@@ -71,7 +71,6 @@ const browse = (req, res) => {
                 titre,
                 description,
                 illustration,
-                date,
                 user_id,
             });
     
