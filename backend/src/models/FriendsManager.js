@@ -6,21 +6,24 @@ class FriendsManager extends AbstractManager {
   }
 
   insert(friends) {
+    const friendsJson = JSON.stringify(friends.friends || []);
+    
     return this.database.query(
-      `INSERT INTO ${this.table} (user_id, friend_id) VALUES (?, ?)`,
+      `INSERT INTO ${this.table} (user_id, friends) VALUES (?, ?)`,
       [
         friends.user_id,
-        friends.friend_id,
+        friendsJson, // Encodage des amis en JSON
       ]
     );
   }
 
   update(friends) {
+    const friendsJson = JSON.stringify(friends.friends || []);
+    
     return this.database.query(
-      `UPDATE ${this.table} SET user_id = ?, friend_id = ? WHERE id = ?`,
+      `UPDATE ${this.table} SET friends = ? WHERE id = ?`,
       [
-        friends.user_id, 
-        friends.friend_id,
+        friendsJson, // Encodage des amis en JSON
         friends.id
       ]
     );
