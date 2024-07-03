@@ -45,6 +45,7 @@ const Inscription = () => {
           mail: values.email,
           user_pass: values.password,
           localisation: values.localisation,
+          
         });
         console.log('User registered successfully:', response.data);
         resetForm();
