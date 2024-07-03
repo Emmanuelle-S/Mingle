@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import { ServiceContext } from '../../contexts/ServiceContext';
 import { AuthContext } from '../../contexts/AuthContext'; // Assurez-vous de fournir le bon chemin vers votre AuthContext
 
 const CreatePost = () => {
+    const navigate = useNavigate();
     const { addService } = useContext(ServiceContext);
     const { isLoggedIn } = useContext(AuthContext); // Utilisez le contexte d'authentification pour vérifier l'état de connexion
 
@@ -97,6 +99,7 @@ const CreatePost = () => {
     
             addService(response.data); // Ajouter le nouveau service au contexte
             resetForm(); // Réinitialiser le formulaire
+            // navigate('/carddetail')
         } catch (error) {
             console.error('Erreur lors de la publication:', error);
             setFieldError('general', 'Échec de la publication, veuillez réessayer plus tard');

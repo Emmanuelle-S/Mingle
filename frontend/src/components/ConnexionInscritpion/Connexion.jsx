@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import * as Yup from 'yup';
 import '../../App.css';
@@ -10,7 +10,15 @@ const Connexion = () => {
   const [forgotPassword, setForgotPassword] = useState(false); 
   //UseState pour gérer l'oubli de mot de passe lorsqu'on clique sur mdp oublié
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useContext(AuthContext);
+  const [fromPublier, setFromPublier] = useState(false);
+
+  useEffect(() => {
+    if (location.state && location.state.from === '/Publier') {
+      setFromPublier(true);
+    }
+  }, [location]);
 
 
   const formik = useFormik({
@@ -32,7 +40,11 @@ const Connexion = () => {
       try {
         await login(values.email, values.password);
         // Redirection après connexion réussie
-        navigate('/Profil');
+        if (fromPublier) {
+          navigate('/Publier');
+        } else {
+          navigate('/');
+        }
       } catch (error) {
         console.error('Error logging in:', error);
       } finally {
