@@ -10,8 +10,7 @@ const Card = ({ card }) => {
       ) : (
         <p className="text-gray-600">Aucune image</p>
       )}
-      <p className="text-gray-600 mb-2">{card.titre_sous_catégorie}</p>
-      <p className="text-gray-600 mb-2">{card.category_description || 'No description available'}</p>
+     
     </div>
   );
 };
