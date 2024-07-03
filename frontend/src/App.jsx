@@ -25,7 +25,7 @@ function App() {
   const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
-      setUsers(responseUsers.data)
+      setUsers(responseUsers.data);
 
       const responseFriends = await axios.get("http://localhost:5000/friends");
       const filteredFriends = await responseFriends.data.filter(friend => friend.user_id === userId);
@@ -107,7 +107,9 @@ function App() {
           <AnimatedRoutes />
           <ChatBubble
                 user={user}
+                users={users}
                 friends={userFriends}
+                setFriends={setUserFriends}
                 conversations={conversations}
                 setConversations={setConversations}
                 fetchConversation={fetchConversation}
