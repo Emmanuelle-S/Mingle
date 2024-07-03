@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { format } from 'date-fns';
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid';
 import { ServiceContext } from '../../contexts/ServiceContext';
 import { AuthContext } from '../../contexts/AuthContext'; // Assurez-vous de fournir le bon chemin vers votre AuthContext
