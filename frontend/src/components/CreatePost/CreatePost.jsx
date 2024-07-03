@@ -5,10 +5,9 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { DocumentArrowUpIcon } from '@heroicons/react/20/solid';
 import { ServiceContext } from '../../contexts/ServiceContext';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext'; // Assurez-vous de fournir le bon chemin vers votre AuthContext
 
 const CreatePost = () => {
-    // Utilisation du contexte ServiceContext pour accéder à la fonction addService
     const { addService } = useContext(ServiceContext);
     const { isLoggedIn } = useContext(AuthContext); // Utilisez le contexte d'authentification pour vérifier l'état de connexion
 
@@ -63,41 +62,52 @@ const CreatePost = () => {
             console.error('L\'utilisateur n\'est pas connecté.');
             return;
         }
-
+    
         const currentDate = new Date();
         const formattedDate = format(currentDate, 'dd/MM/yyyy');
         const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur connecté depuis localStorage
-
+    
         let illustration = null;
-
+    
+        // Convertir l'image en base64 si elle est présente
         if (values.image) {
             illustration = await convertImage(values.image);
         }
-
-        // Crée l'objet postData à envoyer dans la requête POST
-        const postData = {
+    
+        // Préparer les données du service à envoyer au serveur
+        const serviceData = {
             titre: values.title,
             description: values.description,
             date: formattedDate,
             user_id: userId,
-            message_id: 1,
+            category_id: values.category, // Ajout de category_id
         };
-
+    
         if (illustration) {
-            postData.illustration = illustration; // Ajoutez l'illustration seulement si elle est présente
+            serviceData.illustration = illustration; // Ajouter l'illustration seulement si elle est présente
         }
-
+    
+        console.log('Service data to be submitted:', serviceData); // Log les données du service
+    
         try {
-            const response = await axios.post('http://localhost:5000/service', postData);
-            addService(response.data);
-            resetForm();
+            const response = await axios.post('http://localhost:5000/service', serviceData);
+            console.log('Server response:', response.data); // Log la réponse du serveur
+    
+            const serviceId = response.data.id;
+    
+            if (!serviceId) {
+                throw new Error('L\'ID du service n\'a pas été renvoyé par le serveur');
+            }
+    
+            addService(response.data); // Ajouter le nouveau service au contexte
+            resetForm(); // Réinitialiser le formulaire
         } catch (error) {
             console.error('Erreur lors de la publication:', error);
             setFieldError('general', 'Échec de la publication, veuillez réessayer plus tard');
         } finally {
-            setSubmitting(false);
+            setSubmitting(false); // Arrêter l'indicateur de soumission
         }
-    };
+    };    
 
     const convertImage = (file) => {
         return new Promise((resolve, reject) => {
