@@ -49,7 +49,6 @@ const Header = () => {
               {isLoggedIn ? (
                 <>
                   <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                  <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
                   <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
                   <Logout closeMenu={closeMenu} />
                 </>
@@ -74,8 +73,8 @@ const Header = () => {
                 {isLoggedIn ? (
                   <>
                     <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                    <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
-                    <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                    
+                    <Link to="/dashboard" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
                     <Logout closeMenu={closeMenu} />
                   </>
                 ) : (
