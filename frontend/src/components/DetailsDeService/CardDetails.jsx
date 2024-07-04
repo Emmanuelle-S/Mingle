@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function CardDetail() {
-  const [card, setCardDetail] = useState(null);
+  const [card, setCardDetail] = useState([]);
 
   const fetchDataDetail = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/service/55");
+      const response = await axios.get("http://localhost:5000/categoryservice");
       console.log('response', response.data); // Ajoutez cette ligne pour vérifier les données
       setCardDetail(response.data);
     } catch (error) {

@@ -58,6 +58,9 @@ router.put("/service_type/:id", serviceControllers.edit);
 router.post("/service_type", serviceControllers.add);
 router.delete("/service_type/:id", serviceControllers.destroy);
 
+router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
+
+
 
 // ROUTE LOGIN
 
