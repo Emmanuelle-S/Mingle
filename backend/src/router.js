@@ -9,6 +9,8 @@ const categoryserviceControllers = require ("./controllers/categoryserviceContro
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
 
+const {validateUser} = require("./validators")
+
 
 router.get("/items", itemControllers.browse);
 router.get("/items/:id", itemControllers.read);
@@ -18,8 +20,8 @@ router.delete("/items/:id", itemControllers.destroy);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
-router.put("/users/:id", userControllers.edit);
-router.post("/users", userControllers.add);
+router.put("/users/:id", validateUser, userControllers.edit);
+router.post("/users", validateUser, userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
 router.get("/service", serviceControllers.browse);
