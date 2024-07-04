@@ -8,7 +8,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, userId } = useContext(AuthContext); // Utilisation de userId depuis le contexte
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -28,7 +28,7 @@ const Header = () => {
 
   const handleLinkClick = () => {
     closeMenu();
-    setIsUserMenuOpen(false); // Ferme également le menu utilisateur si ouvert
+    setIsUserMenuOpen(false);
   };
 
   return (
@@ -48,10 +48,9 @@ const Header = () => {
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
               {isLoggedIn ? (
                 <>
-                  <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                  <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
+                  <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
                   <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
-                  <Logout closeMenu={closeMenu} /> {/* Passez closeMenu comme prop */}
+                  <Logout closeMenu={closeMenu} />
                 </>
               ) : (
                 <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>
@@ -73,10 +72,10 @@ const Header = () => {
               <div className="absolute right-0 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
                 {isLoggedIn ? (
                   <>
-                    <Link to="/profil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                    <Link to="/EditProfil" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Modifier</Link>
-                    <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
-                    <Logout closeMenu={closeMenu} /> {/* Passez closeMenu comme prop */}
+                    <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
+                    
+                    <Link to="/dashboard" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                    <Logout closeMenu={closeMenu} />
                   </>
                 ) : (
                   <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>

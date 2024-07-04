@@ -125,7 +125,8 @@ const EditProfil = () => {
 
       if (response.status === 204) {
         console.log('Profil mis à jour avec succès.');
-        navigate('/profil'); // Rediriger vers le composant profil
+        navigate(`/profil/${userId}`); 
+        // Rediriger vers le composant profil du user connecté
       } else {
         console.log('Réponse de l\'API:', response);
 

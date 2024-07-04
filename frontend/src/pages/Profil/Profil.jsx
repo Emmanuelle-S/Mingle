@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfo from "@components/Profil/PersonalInfo";
 // import ServicesCarousel from "@components/Profil/ServicesCarousel"; // Importez votre composant
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./Profil.css";
 
 const Profil = () => {
@@ -19,11 +19,14 @@ const Profil = () => {
   // Déclaration d'une constante isLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
   const navigate = useNavigate();
 
+  const { userId: routeUserId } = useParams();
+  const currentUserId = localStorage.getItem("userId");
+  const userId = routeUserId || currentUserId;
+  const isCurrentUser = userId === currentUserId;
+
   const fetchData = async () => {
     // Déclaration d'une fonction asynchrone fetchData pour récupérer les données utilisateur.
     try {
-      const userId = localStorage.getItem("userId");
-      // Récupération de l'ID de l'utilisateur depuis le localStorage.
       const token = localStorage.getItem("token");
       // Récupération du token d'authentification depuis le localStorage.
 
@@ -47,8 +50,6 @@ const Profil = () => {
   const handleDeleteProfile = async () => {
     //  Déclaration d'une fonction asynchrone handleDeleteProfile pour supprimer le profil utilisateur.
     try {
-      const userId = localStorage.getItem("userId");
-      // Récupération de l'ID de l'utilisateur depuis le localStorage.
       const token = localStorage.getItem("token");
       // Récupération du token d'authentification depuis le localStorage.
 
@@ -123,9 +124,10 @@ const Profil = () => {
       <PersonalInfo
         userData={userData}
         isLoggedIn={isLoggedIn}
+        isCurrentUser={isCurrentUser}
         onDelete={handleDeleteProfile}
       />
-      {/* Rendu du composant PersonalInfo avec les props userData, isLoggedIn, et onDelete. */}
+      {/* Rendu du composant PersonalInfo avec les props userData, isLoggedIn,isCurrentUser et onDelete. */}
       <div className="mt-8 bg-white rounded-lg border border-gray-300 shadow-2xl p-4">
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés

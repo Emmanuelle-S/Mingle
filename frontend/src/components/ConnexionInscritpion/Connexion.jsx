@@ -32,7 +32,7 @@ const Connexion = () => {
       try {
         await login(values.email, values.password);
         // Redirection après connexion réussie
-        navigate('/Profil');
+        navigate('/');
       } catch (error) {
         console.error('Error logging in:', error);
       } finally {

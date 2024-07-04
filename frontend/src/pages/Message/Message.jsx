@@ -5,6 +5,8 @@ import axios from "axios";
 
 
 const Messenger = ({ user, friends, conversations, setConversations, fetchConversation, onClose }) => {
+    console.log('conversations:', conversations)
+    console.log('friends:', friends)
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
@@ -47,18 +49,30 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
     const handleCreateConv = async (friend) => {
         try {
             const conversationData = {
-                name: friend.user.username,
-                avatar: friend.user.avatar,
+                name: friend.username + user.username,
+                avatar: friend.avatar,
                 lastMessage: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
                 lastMessageTime: new Date().toISOString(),
-                friend_id: friend.user.id,
+                friend_id: friend.id,
                 user_id: user.id,
                 messages: JSON.stringify([]),
             };
 
-            const existingConv = conversations.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id);
+            const existingConv = conversations.find(conv => {
+                // Assurez-vous que les propriétés existent sur chaque objet
+                if (conv.user_id !== undefined && conv.friend_id !== undefined) {
+                    console.log('Checking conversation:', conv);
+                    return (
+                        (conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id) ||
+                        (conv.user_id === conversationData.friend_id && conv.friend_id === conversationData.user_id)
+                    );
+                }
+                return false;
+            });
+            
+            console.log('Existing Conversation:', existingConv);
 
-            if (existingConv) {
+            if (existingConv) { 
                 setSelectedConversation(existingConv);
                 return;
             }
@@ -191,7 +205,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                     <img
                                     className="rounded-full w-full h-full object-cover"
                                     alt="User"
-                                    src={user.avatar}
+                                    src={user?.avatar}
                                     />
                                 </div>
                             </div>
@@ -232,7 +246,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                     <p>Your Story</p>
                                 </div>
                                 {friends.map((friend) => (
-                                    <div key={friend.user.id} className="text-sm text-center mr-4">
+                                    <div key={friend.id} className="text-sm text-center mr-4">
                                         <button
                                             className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-20 h-20"
                                             type="button"
@@ -240,11 +254,11 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                         >
                                             <img
                                             className="rounded-full w-full h-full object-cover"
-                                            src={friend.user.avatar}
-                                            alt={friend.user.username}
+                                            src={friend.avatar}
+                                            alt={friend.username}
                                             />
                                         </button>
-                                        <p>{friend.user.username}</p>
+                                        <p>{friend.username}</p>
                                     </div>
                                 ))}
                             </div>
@@ -258,7 +272,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                         <div className="w-16 h-16 relative flex flex-shrink-0">
                                             <img
                                             className="shadow-md rounded-full w-full h-full object-cover"
-                                            src={conv.avatar}
+                                            src={conv?.avatar}
                                             alt={conv.name}
                                             />
                                         </div>
@@ -269,7 +283,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                                     <p className="truncate">{conv.last_message}</p>
                                                 </div>
                                                 <p className="ml-2 whitespace-no-wrap">
-                                                    {conv.last_message_time}
+                                                    {conv?.last_message_time}
                                                 </p>
                                             </div>
                                         </div>
@@ -379,7 +393,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                         >
                                             <img
                                                 className="rounded-full w-full h-full object-cover"
-                                                src={friend.avatar}
+                                                src={friend?.avatar}
                                                 alt={friend.name}
                                             />
                                         </button>
@@ -397,7 +411,7 @@ const Messenger = ({ user, friends, conversations, setConversations, fetchConver
                                         <div className="w-8 h-8 relative flex flex-shrink-0">
                                             <img
                                                 className="shadow-md rounded-full w-full h-full object-cover"
-                                                src={conv.avatar}
+                                                src={conv?.avatar}
                                                 alt={conv.name}
                                             />
                                         </div>

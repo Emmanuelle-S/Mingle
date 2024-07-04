@@ -9,6 +9,8 @@ const categoryserviceControllers = require ("./controllers/categoryserviceContro
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
 
+const {validateUser} = require("./validators")
+
 
 router.get("/items", itemControllers.browse);
 router.get("/items/:id", itemControllers.read);
@@ -18,8 +20,8 @@ router.delete("/items/:id", itemControllers.destroy);
 
 router.get("/users", userControllers.browse);
 router.get("/users/:id", userControllers.read);
-router.put("/users/:id", userControllers.edit);
-router.post("/users", userControllers.add);
+router.put("/users/:id", validateUser, userControllers.edit);
+router.post("/users", validateUser, userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
 router.get("/service", serviceControllers.browse);
@@ -54,6 +56,11 @@ router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
 
+router.get("/service_type", serviceControllers.browse);
+router.get("/service_type/:id", serviceControllers.read);
+router.put("/service_type/:id", serviceControllers.edit);
+router.post("/service_type", serviceControllers.add);
+router.delete("/service_type/:id", serviceControllers.destroy);
 
 
 // ROUTE LOGIN
