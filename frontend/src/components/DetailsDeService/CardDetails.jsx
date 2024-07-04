@@ -32,9 +32,7 @@ function CardDetail() {
         </div>
         <p className="text-white text-center mb-6">{card.description}</p>
         <div className="mt-auto flex justify-end">
-          <button className="bg-accent text-white p-2 rounded-full" style={{ borderRadius: '50px', borderColor: 'gray' }}>
-            Contacter-nous
-          </button>
+          
         </div>
       </div>
     </div>
