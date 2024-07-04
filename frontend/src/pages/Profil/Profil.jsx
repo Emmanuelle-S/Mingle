@@ -2,7 +2,8 @@
 
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios"; 
+// effectuer des requêtes HTTP.
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfo from "@components/Profil/PersonalInfo";
@@ -12,17 +13,22 @@ import "./Profil.css";
 
 const Profil = () => {
   // Déclaration du composant fonctionnel Profil
-  const [userData, setUserData] = useState(null);
-  // Utilisation du hook useState pour créer une variable d'état userData initialisée à null, et une fonction setUserData pour la mettre à jour.
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [userData, setUserData] = useState(null); //Rappel useState : permet de gérer les états
+  // Utilisation du hook useState pour créer une variable d'état userData initialisée à null, et une fonction setUserData pour la mettre à jour. => userData = stocker les données utilisateur, initialisé à null.
+  const [isDeleted, setIsDeleted] = useState(false); 
+  // indiquer si le profil a été supprimé, initialisé à false.
   const isLoggedIn = true;
   // Déclaration d'une constante isLoggedIn avec une valeur true (indique que l'utilisateur est connecté).
   const navigate = useNavigate();
 
   const { userId: routeUserId } = useParams();
+  // récupère des paramètres de l'URL.
   const currentUserId = localStorage.getItem("userId");
+  // récupère des paramètres du local storage
   const userId = routeUserId || currentUserId;
+  // compare les données récupérées du local storage et de l'URL
   const isCurrentUser = userId === currentUserId;
+  // vérifie si l'utilisateur actuel est celui du profil
 
   const fetchData = async () => {
     // Déclaration d'une fonction asynchrone fetchData pour récupérer les données utilisateur.
@@ -38,7 +44,7 @@ const Profil = () => {
           },
         }
       );
-      //  Envoi d'une requête GET pour récupérer les données de l'utilisateur en utilisant axios`, avec le token dans les en-têtes de la requête
+      //  Envoi d'une requête GET pour récupérer les données de l'utilisateur en utilisant axios, avec le token dans les en-têtes de la requête
       setUserData(userResponse.data);
       // Mise à jour de l'état userData avec les données reçues de la réponse.
     } catch (error) {
@@ -61,7 +67,7 @@ const Profil = () => {
           },
         }
       );
-      // Envoi d'une requête DELETE pour supprimer le profil de l'utilisateur en utilisant axios`, avec le token dans les en-têtes de la requête.
+      // Envoi d'une requête DELETE pour supprimer le profil de l'utilisateur en utilisant axios, avec le token dans les en-têtes de la requête.
 
       if (response.status === 204) {
         console.log("Profil supprimé avec succès.");
@@ -71,7 +77,7 @@ const Profil = () => {
         localStorage.removeItem("token");
         // Suppression du token du localStorage.
         toast.success("Votre profil a été supprimé avec succès.", {
-          // Utilisation de react-toastify
+          // Utilisation de react-toastify et afficher une popup en cas de succès
           position: "top-center", 
           // Position centrée en haut
           className: "custom-toast", 
@@ -114,6 +120,7 @@ const Profil = () => {
       navigate("/dashboard");
     }
   };
+  // naviguer vers le tableau de bord si l'utilisateur est connecté.
 
 
   return (
