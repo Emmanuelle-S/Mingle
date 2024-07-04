@@ -8,7 +8,7 @@ const Footer = () => {
         <nav className="flex flex-col md:flex-row md:space-x-4 items-center">
           <Link to="/FAQ" className="text-white hover:text-gray-300">FAQ</Link>
           <Link to="/ConditionsUtilisation" className="text-white hover:text-gray-300">Conditions d'utilisation</Link>
-          <Link to="/PolitiqueDeConfidentialite" className="text-white hover:text-gray-300">Politique de confidentialité</Link>
+          <Link to="/politique" className="text-white hover:text-gray-300">Politique de confidentialité</Link>
           <Link to="/formulaire" className="text-white hover:text-gray-300">Contact</Link>
           <Link to="/about" className="text-white hover:text-gray-300">À propos</Link>
         </nav>
