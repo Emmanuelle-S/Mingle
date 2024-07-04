@@ -90,7 +90,7 @@ function App() {
       setUserFriends(filteredUserFriends);
       setConversations(filteredConversation);
     }
-  }, [friends])
+  }, [friends]);
 
 
   const fetchConversation = (conversationId) => {
@@ -110,10 +110,11 @@ function App() {
                 users={users}
                 friendsTable={friends}
                 friends={userFriends}
-                setFriends={setUserFriends}
+                setFriends={setFriends}
                 conversations={conversations}
                 setConversations={setConversations}
                 fetchConversation={fetchConversation}
+                fetchMingle={fetchMingle}
               />
           
               </div>

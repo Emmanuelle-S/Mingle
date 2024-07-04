@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from "react";
 import ChatInput from "@components/ChatSendInput/ChatSendInput";
 import SearchComponent from "@components/SearchComponant/SearchComponant";
+import AddFriendsBtn from "@components/AddFriendsBtn/AddFriendsBtn";
 import axios from "axios";
 
 
-const Messenger = ({ user, users, friendsTable, friends, setFriends, conversations, setConversations, fetchConversation, onClose }) => {
+const Messenger = ({ user, users, friendsTable, friends, setFriends, conversations, setConversations, fetchConversation, fetchMingle, onClose }) => {
+    console.log('conversations:', conversations)
     const [selectedConversation, setSelectedConversation] = useState(null);
+    console.log('selectedConversation:', selectedConversation)
     const [messagesList, setMessagesList] = useState([]);
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
     
@@ -70,7 +73,6 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
             console.log('Existing Conversation:', existingConv);
 
             if (existingConv) { 
-                setSelectedConversation(existingConv);
                 return;
             }
 
@@ -150,7 +152,11 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                         Close
                                     </button>
                                     <div className="flex flex-col h-full p-4 pt-8 w-full">
+
+                                        {/* TODO */}
+
                                         <div className="flex-1 overflow-y-auto p-4 pt-8 w-full">
+                                            <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                             {Array.isArray(messagesList) && messagesList.length > 0 ? (
                                                 messagesList.map((msg, index) => (
                                                     <div
@@ -163,11 +169,11 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                                     {msg.content}
                                                     </div>
                                                 ))
-                                                ) : (
+                                            ) : (
                                                 <div className="w-max p-2 my-4 rounded shadow bg-gray-800 mr-auto" style={{ maxWidth: '45%' }}>
                                                     No messages yet.
                                                 </div>
-                                            )}
+                                            )} 
                                         </div>
                                         <ChatInput conversationId={selectedConversation.id} sender_id={user.id} onMessageSent={handleMessageSent} />
                                     </div>
@@ -203,7 +209,7 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                 </div>
                                 <div className="p-4 flex-none">
                                     <form id="serchMessage" onSubmit={(e) => e.preventDefault()}>
-                                        <SearchComponent user={user} users={users} friendsTable={friendsTable} friends={friends} setFriends={setFriends}/>
+                                        <SearchComponent user={user} users={users} friendsTable={friendsTable} friends={friends} setFriends={setFriends} fetchMingle={fetchMingle}/>
                                     </form>
                                 </div>
                                 <div className="flex flex-row p-2 overflow-auto w-0 min-w-full">
