@@ -15,13 +15,11 @@ function App() {
   const [currentToken, setCurrentToken] = useState(null);
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  
-  const [user, setUser] = useState(null);
-  
-  const [conversations, setConversations] = useState([]); 
-  const [userFriends, setUserFriends] = useState(null);
-    
 
+  const [user, setUser] = useState(null);
+
+  const [conversations, setConversations] = useState([]);
+  const [userFriends, setUserFriends] = useState(null);
 
   const fetchMingle = async (userId) => {
     try {
@@ -101,7 +99,6 @@ function App() {
     }
   }, [friends]);
 
-
   const fetchConversation = (conversationId) => {
     const getConversationByConvId = conversations.filter(
       (conv) => conv.id === conversationId
@@ -113,31 +110,19 @@ function App() {
     <AuthProvider>
       <ServiceProvider>
         <Router>
-      <div className='bgone flex flex-col min-h-screen' >
-          <Header />
-          <AnimatedRoutes />
-          <ChatBubble
-                user={user}
-                users={users}
-                friendsTable={friends}
-                friends={userFriends}
-                setFriends={setFriends}
-                conversations={conversations}
-                setConversations={setConversations}
-                fetchConversation={fetchConversation}
-                fetchMingle={fetchMingle}
-              />
-          
-              </div>
           <div className="bgone flex flex-col min-h-screen">
             <Header />
             <AnimatedRoutes />
             <ChatBubble
               user={user}
+              users={users}
+              friendsTable={friends}
               friends={userFriends}
+              setFriends={setFriends}
               conversations={conversations}
               setConversations={setConversations}
               fetchConversation={fetchConversation}
+              fetchMingle={fetchMingle}
             />
             <Footer />
           </div>
