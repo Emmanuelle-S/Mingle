@@ -16,7 +16,7 @@ import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
 import CardList from '../../components/Listedeservice/CardList';
-import Contacter from '@components/ContacterNous/Contacter';
+import Contacter from '@components/ContacterMessagerie/Contacter';
 import CardDetail from '@components/DetailsDeService/CardDetails';
 function AnimatedRoutes() {
   const location = useLocation();
@@ -154,7 +154,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/ContacterNous"
+          path="/Messagerie"
           element={
             <m.div {...pageTransition}>
               <Contacter />
