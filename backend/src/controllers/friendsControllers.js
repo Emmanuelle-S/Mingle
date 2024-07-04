@@ -52,13 +52,14 @@ const read = (req, res) => {
 
 const add = (req, res) => {
   const friends = req.body;
+  console.log('Add friends:', friends); // Ajoutez ce log
 
   // Assurez-vous que 'friends' est un tableau, même s'il n'est pas fourni
   if (!Array.isArray(friends.friends)) {
     friends.friends = [];
   }
 
-  // Encode les amis en JSON avant l'insertion
+  // Encode les amis en STRING avant l'insertion
   friends.friends = JSON.stringify(friends.friends);
 
   models.friends
@@ -75,11 +76,7 @@ const add = (req, res) => {
 const edit = (req, res) => {
   const friends = req.body;
   friends.id = parseInt(req.params.id, 10);
-
-  // Assurez-vous que 'friends' est JSON, même s'il n'est pas fourni
-  if (!Array.isArray(friends.friends)) {
-    friends.friends = [];
-  }
+  console.log('Edit friends:', friends); // Ajoutez ce log
 
   // Encode les amis en JSON avant la mise à jour
   friends.friends = JSON.stringify(friends.friends);
@@ -98,6 +95,7 @@ const edit = (req, res) => {
       res.sendStatus(500);
     });
 };
+
 
 const destroy = (req, res) => {
   models.friends

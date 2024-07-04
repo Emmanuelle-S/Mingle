@@ -17,6 +17,7 @@ import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
 import CardList from '../../components/Listedeservice/CardList';
 import Contacter from '@components/ContacterNous/Contacter';
+import CardDetail from '@components/DetailsDeService/CardDetails';
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -160,6 +161,14 @@ function AnimatedRoutes() {
             </m.div>
           }
         />
+       <Route
+          path="/cardDetail"
+          element={
+            <m.div {...pageTransition}>
+              <CardDetail />
+            </m.div>
+          }
+          />
       </Routes>
     </AnimatePresence>
     </main>
