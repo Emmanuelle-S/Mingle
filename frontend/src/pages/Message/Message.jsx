@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import ChatInput from "@components/ChatSendInput/ChatSendInput";
 import SearchComponent from "@components/SearchComponant/SearchComponant";
 import AddFriendsBtn from "@components/AddFriendsBtn/AddFriendsBtn";
+import DateTimeDisplay from "@components/ConvertDate/ConvertDate";
 import axios from "axios";
 
 
@@ -11,6 +12,7 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
     const [selectedConversation, setSelectedConversation] = useState(null);
     console.log('selectedConversation:', selectedConversation)
     const [messagesList, setMessagesList] = useState([]);
+    console.log('messagesList:', messagesList)
     const [isMobile, setIsMobile] = useState(false); // État pour détecter si l'appareil est mobile
     
     
@@ -51,8 +53,8 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
             const conversationData = {
                 name: friend.username + user.username,
                 avatar: friend.avatar,
-                lastMessage: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
-                lastMessageTime: new Date().toISOString(),
+                last_message: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
+                last_message_time: new Date().toISOString(),
                 friend_id: friend.id,
                 user_id: user.id,
                 messages: JSON.stringify([]),
@@ -73,6 +75,7 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
             console.log('Existing Conversation:', existingConv);
 
             if (existingConv) { 
+                setSelectedConversation(existingConv)
                 return;
             }
 
@@ -121,8 +124,8 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
             // Préparer les données pour la mise à jour
             const updatedConversation = {
                 ...existingConversation,
-                lastMessage: newMessage.content,
-                lastMessageTime: newMessage.sent_at,
+                last_message: newMessage.content,
+                last_message_time: newMessage.sent_at,
                 messages: JSON.stringify(updatedMessages),
             };
 
@@ -161,7 +164,7 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                                 messagesList.map((msg, index) => (
                                                     <div
                                                     key={index}
-                                                    className={`w-max p-2 my-4 rounded shadow ${
+                                                    className={`w-max p-2 my-4 rounded shadow overflow-hidden ${
                                                         (msg.sender_id === user.id)? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
                                                     }`}
                                                     style={{ maxWidth: '45%' }}
@@ -213,20 +216,6 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                     </form>
                                 </div>
                                 <div className="flex flex-row p-2 overflow-auto w-0 min-w-full">
-                                    <div className="text-sm text-center mr-4">
-                                        <button
-                                            className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-20 h-20"
-                                            type="button"
-                                            >
-                                            <svg
-                                                className="w-full h-full fill-current"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z" />
-                                            </svg>
-                                        </button>
-                                        <p>Your Story</p>
-                                    </div>
                                     {friends.map((friend) => (
                                         <div key={friend.id} className="text-sm text-center mr-4">
                                             <button
@@ -261,12 +250,10 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                             <div className="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
                                                 <p>{conv.name}</p>
                                                 <div className="flex items-center text-sm text-gray-600">
-                                                    <div className="min-w-0">
+                                                    <DateTimeDisplay isoDate={conv.last_message_time} />
+                                                    <div className="min-w-0 ml-4 max-w-max">
                                                         <p className="truncate">{conv.last_message}</p>
                                                     </div>
-                                                    <p className="ml-2 whitespace-no-wrap">
-                                                        {conv?.last_message_time}
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -284,11 +271,12 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                 </button>
                                 <div className="flex flex-col h-full pt-8 w-full">
                                     <div className="flex-1 overflow-y-auto p-4 w-full">
+                                    <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                     {Array.isArray(messagesList) && messagesList.length > 0 ? (
                                                 messagesList.map((msg, index) => (
                                                     <div
                                                     key={index}
-                                                    className={`w-max p-2 my-4 rounded shadow ${
+                                                    className={`w-max p-2 my-4 rounded shadow overflow-hidden ${
                                                         (msg.sender_id === user.id)? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
                                                     }`}
                                                     style={{ maxWidth: '45%' }}
@@ -334,50 +322,24 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                 </div>
                                 <div className="p-4 flex-none">
                                     <form id="serchMessageMobile" onSubmit={(e) => e.preventDefault()}>
-                                        <div className="relative">
-                                            <label>
-                                                <input
-                                                    className="rounded-full text-xs py-1 pr-3 pl-7 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
-                                                    type="text"
-                                                    placeholder="Search Messenger"
-                                                />
-                                                <span className="absolute top-0 left-0 mt-2 ml-3 inline-block">
-                                                    <svg viewBox="0 0 24 24" className="w-3 h-3">
-                                                        <path
-                                                            fill="#bbb"
-                                                            d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-                                                        />
-                                                    </svg>
-                                                </span>
-                                            </label>
-                                        </div>
+                                        <SearchComponent user={user} users={users} friendsTable={friendsTable} friends={friends} setFriends={setFriends} fetchMingle={fetchMingle}/>
                                     </form>
                                 </div>
                                 <div className="flex flex-row p-2 overflow-auto w-full">
-                                    <div className="flex flex-col items-center text-xs text-center mr-4">
-                                        <button
-                                            className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-10 h-10"
-                                            type="button"
-                                        >
-                                            <svg className="w-full h-full fill-current self-center" viewBox="0 0 24 24">
-                                                <path d="M17 11a1 1 0 0 1 0 2h-4v4a1 1 0 0 1-2 0v-4H7a1 1 0 0 1 0-2h4V7a1 1 0 0 1 2 0v4h4z" />
-                                            </svg>
-                                        </button>
-                                        <p>Your Story</p>
-                                    </div>
                                     {friends.map((friend) => (
                                         <div key={friend.id} className="text-xs text-center mr-4">
                                             <button
                                                 className="flex flex-shrink-0 focus:outline-none bg-gray-800 text-gray-600 rounded-full w-10 h-10"
                                                 type="button"
+                                                onClick={() => {handleCreateConv(friend)}}
                                             >
                                                 <img
                                                     className="rounded-full w-full h-full object-cover"
                                                     src={friend.avatar}
-                                                    alt={friend.name}
+                                                    alt={friend.username}
                                                 />
                                             </button>
-                                            <p>{friend.name}</p>
+                                            <p>{friend.username}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -398,12 +360,10 @@ const Messenger = ({ user, users, friendsTable, friends, setFriends, conversatio
                                             <div className="flex-auto  text-xs min-w-0 ml-4 mr-6 md:block group-hover:block">
                                                 <p>{conv.name}</p>
                                                 <div className="flex items-center text-gray-600">
-                                                    <div className="min-w-0">
+                                                    <DateTimeDisplay isoDate={conv.last_message_time} />
+                                                    <div className="min-w-0 ml-4 max-w-max">
                                                         <p className="truncate">{conv.last_message}</p>
                                                     </div>
-                                                    <p className="ml-2 whitespace-no-wrap">
-                                                        {conv.last_message_time}
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
