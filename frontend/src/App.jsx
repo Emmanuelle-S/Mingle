@@ -12,20 +12,20 @@ import { parseJSON } from 'date-fns';
 
 function App() {
   const [currentToken, setCurrentToken] = useState(null);
-
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [conversations, setConversations] = useState([]); 
-
+  
   const [user, setUser] = useState(null);
   
+  const [conversations, setConversations] = useState([]); 
   const [userFriends, setUserFriends] = useState(null);
-  
+    
+
 
   const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
-      setUsers(responseUsers.data)
+      setUsers(responseUsers.data);
 
       const responseFriends = await axios.get("http://localhost:5000/friends");
       const filteredFriends = await responseFriends.data.filter(friend => friend.user_id === userId);
@@ -90,7 +90,7 @@ function App() {
       setUserFriends(filteredUserFriends);
       setConversations(filteredConversation);
     }
-  }, [friends])
+  }, [friends]);
 
 
   const fetchConversation = (conversationId) => {
@@ -107,10 +107,14 @@ function App() {
           <AnimatedRoutes />
           <ChatBubble
                 user={user}
+                users={users}
+                friendsTable={friends}
                 friends={userFriends}
+                setFriends={setFriends}
                 conversations={conversations}
                 setConversations={setConversations}
                 fetchConversation={fetchConversation}
+                fetchMingle={fetchMingle}
               />
           
               </div>
