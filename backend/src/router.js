@@ -52,6 +52,7 @@ router.put("/categoryservice/:id", categoryserviceControllers.edit);
 router.post("/categoryservice", categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
+router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
 
 
 
