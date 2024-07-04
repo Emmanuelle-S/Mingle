@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PersonalInfo = ({ userData, isLoggedIn, onDelete }) => {
+const PersonalInfo = ({ userData, isLoggedIn, isCurrentUser, onDelete }) => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -47,7 +47,7 @@ const PersonalInfo = ({ userData, isLoggedIn, onDelete }) => {
           </div>
         </div>
       </div>
-      {isLoggedIn && (
+      {isLoggedIn && isCurrentUser && (
         <div className="mt-4 text-center space-x-4">
           <button className="bg-accent hover:bg-blue-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleEditClick}>
             Éditer

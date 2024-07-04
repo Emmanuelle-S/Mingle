@@ -4,7 +4,20 @@ const browse = (req, res) => {
   models.friends
     .findAll()
     .then(([rows]) => {
-      res.send(rows);
+      // Traiter chaque enregistrement pour décoder le champ 'friends'
+      const processedRows = rows.map(friend => {
+        try {
+          // Décoder le champ 'friends' depuis JSON
+          friend.friends = JSON.parse(friend.friends);
+        } catch (e) {
+          console.error('Erreur de décodage JSON pour l\'enregistrement:', e);
+          // Gérer l'erreur de décodage ici, vous pouvez choisir de renvoyer une erreur
+          return null; // Vous pouvez également choisir de renvoyer une valeur par défaut ou de filtrer ces enregistrements
+        }
+        return friend;
+      }).filter(friend => friend !== null); // Filtrer les enregistrements invalides
+
+      res.send(processedRows);
     })
     .catch((err) => {
       console.error(err);
@@ -19,7 +32,16 @@ const read = (req, res) => {
       if (rows[0] == null) {
         res.sendStatus(404);
       } else {
-        res.send(rows[0]);
+        const friend = rows[0];
+        // Décoder les amis depuis le JSON
+        try {
+          friend.friends = JSON.parse(friend.friends);
+        } catch (e) {
+          console.error('Erreur de décodage JSON:', e);
+          res.sendStatus(500);
+          return;
+        }
+        res.send(friend);
       }
     })
     .catch((err) => {
@@ -30,6 +52,15 @@ const read = (req, res) => {
 
 const add = (req, res) => {
   const friends = req.body;
+  console.log('Add friends:', friends); // Ajoutez ce log
+
+  // Assurez-vous que 'friends' est un tableau, même s'il n'est pas fourni
+  if (!Array.isArray(friends.friends)) {
+    friends.friends = [];
+  }
+
+  // Encode les amis en STRING avant l'insertion
+  friends.friends = JSON.stringify(friends.friends);
 
   models.friends
     .insert(friends)
@@ -45,6 +76,10 @@ const add = (req, res) => {
 const edit = (req, res) => {
   const friends = req.body;
   friends.id = parseInt(req.params.id, 10);
+  console.log('Edit friends:', friends); // Ajoutez ce log
+
+  // Encode les amis en JSON avant la mise à jour
+  friends.friends = JSON.stringify(friends.friends);
 
   models.friends
     .update(friends)
@@ -60,6 +95,7 @@ const edit = (req, res) => {
       res.sendStatus(500);
     });
 };
+
 
 const destroy = (req, res) => {
   models.friends

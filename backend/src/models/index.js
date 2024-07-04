@@ -36,6 +36,7 @@ const ServiceManager = require("./ServiceManager")
 const CategoryService = require ("./CategoryServiceManager")
 const FriendsManager = require("./FriendsManager");
 const ConversationManager = require("./conversationManager");
+const ServiceTypeManager = require("./Service_typeManager");
 
 
 models.item = new ItemManager();
@@ -59,7 +60,8 @@ models.service.setDatabase(pool);
 models.categoryservice= new CategoryService();
 models.categoryservice.setDatabase(pool);
 
-
+models.service_type = new ServiceTypeManager();
+models.service_type.setDatabase(pool);
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
