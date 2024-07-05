@@ -33,8 +33,8 @@ const EditCategory = ({ category, onSave, onDelete }) => {
 
   return (
     <form onSubmit={handleSave} className="flex flex-col bg-white shadow-md rounded-lg p-6 m-4 w-full max-w-lg">
-      <h2 className="text-2xl font-bold mb-4">Modifier la catégorie</h2>
-      <div className="mb-4">
+      <h2 className="text-2xl font-bold text-center mb-4">Modifier la catégorie</h2>
+      <div className="mb-4 text-center">
         <h3 className="text-lg font-bold mb-2">{category.titre_catégorie}</h3>
         {category.category_image ? (
           <img src={category.category_image} alt={category.titre_catégorie} className="w-full h-32 object-cover rounded-lg mb-4" />
@@ -42,7 +42,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           <p className="text-gray-600 mb-4">Aucune image</p>
         )}
       </div>
-      <div className="mb-4">
+      <div className="mb-4 text-center">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
           Titre de la catégorie
         </label>
@@ -52,11 +52,11 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Entrez le titre de la catégorie"
-          className="border p-3 rounded-md w-full"
+          className="border p-3 rounded-md w-full text-center"
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+        <label className="block text-gray-700 text-sm font-bold mb-2 text-center" htmlFor="description">
           Description de la catégorie
         </label>
         <textarea
@@ -64,7 +64,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Entrez la description de la catégorie"
-          className="border p-3 rounded-md w-full"
+          className="border p-3 rounded-md w-full text-center" 
           rows="4"
         ></textarea>
       </div>

@@ -7,12 +7,12 @@ class CategoryServiceManager extends AbstractManager {
 
   insert(category_service) {
     return this.database.query(
-      `INSERT INTO ${this.table} (titre_catégorie, titre_sous_catégorie) VALUES (?, ?)`,
+      `INSERT INTO ${this.table} (titre_catégorie, titre_sous_catégorie, category_image) VALUES (?, ?, ?)`,
       [
     
         category_service.titre_catégorie,
         category_service.titre_sous_catégorie,
-
+        category_service.category_image,
       ]
     );
   }
