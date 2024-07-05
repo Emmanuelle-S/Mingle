@@ -16,6 +16,7 @@ import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
 import CardList from '../../components/Listedeservice/CardList';
+import Contacter from '@components/ContacterMessagerie/Contacter';
 import CardDetail from '@components/DetailsDeService/CardDetails';
 function AnimatedRoutes() {
   const location = useLocation();
@@ -149,6 +150,14 @@ function AnimatedRoutes() {
           element={
             <m.div {...pageTransition}>
               <CardList />
+            </m.div>
+          }
+        />
+        <Route
+          path="/Messagerie"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter />
             </m.div>
           }
         />
