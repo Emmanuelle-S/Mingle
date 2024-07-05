@@ -15,8 +15,9 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-import CardList from '../../components/Listedecategorie/CardList';
+import CardList from '../../components/Listedescategorie/CardList';
 import CardDetail from '../../components/DetailsDeService/CardDetails';
+
 function AnimatedRoutes() {
   const location = useLocation();
 
