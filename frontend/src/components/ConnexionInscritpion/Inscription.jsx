@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const Inscription = () => {
   const formik = useFormik({
@@ -56,8 +57,10 @@ const Inscription = () => {
         });
         console.log("User registered successfully:", response.data);
         resetForm();
+        toast.success("Votre inscription est faite, vous pouvez maintenant vous connecter");
       } catch (error) {
         console.error("Error registering user:", error);
+        toast.error("Une erreur s'est produite lors de l'inscription");
       } finally {
         setSubmitting(false);
       }
