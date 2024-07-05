@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   // Déclare l'état isLoggedIn pour suivre si l'utilisateur est connecté.
   const [userId, setUserId] = useState(null); 
   // Ajout de userId dans le contexte
+  const [token, setToken] = useState(null); 
 
   useEffect(() => {
     // Utilisation de useEffect pour vérifier le statut de connexion 
@@ -21,7 +22,9 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(!!token && !!userId);
     // Utilise useEffect pour vérifier si un token/id est présent dans le localStorage. Si oui, isLoggedIn est mis à jour à true.
     setUserId(userId); 
-    // Mise à jour de userId dans le contexte
+    // Mise à jour de userId dans l'état
+    setToken(token); 
+    // Met à jour le token dans l'état
   }, []);
 
 
@@ -43,7 +46,9 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
         // Mise à jour de l'état isLoggedIn à true pour indiquer que l'utilisateur est connecté
         setUserId(userId); 
-        // Mise à jour de userId dans le contexte après connexion
+        // Mise à jour de userId dans l'état après connexion
+        setToken(token); 
+        // Met à jour le token dans l'état après connexion
       } else {
         console.error('Login failed:', response.status);
         // Affichage d'une erreur en cas d'échec de la connexion
@@ -63,11 +68,13 @@ export const AuthProvider = ({ children }) => {
     // Mise à jour de l'état isLoggedIn à false pour indiquer que l'utilisateur est déconnecté
     setUserId(null); 
     // Réinitialisation de userId dans le contexte après déconnexion
+    setToken(null); 
+    // Réinitialise le token dans l'état après déconnexion
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userId, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );}
-  // Rend les valeurs isLoggedIn, login, et logout disponibles pour les composants enfants.
+  // Rend les valeurs isLoggedIn, login, token et logout disponibles pour les composants enfants.

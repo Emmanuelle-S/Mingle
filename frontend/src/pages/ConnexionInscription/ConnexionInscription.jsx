@@ -2,7 +2,9 @@ import React, { useState } from "react";
 // rappel useState : // hook de React qui permet d'utiliser l'état local dans un composant fonctionnel.
 import Connexion from "@components/ConnexionInscritpion/Connexion";
 import Inscription from "@components/ConnexionInscritpion/Inscription";
-import "../../App.css";;
+import "../../App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ConnexionInscription() {
   const [activeComponent, setActiveComponent] = useState("");
@@ -23,6 +25,7 @@ export default function ConnexionInscription() {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen ">
+        <ToastContainer />
       {/* VERSION MOBILE */}
       <div className="w-full max-w-4xl shadow-xl rounded-lg overflow-hidden p-4 md:hidden">
         {/* Div pour la version mobile qui est cachée sur les écrans de taille 'md' et plus grandes (md:hidden) */}

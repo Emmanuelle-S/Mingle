@@ -1,13 +1,14 @@
 import './Home.css';
 import '../../App.css';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CarouselDefault from '@components/Carousel/Carousel';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Home() {
 
-  const [userData, setUserData] = useState(null); 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const { isLoggedIn, userId, token } = useContext(AuthContext); // Utiliser le contexte
 
   const slidesServices = [
     {id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1'},
@@ -19,9 +20,6 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-      const token = localStorage.getItem("token");
-
       const userResponse = await axios.get(
         `http://localhost:5000/users/${userId}`,
         {
@@ -30,24 +28,18 @@ export default function Home() {
           },
         }
       );
-      setUserData(userResponse.data); 
-      setIsLoggedIn(true);
+      setUserData(userResponse.data);
     } catch (error) {
       console.error("Error fetching data", error);
     }
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("token");
-  
     if (userId && token) {
       fetchData();
-    } else {
-      // Si aucun token n'est disponible, traiter comme non connecté
-      setIsLoggedIn(false);
     }
-  }, []);
+  }, [userId, token]); 
+  // Ajout de userId et token dans le tableau des dépendances
 
   return (
     <div className="">
@@ -133,9 +125,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="p-4 xl:pt-20 flex flex-row-reverse  gap-4">
-          <div className='flex-1 basis-80'>
-
+        <div className="p-4 xl:pt-20 xl:flex flex-row-reverse gap-4">
+          <div className="flex-1 basis-80">
             <img className='w-full'
               src="https://via.placeholder.com/600x300?text=Image+2"
               alt="#"
