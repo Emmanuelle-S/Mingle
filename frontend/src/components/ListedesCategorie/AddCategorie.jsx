@@ -4,6 +4,7 @@ import axios from 'axios';
 const AddCategory = ({ onAdd }) => {
   const [newCategoryTitle, setNewCategoryTitle] = useState('');
   const [newCategoryImage, setNewCategoryImage] = useState('');
+  console.log(newCategoryImage);
 
   const handleAdd = async () => {
     const newCard = {
@@ -14,6 +15,7 @@ const AddCategory = ({ onAdd }) => {
       // Envoyer les données à l'API
       const response = await axios.post('http://localhost:5000/categoryservice', newCard);
       console.log('New card added:', response.data);
+      console.log(newCard);
 
       // Mettre à jour l'état avec l'ID retourné par l'API
       onAdd({ ...newCard, id: response.data.id });
