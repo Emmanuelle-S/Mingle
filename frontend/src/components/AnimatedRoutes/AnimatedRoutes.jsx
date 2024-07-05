@@ -153,6 +153,14 @@ function AnimatedRoutes() {
             </m.div>
           }
         />
+        <Route
+          path="/Messagerie"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter />
+            </m.div>
+          }
+        />
        <Route
           path="/cardDetail"
           element={

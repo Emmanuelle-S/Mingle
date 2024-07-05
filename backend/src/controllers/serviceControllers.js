@@ -122,7 +122,7 @@ const browse = (req, res) => {
         res.sendStatus(500);
         });
     };
-
+    
     const getServicesByCategoryId = (req, res) => {
         models.service
             .find(req.params.id)
@@ -139,11 +139,12 @@ const browse = (req, res) => {
             });
         };
 
+    
     module.exports = {
     browse,
     read,
     edit,
     add,
     destroy,
-    getServicesByCategoryId,
+    getServicesByCategoryId
     };
