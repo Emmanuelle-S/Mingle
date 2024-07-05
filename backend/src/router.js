@@ -51,7 +51,6 @@ router.delete("/conversation/:id",conversationControllers.destroy);
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
 router.put("/categoryservice/:id", categoryserviceControllers.edit);
-/* const response = await axios.put(`http://localhost:5000/categoryservice/${category.id}`, updatedCategory); */
 router.post("/categoryservice", categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
