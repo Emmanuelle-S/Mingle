@@ -157,10 +157,10 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                     <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
                                         Close
                                     </button>
+                                    <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                     <DeleteButton user={user} selectedConversation={selectedConversation} fetchMingle={fetchMingle} setSelectedConversation={setSelectedConversation}/>
                                     <div className="flex flex-col h-full p-4 pt-8 w-full">
                                         <div className="flex-1 overflow-y-auto p-4 pt-8 w-full">
-                                            <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                             {Array.isArray(messagesList) && messagesList.length > 0 ? (
                                                 messagesList.map((msg, index) => (
                                                     <div
@@ -270,10 +270,10 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                 <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
                                     Close
                                 </button>
+                                <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                 <DeleteButton user={user} selectedConversation={selectedConversation} fetchMingle={fetchMingle} setSelectedConversation={setSelectedConversation}/>
                                 <div className="flex flex-col h-full pt-8 w-full">
                                     <div className="flex-1 overflow-y-auto p-4 w-full">
-                                    <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                     {Array.isArray(messagesList) && messagesList.length > 0 ? (
                                                 messagesList.map((msg, index) => (
                                                     <div
