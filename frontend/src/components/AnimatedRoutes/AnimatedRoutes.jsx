@@ -15,8 +15,10 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-import CardList from '../../components/Listedeservice/CardList';
-import CardDetail from '@components/DetailsDeService/CardDetails';
+import CardList from '../../components/Listedescategorie/CardList';
+import CardDetail from '../../components/DetailsDeService/CardDetails';
+import Contacter from "../../components/ContacterMessagerie/Contacter"
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -97,7 +99,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/conditions"
+          path="/ConditionsUtilisation"
           element={
             <m.div {...pageTransition}>
               <ConditionsUtilisation />
@@ -149,6 +151,14 @@ function AnimatedRoutes() {
           element={
             <m.div {...pageTransition}>
               <CardList />
+            </m.div>
+          }
+        />
+        <Route
+          path="/Messagerie"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter />
             </m.div>
           }
         />
