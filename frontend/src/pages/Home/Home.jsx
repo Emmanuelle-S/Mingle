@@ -125,9 +125,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="p-4 xl:pt-20 flex flex-row-reverse  gap-4">
-          <div className='flex-1 basis-80'>
-
+        <div className="p-4 xl:pt-20 xl:flex flex-row-reverse gap-4">
+          <div className="flex-1 basis-80">
             <img className='w-full'
               src="https://via.placeholder.com/600x300?text=Image+2"
               alt="#"
