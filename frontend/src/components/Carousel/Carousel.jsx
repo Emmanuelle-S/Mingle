@@ -40,7 +40,7 @@ const CarouselDefault = ( { slides } ) => {
   };
 
   return (
-    <div className="relative w-full max-w-5xl md:max-w-[85%] mx-auto overflow-hidden">
+    <div className="relative w-full max-w-5xl md:max-w-[100%] mx-auto overflow-hidden">
       <div
         className="flex transition-transform ease-in-out duration-500"
         style={{ transform: `translateX(-${(currentSlide * 100) / slidesToShow}%)` }}
