@@ -113,17 +113,18 @@ function App() {
           <div className="bgone flex flex-col min-h-screen">
             <Header />
             <AnimatedRoutes />
-            <ChatBubble
-              user={user}
-              users={users}
-              friendsTable={friends}
-              friends={userFriends}
-              setFriends={setFriends}
-              conversations={conversations}
-              setConversations={setConversations}
-              fetchConversation={fetchConversation}
-              fetchMingle={fetchMingle}
-            />
+            {currentToken && (
+              <ChatBubble
+                user={user}
+                users={users}
+                friendsTable={friends}
+                friends={userFriends}
+                conversations={conversations}
+                setConversations={setConversations}
+                fetchConversation={fetchConversation}
+                fetchMingle={fetchMingle}
+              />
+            )} 
             <Footer />
           </div>
         </Router>

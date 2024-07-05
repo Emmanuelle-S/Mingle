@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios'; // Assurez-vous d'installer axios
 
-function SearchComponent({ user, users, friendsTable, setFriends, fetchMingle }) {
+function SearchComponent({ user, users, friendsTable, fetchMingle }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
 
