@@ -98,7 +98,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/conditions"
+          path="/ConditionsUtilisation"
           element={
             <m.div {...pageTransition}>
               <ConditionsUtilisation />
