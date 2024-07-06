@@ -52,7 +52,7 @@ const edit = (req, res) => {
 
 const add = (req, res) => {
   const categoryservice = req.body;
-
+console.log(categoryservice)
   // TODO validations (length, format...)
 
   models.categoryservice

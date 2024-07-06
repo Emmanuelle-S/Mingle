@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import DeleteButton from './deleteCategorie'; // Importer le nouveau composant
 
 const EditCategory = ({ category, onSave, onDelete }) => {
   const [title, setTitle] = useState(category.titre_catégorie);
@@ -18,16 +19,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
       await axios.put(`http://localhost:5000/categoryservice/${category.id}`, updatedCategory);
       onSave(updatedCategory); // Appeler onSave avec updatedCategory directement
     } catch (error) {
-      console.error('Error updating category:', error.message || error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/categoryservice/${category.id}`);
-      onDelete(category.id);
-    } catch (error) {
-      console.error('Error deleting category:', error.message || error);
+      console.error('Erreur lors de la mise à jour de la catégorie:', error.message || error);
     }
   };
 
@@ -64,7 +56,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Entrez la description de la catégorie"
-          className="border p-3 rounded-md w-full text-center" 
+          className="border p-3 rounded-md w-full text-center"
           rows="4"
         ></textarea>
       </div>
@@ -72,9 +64,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
         <button type="submit" className="bg-blue-500 text-white p-3 rounded-md w-full">
           Enregistrer les modifications
         </button>
-        <button type="button" className="bg-red-500 text-white p-3 rounded-md w-full" onClick={handleDelete}>
-          Supprimer
-        </button>
+        <DeleteButton categoryId={category.id} onDelete={onDelete} />
       </div>
     </form>
   );
