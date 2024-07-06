@@ -31,6 +31,7 @@
         "classnames": "^2.5.1",
         "cors": "^2.8.5",
         "date-fns": "^3.6.0",
+        "express-fileupload": "^1.5.0",
         "express-validator": "^7.1.0",
         "formik": "^2.4.6",
         "framer-motion": "^11.2.12",

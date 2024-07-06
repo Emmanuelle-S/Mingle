@@ -2,12 +2,18 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 // create express app
 
 const express = require("express");
 
 const app = express();
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(fileUpload({ limits: { fileSize: 50 * 6000 * 6000 } }));
 
 // use some application-level middlewares
 
