@@ -40,7 +40,8 @@ CREATE TABLE services (
 CREATE TABLE category_service (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     titre_catégorie VARCHAR(100) NOT NULL,
-    titre_sous_catégorie VARCHAR(100)
+    titre_sous_catégorie VARCHAR(100),
+    category_image VARCHAR(255)
 );
 
 -- Créer la table service_type
