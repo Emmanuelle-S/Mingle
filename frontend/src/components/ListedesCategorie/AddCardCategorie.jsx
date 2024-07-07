@@ -4,7 +4,6 @@ import axios from 'axios';
 const AddCategory = ({ onAdd }) => {
   const [formData, setFormData] = useState({
     titre_catégorie: '',
-    titre_sous_catégorie: '',
   });
   const [imageFile, setImageFile] = useState(null);
 
@@ -31,7 +30,6 @@ const AddCategory = ({ onAdd }) => {
 
     const data = new FormData();
     data.append('titre_catégorie', formData.titre_catégorie);
-    data.append('titre_sous_catégorie', formData.titre_sous_catégorie);
     data.append('category_image', imageFile);
 
     console.log(data);
@@ -50,7 +48,7 @@ const AddCategory = ({ onAdd }) => {
 
       setFormData({
         titre_catégorie: '',
-        titre_sous_catégorie: '',
+      
       });
       setImageFile(null);
     } catch (error) {
