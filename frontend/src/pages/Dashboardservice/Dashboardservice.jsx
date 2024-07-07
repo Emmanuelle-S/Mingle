@@ -7,6 +7,7 @@ import point from '../../assets/point.png';
 
 const Dashboard = () => {
     const [services, setServices] = useState([]);
+    const [editingService, setEditingService] = useState(null);
 
     useEffect(() => {
         fetchServices();
@@ -21,17 +22,31 @@ const Dashboard = () => {
         }
     };
 
-    const handleEdit = (id) => {
-        // Logic for editing a service
-        console.log('Edit service with id:', id);
+    const handleEdit = (service) => {
+        setEditingService(service);
     };
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/api/services/${id}`);
+            await axios.delete(`http://localhost:5000/service/${id}`);
             setServices(services.filter(service => service.id !== id));
         } catch (error) {
             console.error('Error deleting service:', error);
+        }
+    };
+
+    const handleSave = async () => {
+        try {
+            const serviceData = {
+                ...editingService,
+                status: editingService.status === 'true' || editingService.status === true // Assurez-vous que le statut est un booléen
+            };
+            console.log("Saving service:", serviceData); // Ajoutez ce log
+            await axios.put(`http://localhost:5000/service/${editingService.id}`, serviceData);
+            setEditingService(null);
+            fetchServices();
+        } catch (error) {
+            console.error('Error updating service:', error);
         }
     };
 
@@ -74,13 +89,37 @@ const Dashboard = () => {
                 <div className="grid grid-cols-3 gap-4 p-4">
                     {services.map((service) => (
                         <div key={service.id} className="w-full p-4 pb-20 border-solid bg-white rounded-lg border border-gray-300 shadow-2xl relative">
-                            <div className="absolute left-0 bottom-0 p-4 flex space-x-2">
-                                <button className="bg-primary p-2 rounded w-20 text-white font-bold" onClick={() => handleEdit(service.id)}>Edit</button>
-                                <button className="border border-black rounded-lg p-2 w-20" onClick={() => handleDelete(service.id)}>Delete</button>
-                            </div>
-                            <p className="font-bold text-xl">{service.titre}</p> {/* Titre du service */}
-                            <p>{service.description}</p> {/* Description du service */}
-                            <p>Status : {service.status ? 'activé' : 'désactivé'}</p> {/* Status du service */}
+                            {editingService && editingService.id === service.id ? (
+                                <>
+                                    <input 
+                                        type="text" 
+                                        value={editingService.titre} 
+                                        onChange={(e) => setEditingService({ ...editingService, titre: e.target.value })} 
+                                    />
+                                    <textarea 
+                                        value={editingService.description} 
+                                        onChange={(e) => setEditingService({ ...editingService, description: e.target.value })} 
+                                    />
+                                    <select 
+                                        value={editingService.status ? 'true' : 'false'} 
+                                        onChange={(e) => setEditingService({ ...editingService, status: e.target.value === 'true' })} 
+                                    >
+                                        <option value="true">Activé</option>
+                                        <option value="false">Désactivé</option>
+                                    </select>
+                                    <button onClick={handleSave}>Save</button>
+                                </>
+                            ) : (
+                                <>
+                                    <p className="font-bold text-xl">{service.titre}</p>
+                                    <p>{service.description}</p>
+                                    <p>Status : {service.status ? 'activé' : 'désactivé'}</p>
+                                    <div className="absolute left-0 bottom-0 p-4 flex space-x-2">
+                                        <button className="bg-primary p-2 rounded w-20 text-white font-bold" onClick={() => handleEdit(service)}>Edit</button>
+                                        <button className="border border-black rounded-lg p-2 w-20" onClick={() => handleDelete(service.id)}>Delete</button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     ))}
                 </div>
