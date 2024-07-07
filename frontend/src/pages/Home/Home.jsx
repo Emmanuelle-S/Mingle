@@ -4,6 +4,8 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import CarouselDefault from '@components/Carousel/Carousel';
 import { AuthContext } from '../../contexts/AuthContext';
+import img1 from "../../assets/mains.jpg"
+import img2 from "../../assets/vieux.jpeg"
 
 export default function Home() {
 
@@ -103,7 +105,7 @@ export default function Home() {
         <div className="p-4 pt-12 xl:flex flex-wrap gap-4">
           <div className="flex-1 basis-80">
             <img className='w-full'
-              src="https://via.placeholder.com/600x300?text=Image+1"
+              src={img1}
               alt="#"
             />
           </div>
@@ -128,7 +130,7 @@ export default function Home() {
         <div className="p-4 xl:pt-20 xl:flex flex-row-reverse gap-4">
           <div className="flex-1 basis-80">
             <img className='w-full'
-              src="https://via.placeholder.com/600x300?text=Image+2"
+              src={img2}
               alt="#"
             />
           </div>
