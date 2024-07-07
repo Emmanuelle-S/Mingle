@@ -13,11 +13,11 @@ export default function Home() {
   const { isLoggedIn, userId, token } = useContext(AuthContext); // Utiliser le contexte
 
   const slidesServices = [
-    {id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1'},
-    {id: 2, url: 'https://via.placeholder.com/600x300?text=Slide+2'},
-    {id: 3, url: 'https://via.placeholder.com/600x300?text=Slide+3'},
-    {id: 4, url: 'https://via.placeholder.com/600x300?text=Slide+4'},
-    {id: 5, url: 'https://via.placeholder.com/600x300?text=Slide+5'},
+    {id: 1, url: 'https://loremflickr.com/320/240?random=1'},
+    {id: 2, url: 'https://loremflickr.com/320/240?random=2'},
+    {id: 3, url: 'https://loremflickr.com/320/240?random=3'},
+    {id: 4, url: 'https://loremflickr.com/320/240?random=4'},
+    {id: 5, url: 'https://loremflickr.com/320/240?random=5'},
   ];
 
   const fetchData = async () => {
