@@ -30,10 +30,10 @@ const read = (req, res) => {
 
 const edit = (req, res) => {
   const categoryservice = req.body;
-
+  
   // TODO validations (length, format...)
 
-  item.id = parseInt(req.params.id, 10);
+  /* item.id = parseInt(req.params.id, 10); */
 
   models.categoryservice
     .update(categoryservice)
