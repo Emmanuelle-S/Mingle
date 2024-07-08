@@ -48,11 +48,11 @@ const PersonalInfo = ({ userData, isLoggedIn, isCurrentUser, onDelete }) => {
         </div>
       </div>
       {isLoggedIn && isCurrentUser && (
-        <div className="mt-4 text-center space-x-4">
+        <div className="mt-4 text-center space-x-4 flex">
           <button className="bg-accent hover:bg-blue-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleEditClick}>
             Éditer
           </button>
-          <button className="bg-red-600 hover:bg-red-700 text-white py-2 px-9 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleDeleteClick}>
+          <button className="bg-red-600 hover:bg-red-700 text-white py-2 px-7 rounded-lg text-lg font-medium focus:outline-none focus:shadow-outline" onClick={handleDeleteClick}>
             Supprimer
           </button>
         </div>
