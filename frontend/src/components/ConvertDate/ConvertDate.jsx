@@ -6,10 +6,10 @@ const DateTimeDisplay = ({ isoDate }) => {
   const date = parseISO(isoDate);
 
   // Formater la date
-  const formattedDate = format(date, 'dd/MM/yyyy HH:mm:ss');
+  const formattedDate = format(date, 'dd/MM/yy HH:mm:ss');
 
   return (
-    <div>
+    <div className='text-gray-500 text-[10px]'>
       <p className='ml-2 whitespace-no-wrap'>{formattedDate}</p>
     </div>
   );

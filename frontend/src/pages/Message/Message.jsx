@@ -148,7 +148,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
     // RENDERING
     return (
         <>
-            <div className=" h-[97vh] w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden pt-6">
+            <div className="h-[95vh] md:h-[85vh] w-full flex antialiased text-gray-200 bg-gray-900 overflow-hidden pt-6 px-2">
                 <div className="flex-1 flex flex-col">
                     {!isMobile && ( 
                         <main className="flex-grow flex flex-row min-h-0">
@@ -249,12 +249,12 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                                 />
                                             </div>
                                             <div className="flex-auto min-w-0 ml-4 mr-6 hidden md:block group-hover:block">
-                                                <p>{conv.name}</p>
-                                                <div className="flex items-center text-sm text-gray-600">
+                                                <div className="flex items-center text-base justify-between text-gray-600">
+                                                    <p>{conv.name}</p>
                                                     <DateTimeDisplay isoDate={conv.last_message_time} />
-                                                    <div className="min-w-0 ml-4 max-w-max">
-                                                        <p className="truncate">{conv.last_message}</p>
-                                                    </div>
+                                                </div>
+                                                <div className="min-w-0 pt-2 max-w-max text-gray-400">
+                                                    <p className="truncate">{conv.last_message}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,9 +266,22 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                     {isMobile && ( 
                         <main className="flex-grow flex flex-col min-h-0">
                         {selectedConversation ? (
-                            <section className="relative flex flex-col items-center flex-auto border-l border-gray-800 w-full">
-                                <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
-                                    Close
+                            <section className="relative flex flex-col items-center flex-auto border-l border-gray-800 w-[320px]">
+                                <button className="absolute top-0 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
                                 </button>
                                 <AddFriendsBtn user={user} friendId={selectedConversation.user_id} friends={friends} friendsTable={friendsTable} fetchMingle={fetchMingle}/>
                                 <DeleteButton user={user} selectedConversation={selectedConversation} fetchMingle={fetchMingle} setSelectedConversation={setSelectedConversation}/>
@@ -278,7 +291,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                                 messagesList.map((msg, index) => (
                                                     <div
                                                     key={index}
-                                                    className={`w-max p-2 my-4 rounded shadow overflow-hidden ${
+                                                    className={`w-max p-2 my-4 rounded shadow overflow-hidden text-xs ${
                                                         (msg.sender_id === user.id)? "bg-blue-600 ml-auto text-end" : "bg-gray-800 mr-auto"
                                                     }`}
                                                     style={{ maxWidth: '45%' }}
@@ -297,7 +310,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                             </section>
                         ) : (
                             <section className="relative flex flex-col flex-none overflow-auto w-[320px]">
-                                <button className="absolute top-6 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
+                                <button className="absolute top-0 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
                                     <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-6 w-6"
@@ -359,13 +372,13 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                                     alt={conv.name}
                                                 />
                                             </div>
-                                            <div className="flex-auto  text-xs min-w-0 ml-4 mr-6 md:block group-hover:block">
-                                                <p>{conv.name}</p>
-                                                <div className="flex items-center text-gray-600">
+                                            <div className="flex-auto text-xs min-w-0 ml-4 mr-6 md:block group-hover:block">
+                                                <div className="flex items-center justify-between text-gray-600">
+                                                    <p>{conv.name}</p>
                                                     <DateTimeDisplay isoDate={conv.last_message_time} />
-                                                    <div className="min-w-0 ml-4 max-w-max">
-                                                        <p className="truncate">{conv.last_message}</p>
-                                                    </div>
+                                                </div>
+                                                <div className="min-w-0 pt-1 max-w-max text-gray-400">
+                                                    <p className="truncate">{conv.last_message}</p>
                                                 </div>
                                             </div>
                                         </div>
