@@ -108,14 +108,30 @@ const CreatePost = () => {
         }
     };    
 
+    // Définition de la fonction convertImage qui prend un paramètre 'file' (le fichier à convertir)
     const convertImage = (file) => {
+        // Retourne une nouvelle promesse avec deux paramètres : resolve (en cas de succès) et reject (en cas d'erreur)
         return new Promise((resolve, reject) => {
+            // Création d'une nouvelle instance de FileReader, un objet permettant de lire des données de fichiers
             const reader = new FileReader();
+
+            // Lecture du contenu du fichier en tant qu'URL de données (base64)
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
+
+            // Lorsque la lecture du fichier est terminée avec succès
+            reader.onload = () => {
+                // Appelle la fonction resolve avec le résultat de la lecture (l'URL de données base64)
+                resolve(reader.result);
+            };
+
+            // En cas d'erreur pendant la lecture du fichier
+            reader.onerror = (error) => {
+                // Appelle la fonction reject avec l'erreur rencontrée
+                reject(error);
+            };
         });
     };
+
 
     return (
         <div className="px-4 py-8">
