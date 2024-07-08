@@ -54,6 +54,21 @@ CREATE TABLE service_type (
     FOREIGN KEY (catégorie_id) REFERENCES category_service(id) ON DELETE CASCADE
 );
 
+CREATE TABLE user_statistics (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    total_services_published INT DEFAULT 0,
+    active_services INT DEFAULT 0,
+    inactive_services INT DEFAULT 0,
+    messages_sent INT DEFAULT 0,
+    messages_received INT DEFAULT 0,
+    profile_views INT DEFAULT 0,
+    service_requests_received INT DEFAULT 0,
+    services_completed INT DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
 -- Peupler la table users
 INSERT INTO users (username, mail, user_pass, localisation, avatar, biographie, service_count, service_type)
 VALUES
@@ -90,6 +105,23 @@ VALUES
 -- ('Service 4', 'Description du service 4', 0x89504E470D0A1A0A0000000D494844520000012C000000A908020000001E15930226041302260413022604130226FEDFDFD2CD6BCDC1B60000000049454E44AE426082, '2024-06-08 11:00:00', 27, 486, FALSE),
 -- ('Service 5', 'Description du service 5', 0x89504E470D0A1A0A0000000D494844520000012C000000A908020000001E1593022604130226041302260413022604130226848716DA5F02CD6BCDC1B60000000049454E44AE426082, '2024-06-09 13:00:00', 27, 486, TRUE),
 -- ('Service 6', 'Description du service 6', 0x89504E470D0A1A0A0000000D494844520000012C000000A908020000001E1593022604130226041302260413022604130226848716DA5F02CD6BCDC1B60000000049454E44AE426082, '2024-06-10 14:30:00', 27, 486, FALSE);
+
+
+
+INSERT INTO user_statistics (user_id, total_services_published, active_services, inactive_services, messages_sent, messages_received, profile_views, service_requests_received, services_completed)
+VALUES
+(1, 5, 3, 2, 10, 8, 15, 4, 3),
+(2, 3, 1, 2, 5, 6, 10, 2, 1),
+(3, 7, 5, 2, 12, 9, 20, 5, 4),
+(4, 2, 1, 1, 3, 4, 8, 1, 1);
+
+
+-- INSERT INTO user_statistics (user_id, total_services_published, active_services, inactive_services, messages_sent, messages_received, profile_views, service_requests_received, services_completed)
+-- VALUES
+-- (28, 5, 3, 2, 10, 8, 15, 4, 3),
+-- (44, 3, 1, 2, 5, 6, 10, 2, 1),
+-- (45, 7, 5, 2, 12, 9, 20, 5, 4),
+-- (46, 2, 1, 1, 3, 4, 8, 1, 1);
 
 
 -- Peupler la table category_service
