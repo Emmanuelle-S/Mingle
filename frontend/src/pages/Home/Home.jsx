@@ -49,10 +49,10 @@ export default function Home() {
         <div className="p-4">
         {isLoggedIn ? (
             <>
-              <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl text-center py-4">
-                Bienvenue <span className='text-darkslategray font-bold text-3xl'>{userData?.username}</span>
+              <h2 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl md:text-center py-4">
+                Bienvenue <span className='text-darkslategray font-bold md:text-xl xl:text-3xl'>{userData?.username}</span>
               </h2>
-              <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
+              <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-2xl">
                 Trouver tous les services de <strong>MINGLE</strong> immédiatement
               </h1>
             </>
@@ -62,14 +62,14 @@ export default function Home() {
                 Bienvenue sur <span className='text-darkslategray text-3xl'><strong>MINGLE</strong></span>
               </h2>
               <h1 className="max-w-[55%] md:max-w-[100%] md:text-xl xl:text-3xl">
-                Trouver tous les services de <strong>MINGLE</strong> immédiatement
+                Trouver tous nos services dés maintenant
               </h1>
             </>
           )}
           <form
             id="serchHome"
             onSubmit={(e) => e.preventDefault()}
-            className="py-4"
+            className="pt-4 md:pt-16"
           >
             <div className="relative">
               <label>
@@ -89,9 +89,9 @@ export default function Home() {
               </label>
             </div>
           </form>
-          <div className="md:flex md:items-center">
+          <div className="md:flex md:items-center pt-4 text-xs md:text-base">
             <h4 className="md:pr-4">Populaires :</h4>
-            <div className="flex justify-between py-3 md:justify-normal">
+            <div className="flex gap-2 md:gap-0 py-3 md:justify-normal">
               <button className="btn-pop md:mr-4">web</button>
               <button className="btn-pop md:mr-4">médecine </button>
               <button className="btn-pop md:mr-4">polytechnie</button>
@@ -101,7 +101,7 @@ export default function Home() {
         </div>
       </section>
       <CarouselDefault slides={slidesServices} />
-      <section>
+      <section className='pt-12'>
         <div className="p-4 pt-12 xl:flex flex-wrap gap-4">
           <div className="flex-1 basis-80">
             <img className='w-full'
@@ -109,7 +109,7 @@ export default function Home() {
               alt="#"
             />
           </div>
-          <div className="pt-4 flex-1 basis-80">
+          <div className="pt-4 px-4 md:pl-12 flex-1 basis-80">
             <h2 className="py-4 font-bold	text-2xl">Nos Valeurs :</h2>
             <p>
               Chez <strong>Mingle</strong>, nous croyons fermement en la
@@ -134,7 +134,7 @@ export default function Home() {
               alt="#"
             />
           </div>
-          <div className="pt-4 flex-1 basis-80">
+          <div className="pt-4 px-4 md:pr-12 flex-1 basis-80">
             <h2 className="py-4 font-bold	text-2xl">
               Une plateforme de Partage :
             </h2>
