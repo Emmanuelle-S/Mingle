@@ -8,6 +8,7 @@ const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
+const faqControllers = require("./controllers/faqControllers");
 
 const {validateUser} = require("./validators")
 
@@ -51,11 +52,8 @@ router.delete("/conversation/:id",conversationControllers.destroy);
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
 router.put("/categoryservice/:id", categoryserviceControllers.edit);
-/* const response = await axios.put(`http://localhost:5000/categoryservice/${category.id}`, updatedCategory); */
 router.post("/categoryservice", categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
-
-router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
 
 router.get("/service_type", serviceControllers.browse);
 router.get("/service_type/:id", serviceControllers.read);
@@ -65,7 +63,11 @@ router.delete("/service_type/:id", serviceControllers.destroy);
 
 router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
 
-
+router.get("/faq", faqControllers.browse);
+router.get("/faq/:id", faqControllers.read);
+router.put("/faq/:id", faqControllers.edit);
+router.post("/faq", faqControllers.add);
+router.delete("/faq/:id", faqControllers.destroy);
 
 // ROUTE LOGIN
 

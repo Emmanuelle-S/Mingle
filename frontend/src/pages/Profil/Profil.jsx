@@ -3,6 +3,8 @@ import axios from "axios"; // effectuer des requêtes HTTP.
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfo from "@components/Profil/PersonalInfo";
+import Servicecard from "@components/Servicecard/Servicecard";
+
 // import ServicesCarousel from "@components/Profil/ServicesCarousel"; // Importez votre composant
 import { useParams, useNavigate } from "react-router-dom";
 import "./Profil.css";
@@ -12,6 +14,7 @@ const Profil = () => {
   const [userData, setUserData] = useState(null); //Rappel useState : permet de gérer les états
   const [isDeleted, setIsDeleted] = useState(false); // indiquer si le profil a été supprimé, initialisé à false.
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Etat pour savoir si l'utilisateur est connecté
+  const [services, setServices] = useState([]);
   const navigate = useNavigate();
 
   const { userId: routeUserId } = useParams(); // récupère des paramètres de l'URL.
@@ -35,6 +38,12 @@ const Profil = () => {
       if (token) {
         setIsLoggedIn(true); // Si un token est présent, l'utilisateur est connecté
       }
+      // Fetch services for the user
+      const servicesResponse = await axios.get(
+        `http://localhost:5000/service?userId=${userId}`,
+        { headers }
+      );
+      setServices(servicesResponse.data.slice(0, 3)); // Get the first 3 services
     } catch (error) {
       console.error("Error fetching data", error); // Gestion des erreurs en cas d'échec de la requête, avec un log de l'erreur.
     }
@@ -116,6 +125,11 @@ const Profil = () => {
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés
         </h2>
+        <div className="grid grid-cols-3 gap-4 p-4">
+          {services.map((service) => (
+            <Servicecard key={service.id} service={service} />
+          ))}
+        </div>
         {/* <ServicesCarousel services={userData.services} isLoggedIn={isLoggedIn} /> */}
         <div className="text-center mt-4">
           {isLoggedIn ? (

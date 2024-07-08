@@ -53,3 +53,10 @@ CREATE TABLE category_service (
     titre_catégorie VARCHAR(100) NOT NULL,
     titre_sous_catégorie VARCHAR(100)
 );
+
+-- Table faq
+CREATE TABLE faq (
+    faq_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL
+);

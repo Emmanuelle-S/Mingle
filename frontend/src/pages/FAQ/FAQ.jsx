@@ -1,61 +1,103 @@
-import React from "react";
-import Accordion from "./Accordion.jsx";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import Accordion from './Accordion.jsx';
 
 const FAQ = () => {
-  const accordionItems = [
-    {
-      title: "Qu'est-ce que MINGLE ?",
-      content:
-        "MINGLE est une plateforme communautaire qui met l'accent sur l'échange de services et l'entraide. Nous croyons en la solidarité, la bienveillance, et l'inclusivité. En rejoignant MINGLE, les membres peuvent trouver du soutien, offrir leur aide et contribuer à un environnement où la confiance et le respect mutuel sont primordiaux.",
-    },
+  const [accordionItems, setAccordionItems] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(true); // Remplacer par une vérification d'admin réelle
+  const [newItem, setNewItem] = useState({ title: '', content: '' });
 
-    {
-      title: "Quels types de services puis-je trouver sur MINGLE ?",
-      content:
-        "Sur MINGLE, vous pouvez trouver une variété de services allant des compétences en web, en médecine, en polytechnique, et bien plus encore. La plateforme est conçue pour permettre aux utilisateurs de chercher et d'offrir des services dans divers domaines, facilitant ainsi la collaboration et l'entraide entre les membres de la communauté.",
-    },
+  useEffect(() => {
+    const fetchFAQs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/faq');
+        setAccordionItems(response.data);
+      } catch (err) {
+        console.error('Error fetching FAQs:', err);
+      }
+    };
+    fetchFAQs();
+  }, [accordionItems]);
 
-    {
-      title: "Comment fonctionne la recherche de services sur MINGLE ?",
-      content:
-        "La recherche de services sur MINGLE est simple et intuitive. Vous pouvez utiliser la barre de recherche sur la page d'accueil pour entrer des mots-clés liés aux services que vous recherchez. De plus, des suggestions populaires comme le web, la médecine, et la polytechnique sont disponibles pour vous guider.",
-    },
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/faq/${id}`);
+      setAccordionItems(accordionItems.filter((item) => item.id !== id));
+    } catch (err) {
+      console.error('Error deleting FAQ:', err);
+    }
+  };
 
-    {
-      title: "Quelles sont les valeurs fondamentales de MINGLE ?",
-      content:
-        "Les valeurs fondamentales de MINGLE sont la solidarité, la bienveillance et l'inclusivité. Nous nous efforçons de créer un espace où chacun peut se sentir valorisé et écouté. La plateforme est plus qu'un simple lieu d'échange de services; elle est une communauté où le soutien et le respect mutuel sont au cœur des interactions.",
-    },
+  const handleEdit = async (id, updatedItem) => {
+    try {
+      await axios.put(`http://localhost:5000/faq/${id}`, updatedItem);
+      setAccordionItems(
+        accordionItems.map((item) => (item.id === id ? updatedItem : item))
+      );
+    } catch (err) {
+      console.error('Error updating FAQ:', err);
+    }
+  };
 
-    {
-      title: "Pourquoi devrais-je rejoindre MINGLE ?",
-      content:
-        "Rejoindre MINGLE, c'est faire partie d'un mouvement qui valorise la générosité et la coopération. En partageant vos compétences et votre temps, vous pouvez transformer des vies et renforcer les liens humains. MINGLE n'est pas seulement bénéfique pour ceux qui reçoivent de l'aide, mais également pour ceux qui la donnent, enrichissant ainsi toute la communauté.",
-    },
+  const validationSchema = Yup.object({
+    title: Yup.string().required('Titre requis'),
+    content: Yup.string().required('Contenu requis'),
+  });
 
-    {
-      title: "Comment MINGLE favorise-t-il le partage et l'entraide ?",
-      content:
-        "MINGLE remet l'entraide et le partage au centre de ses préoccupations. La plateforme permet aux utilisateurs de s'entraider en échangeant des services, renforçant ainsi la communauté. Le partage de compétences et de temps crée des liens précieux et enrichit autant ceux qui reçoivent de l'aide que ceux qui en donnent, contribuant à une croissance collective.",
-    },
-
-    {
-      title:
-        "Qu'est-ce qui distingue MINGLE des autres plateformes d'échange de services ?",
-      content:
-        "MINGLE se distingue par son engagement envers la communauté et ses valeurs fondamentales de solidarité, bienveillance, et inclusivité. Contrairement à d'autres plateformes, MINGLE met l'accent sur la création de liens humains et la confiance mutuelle, offrant un espace où chaque membre se sent valorisé et écouté. C'est plus qu'un simple échange de services; c'est un mouvement pour un monde plus solidaire et empathique.",
-    },
-
-    // Ajoute autant de sections que tu veux
-  ];
+  const onSubmit = async (values, { resetForm }) => {
+    try {
+      const response = await axios.post('http://localhost:5000/faq', values);
+      setAccordionItems([...accordionItems, response.data]);
+      setNewItem({ title: '', content: '' }); // Réinitialiser newItem après soumission
+      resetForm();
+    } catch (err) {
+      console.error('Error adding FAQ:', err);
+    }
+  };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-lg md:text-2xl text-center py-8 md:p-16">
-        Les réponses à toutes vos questions sur votre Plateforme collaborative
-        préféré :
+        Les réponses à toutes vos questions sur votre Plateforme collaborative préférée :
       </h1>
-      <Accordion items={accordionItems} />
+      {isAdmin && (
+        <Formik
+          initialValues={newItem}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          <Form className="mb-4">
+            <h2 className="text-lg font-semibold mb-2">Ajouter une nouvelle question FAQ :</h2>
+            <Field
+              type="text"
+              name="title"
+              placeholder="Titre"
+              className="border border-gray-300 rounded px-2 py-1 mr-2"
+            />
+            <ErrorMessage name="title" component="div" className="text-red-500" />
+
+            <Field
+              as="textarea"
+              name="content"
+              placeholder="Contenu"
+              className="border border-gray-300 rounded px-2 py-1"
+            />
+            <ErrorMessage name="content" component="div" className="text-red-500" />
+
+            <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded ml-2">
+              Ajouter
+            </button>
+          </Form>
+        </Formik>
+      )}
+      <Accordion
+        items={accordionItems}
+        isAdmin={isAdmin}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
     </div>
   );
 };

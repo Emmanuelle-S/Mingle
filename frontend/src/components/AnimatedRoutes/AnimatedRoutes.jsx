@@ -15,9 +15,9 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-import CardList from '../../components/Listedescategorie/CardList';
-import CardDetail from '../../components/DetailsDeService/CardDetails';
-import Contacter from "../../components/ContacterMessagerie/Contacter"
+import CardList from '../ListedesCategorie/CardCategorie';
+import CardDetail from '../../pages/CardDetail/CardDetails'
+import Contacter from '../../components/ContacterMessagerie/Contacter';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -167,6 +167,14 @@ function AnimatedRoutes() {
           element={
             <m.div {...pageTransition}>
               <CardDetail />
+            </m.div>
+          }
+          />
+           <Route
+          path="/contacter"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter/>
             </m.div>
           }
           />
