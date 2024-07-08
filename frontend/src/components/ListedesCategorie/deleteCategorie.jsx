@@ -7,7 +7,7 @@ const DeleteButton = ({ categoryId, onDelete }) => {
   const handleDelete = async () => {
     try {
       // Envoyer une requête DELETE pour supprimer la catégorie
-      await axios.delete(`http://localhost:5000/categoryservice/${categoryId}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${categoryId}`);
       onDelete(categoryId); // Appeler la fonction onDelete avec l'ID de la catégorie supprimée
     } catch (error) {
       console.error('Erreur lors de la suppression de la catégorie:', error.message || error);

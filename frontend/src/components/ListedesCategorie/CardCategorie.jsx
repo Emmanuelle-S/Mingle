@@ -69,7 +69,7 @@ const CardList = () => {
   return (
     <div className="flex flex-col items-center">
       {/* Afficher le formulaire d'ajout si aucune carte n'est sélectionnée */}
-      {!selectedCard && <AddCategory onAdd={addCard} />}
+      {!selectedCard && <AddCategory onAdd={addCard} fetchData={fetchData} />}
       {selectedCard ? (
         <EditCategory
           category={selectedCard}
