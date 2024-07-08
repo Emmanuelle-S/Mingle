@@ -33,7 +33,7 @@ const edit = (req, res) => {
 
     // TODO validations (length, format...)
 
-    faq.id = parseInt(req.params.id, 10);
+    faq.faq_id = parseInt(req.params.id, 10);
 
     models.faq
         .update(faq)
@@ -49,7 +49,6 @@ const edit = (req, res) => {
             res.sendStatus(500);
         });
 };
-
 const add = (req, res) => {
     const faq = req.body;
 
@@ -67,8 +66,10 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
+    const faqId = req.params.id;
+
     models.faq
-        .delete(req.params.id)
+        .delete(faqId)
         .then(([result]) => {
             if (result.affectedRows === 0) {
                 res.sendStatus(404);

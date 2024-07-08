@@ -12,10 +12,14 @@ class FAQManager extends AbstractManager {
         );
     }
 
+    delete(id) {
+        return this.database.query(`DELETE FROM ${this.table} WHERE faq_id = ?`, [id]);
+    }
+
     update(faq) {
         return this.database.query(
             `UPDATE ${this.table} SET title = ?, content = ? WHERE faq_id = ?`,
-            [faq.title, faq.content, faq.id]
+            [faq.title, faq.content, faq.faq_id]
         );
     }
 }
