@@ -64,11 +64,11 @@ const Accordion = ({ items, isAdmin, onDelete, onEdit }) => {
               )}
             </svg>
             {isAdmin && (
-              <div className="flex">
-                <button onClick={() => handleEditClick(item.faq_id)} className="mr-2">
+              <div className="flex justify-end w-3/6">
+                <button onClick={() => handleEditClick(item.faq_id)} className="border-solid border-2 rounded-lg p-2 bg-dark font-semibold text-white">
                   Modifier
                 </button>
-                <button onClick={() => onDelete(item.faq_id)}>Supprimer</button>
+                <button onClick={() => onDelete(item.faq_id)} className="border-solid border-2 rounded-lg p-2 bg-primary font-semibold text-white">Supprimer</button>
               </div>
             )}
           </div>
@@ -102,7 +102,7 @@ const Accordion = ({ items, isAdmin, onDelete, onEdit }) => {
                       />
                       <ErrorMessage name="content" component="div" className="text-red-500" />
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
+                    <button type="submit" className="m-auto bg-accent text-white px-4 py-1 rounded ml-2">
                       Sauvegarder
                     </button>
                   </Form>

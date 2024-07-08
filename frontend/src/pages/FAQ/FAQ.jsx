@@ -68,13 +68,13 @@ const FAQ = () => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          <Form className="mb-4">
+          <Form className="flex flex-col max-w-lg p-2 bg-white rounded-lg shadow-lg text-black mb-8 m-auto">
             <h2 className="text-lg font-semibold mb-2">Ajouter une nouvelle question FAQ :</h2>
             <Field
               type="text"
               name="title"
               placeholder="Titre"
-              className="border border-gray-300 rounded px-2 py-1 mr-2"
+              className="border-solid border-2 rounded-md border-dark bg-white box-border py-2 px-2 mb-4"
             />
             <ErrorMessage name="title" component="div" className="text-red-500" />
 
@@ -82,11 +82,12 @@ const FAQ = () => {
               as="textarea"
               name="content"
               placeholder="Contenu"
-              className="border border-gray-300 rounded px-2 py-1"
+              className="border-solid border-2 rounded-md border-dark bg-white box-border py-2 px-2 mb-4"
+              rows={4}
             />
             <ErrorMessage name="content" component="div" className="text-red-500" />
 
-            <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded ml-2">
+            <button type="submit" className="m-auto bg-accent text-white px-4 py-1 rounded ml-2">
               Ajouter
             </button>
           </Form>
