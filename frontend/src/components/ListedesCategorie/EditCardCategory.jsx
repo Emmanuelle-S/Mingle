@@ -21,7 +21,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
 
     try {
       // Envoyer une requête PUT pour mettre à jour la catégorie
-      await axios.put(`http://localhost:5000/categoryservice/${category.id}`, updatedCategory);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${category.id}`, updatedCategory);
       onSave(updatedCategory); // Appeler la fonction onSave avec les nouvelles valeurs de la catégorie
     } catch (error) {
       console.error('Erreur lors de la mise à jour de la catégorie:', error.message || error);

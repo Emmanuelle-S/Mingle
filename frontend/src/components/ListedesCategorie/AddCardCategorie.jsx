@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddCategory = ({ onAdd }) => {
+const AddCategory = ({ onAdd, fetchData }) => {
   const [formData, setFormData] = useState({
     titre_catégorie: '',
   });
@@ -36,7 +36,7 @@ const AddCategory = ({ onAdd }) => {
     console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:5000/categoryservice', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`, formData, {
         headers: {
       "accept": "application/json",
       "content-type": "application/json",
@@ -51,6 +51,8 @@ const AddCategory = ({ onAdd }) => {
       
       });
       setImageFile(null);
+      fetchData();
+      
     } catch (error) {
       console.error('Error adding new category:', error.message || error);
     }
