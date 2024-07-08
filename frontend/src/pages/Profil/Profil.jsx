@@ -125,7 +125,7 @@ const Profil = () => {
         <h2 className="text-2xl font-extrabold mb-6 text-center text-darkslategray">
           Services publiés
         </h2>
-        <div className="grid grid-cols-3 gap-4 p-4">
+        <div className="flex flex-wrap gap-3">
           {services.map((service) => (
             <Servicecard key={service.id} service={service} />
           ))}
@@ -140,7 +140,9 @@ const Profil = () => {
               Voir plus
             </button>
           ) : (
-            <p className="text-gray-500">Connectez-vous pour voir plus de détails</p>
+            <p className="text-gray-500">
+              Connectez-vous pour voir plus de détails
+            </p>
           )}
         </div>
       </div>
