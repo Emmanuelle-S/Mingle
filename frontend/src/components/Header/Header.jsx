@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FaUser, FaBars } from 'react-icons/fa';
+import React, { useContext, useState, useEffect } from "react";
+import { FaUser, FaBars } from "react-icons/fa";
 import logo from "../../assets/SVG/logo1.svg";
-import { Link } from 'react-router-dom'; 
-import Logout from '@components/Logout/Logout';
-import { AuthContext } from '../../contexts/AuthContext';
+import { Link } from "react-router-dom";
+import Logout from "@components/Logout/Logout";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log('isLoggedIn changed:', isLoggedIn);
+    console.log("isLoggedIn changed:", isLoggedIn);
   }, [isLoggedIn]);
 
   const handleLinkClick = () => {
@@ -35,7 +35,10 @@ const Header = () => {
     <header className="p-4 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="md:hidden">
-          <FaBars className="text-white mr-2 text-lg sm:text-base" onClick={toggleMenu} />
+          <FaBars
+            className="text-white mr-2 text-lg sm:text-base"
+            onClick={toggleMenu}
+          />
         </div>
         <div className="text-white text-xl font-bold flex-none md:mr-auto">
           <Link to="/">
@@ -43,40 +46,89 @@ const Header = () => {
           </Link>
         </div>
         <div className="md:hidden relative">
-          <FaUser className="text-white ml-2 cursor-pointer text-lg sm:text-base" onClick={toggleUserMenu} />
+          <FaUser
+            className="text-white ml-2 cursor-pointer text-lg sm:text-base"
+            onClick={toggleUserMenu}
+          />
           {isUserMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
               {isLoggedIn ? (
                 <>
-                  <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                  <Link to="/manage-services" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                  <Link
+                    to={`/profil/${userId}`}
+                    className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                    onClick={handleLinkClick}
+                  >
+                    Profil
+                  </Link>
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                    onClick={handleLinkClick}
+                  >
+                    Gérer mes services
+                  </Link>
                   <Logout closeMenu={closeMenu} />
                 </>
               ) : (
-                <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>
+                <Link
+                  to="/ConnexionInscription"
+                  className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                  onClick={handleLinkClick}
+                >
+                  Connexion/Inscription
+                </Link>
               )}
             </div>
           )}
         </div>
         <nav className="hidden md:flex md:ml-auto md:space-x-4 items-center relative">
-          <Link to="/" className="text-black hover:text-gray-700">Accueil</Link>
-          <Link to="/listeService" className="text-black hover:text-gray-700">Catégories de services</Link>
-          <Link to="/publier" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3">
+          <Link to="/" className="text-black hover:text-gray-700">
+            Accueil
+          </Link>
+          <Link to="/listeService" className="text-black hover:text-gray-700">
+            Catégories de services
+          </Link>
+          <Link
+            to="/publier"
+            className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-3"
+          >
             Publier un Service
           </Link>
           <div className="relative">
-            <FaUser className="text-white ml-2 cursor-pointer" onClick={toggleUserMenu} />
+            <FaUser
+              className="text-white ml-2 cursor-pointer"
+              onClick={toggleUserMenu}
+            />
             {isUserMenuOpen && (
               <div className="absolute right-0 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
                 {isLoggedIn ? (
                   <>
-                    <Link to={`/profil/${userId}`} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Profil</Link>
-                    
-                    <Link to="/dashboard" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Gérer mes services</Link>
+                    <Link
+                      to={`/profil/${userId}`}
+                      className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                      onClick={handleLinkClick}
+                    >
+                      Profil
+                    </Link>
+
+                    <Link
+                      to="/dashboard"
+                      className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                      onClick={handleLinkClick}
+                    >
+                      Gérer mes services
+                    </Link>
                     <Logout closeMenu={closeMenu} />
                   </>
                 ) : (
-                  <Link to="/ConnexionInscription" className="block px-4 py-2 text-gray-800 hover:bg-yellow-400" onClick={handleLinkClick}>Connexion/Inscription</Link>
+                  <Link
+                    to="/ConnexionInscription"
+                    className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
+                    onClick={handleLinkClick}
+                  >
+                    Connexion/Inscription
+                  </Link>
                 )}
               </div>
             )}
@@ -85,11 +137,26 @@ const Header = () => {
       </div>
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-start pl-4 mt-2 space-y-2">
-          <Link to="/" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Accueil</Link>
-          <Link to="/service" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Services</Link>
-          <Link to="/publier" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Publier</Link>
-          <Link to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4" onClick={handleLinkClick}>
-            Contactez nous
+          <Link
+            to="/"
+            className="text-black hover:text-gray-700"
+            onClick={handleLinkClick}
+          >
+            Accueil
+          </Link>
+          <Link
+            to="/listeService"
+            className="text-black hover:text-gray-700"
+            onClick={handleLinkClick}
+          >
+            Services
+          </Link>
+          <Link
+            to="/publier"
+            className="text-white hover:text-gray-700 rounded-full h-8 bg-green-900 flex items-center px-4"
+            onClick={handleLinkClick}
+          >
+            Publier un service
           </Link>
         </div>
       )}
