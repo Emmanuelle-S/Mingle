@@ -86,7 +86,7 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden flex flex-col items-start pl-4 mt-2 space-y-2">
           <Link to="/" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Accueil</Link>
-          <Link to="/services" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Services</Link>
+          <Link to="/service" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Services</Link>
           <Link to="/publier" className="text-black hover:text-gray-700" onClick={handleLinkClick}>Publier</Link>
           <Link to="/formulaire" className="text-white hover:text-gray-700 rounded-full h-10 bg-green-900 flex items-center justify-center px-4" onClick={handleLinkClick}>
             Contactez nous

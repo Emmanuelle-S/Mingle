@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import DeleteButton from './deleteCategorie'; // Importer le composant DeleteButton
 
+// Composant EditCategory pour éditer une catégorie
 const EditCategory = ({ category, onSave, onDelete }) => {
+  // États locaux pour le titre et la description de la catégorie
   const [title, setTitle] = useState(category.titre_catégorie);
   const [description, setDescription] = useState(category.category_description);
 
+  // Fonction pour gérer la sauvegarde des modifications
   const handleSave = async (event) => {
-    event.preventDefault(); // Prévenir la soumission par défaut du formulaire
+    event.preventDefault(); // Empêcher la soumission par défaut du formulaire
 
+    // Créer un objet avec les nouvelles valeurs de la catégorie
     const updatedCategory = {
       ...category,
       titre_catégorie: title,
@@ -15,19 +20,11 @@ const EditCategory = ({ category, onSave, onDelete }) => {
     };
 
     try {
+      // Envoyer une requête PUT pour mettre à jour la catégorie
       await axios.put(`http://localhost:5000/categoryservice/${category.id}`, updatedCategory);
-      onSave(updatedCategory); // Appeler onSave avec updatedCategory directement
+      onSave(updatedCategory); // Appeler la fonction onSave avec les nouvelles valeurs de la catégorie
     } catch (error) {
-      console.error('Error updating category:', error.message || error);
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/categoryservice/${category.id}`);
-      onDelete(category.id);
-    } catch (error) {
-      console.error('Error deleting category:', error.message || error);
+      console.error('Erreur lors de la mise à jour de la catégorie:', error.message || error);
     }
   };
 
@@ -42,8 +39,8 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           <p className="text-gray-600 mb-4">Aucune image</p>
         )}
       </div>
-      <div className="mb-4 text-center">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2 text-center" htmlFor="title">
           Titre de la catégorie
         </label>
         <input
@@ -64,7 +61,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Entrez la description de la catégorie"
-          className="border p-3 rounded-md w-full text-center" 
+          className="border p-3 rounded-md w-full text-center"
           rows="4"
         ></textarea>
       </div>
@@ -72,9 +69,7 @@ const EditCategory = ({ category, onSave, onDelete }) => {
         <button type="submit" className="bg-blue-500 text-white p-3 rounded-md w-full">
           Enregistrer les modifications
         </button>
-        <button type="button" className="bg-red-500 text-white p-3 rounded-md w-full" onClick={handleDelete}>
-          Supprimer
-        </button>
+        <DeleteButton categoryId={category.id} onDelete={onDelete} />
       </div>
     </form>
   );

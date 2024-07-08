@@ -1,11 +1,11 @@
 import React from 'react';
-import Card from './CardCategorie'; // Ensure correct path
+import CardCategorie from './CardCategorie'; // Ensure correct path
 
-const Card = () => {
+const CardList = () => {
 
   return (
     <CardCategorie/>
   );
 };
 
-export default Card;
+export default CardList;
