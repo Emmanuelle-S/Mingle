@@ -16,7 +16,7 @@ import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
 import CardList from '../ListedesCategorie/CardCategorie';
-import CardDetail from '../../components/DetailsDeService/CardDetails';
+import CardDetail from '../../pages/CardDetail/CardDetails'
 import Contacter from '../../components/ContacterMessagerie/Contacter';
 
 function AnimatedRoutes() {
