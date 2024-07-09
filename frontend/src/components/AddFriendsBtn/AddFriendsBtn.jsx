@@ -31,13 +31,13 @@ function AddFriendsBtn({ user, friendId, friends, friendsTable, fetchMingle }) {
                 let response;
                 if (friendsTable.length > 0) {
                     // Mettre à jour la base de données
-                    response = await axios.put(`http://localhost:5000/friends/${friendsTable[0].id}`, {
+                    response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/friends/${friendsTable[0].id}`, {
                         user_id: user.id,
                         friends: updatedFriends // Assurez-vous que ceci est un tableau et non une chaîne JSON
                     });
                 } else {
                     // Créer une nouvelle entrée dans la base de données
-                    response = await axios.post(`http://localhost:5000/friends`, {
+                    response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/friends`, {
                         user_id: user.id,
                         friends: updatedFriends // Assurez-vous que ceci est un tableau et non une chaîne JSON
                     });
