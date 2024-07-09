@@ -7,34 +7,50 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Déclaration d'un état pour gérer l'ouverture/fermeture du menu principal
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { isLoggedIn, userId } = useContext(AuthContext); // Utilisation de userId depuis le contexte
+  // Déclaration d'un état pour gérer l'ouverture/fermeture du menu utilisateur
+  const { isLoggedIn, userId } = useContext(AuthContext);
+  // Utilisation de userId depuis le contexte -> Extraction des valeurs isLoggedIn et userId du contexte d'authentification
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  // Fonction pour basculer l'état d'ouverture/fermeture du menu principal
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
+  // Fonction pour basculer l'état d'ouverture/fermeture du menu utilisateur
 
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+  // Fonction pour fermer le menu principal
 
   useEffect(() => {
+    // Utilisation du hook useEffect pour surveiller les changements de isLoggedIn
     console.log("isLoggedIn changed:", isLoggedIn);
+    // Log pour voir quand isLoggedIn change
   }, [isLoggedIn]);
+  // Dépendance sur isLoggedIn
 
   const handleLinkClick = () => {
+    // Fonction pour gérer les clics sur les liens du menu
     closeMenu();
+    // Ferme le menu principal
     setIsUserMenuOpen(false);
+    // Ferme le menu utilisateur
   };
 
   return (
     <header className="p-4 relative z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="md:hidden">
+          <FaBars
+            className="text-white mr-2 text-lg sm:text-base"
+            onClick={toggleMenu}
+          />
           <FaBars
             className="text-white mr-2 text-lg sm:text-base"
             onClick={toggleMenu}
@@ -50,7 +66,12 @@ const Header = () => {
             className="text-white ml-2 cursor-pointer text-lg sm:text-base"
             onClick={toggleUserMenu}
           />
+          <FaUser
+            className="text-white ml-2 cursor-pointer text-lg sm:text-base"
+            onClick={toggleUserMenu}
+          />
           {isUserMenuOpen && (
+            /* Affichage conditionnel du menu principal */
             <div className="absolute right-0 mt-2 w-48 bg-secondary rounded-lg shadow-lg py-2">
               {isLoggedIn ? (
                 <>
@@ -62,7 +83,7 @@ const Header = () => {
                     Profil
                   </Link>
                   <Link
-                    to="/dashboard"
+                    to="/manage-services"
                     className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
                     onClick={handleLinkClick}
                   >
@@ -96,6 +117,10 @@ const Header = () => {
             Publier un Service
           </Link>
           <div className="relative">
+            <FaUser
+              className="text-white ml-2 cursor-pointer"
+              onClick={toggleUserMenu}
+            />
             <FaUser
               className="text-white ml-2 cursor-pointer"
               onClick={toggleUserMenu}
@@ -162,6 +187,6 @@ const Header = () => {
       )}
     </header>
   );
-};
+}
 
 export default Header;
