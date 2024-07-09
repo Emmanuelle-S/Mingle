@@ -64,73 +64,34 @@ const CreatePost = () => {
             return;
         }
 
-        const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur connecté depuis localStorage
-    
-        let illustration = null;
-    
-        // Convertir l'image en base64 si elle est présente
+        const userId = localStorage.getItem('userId');
+
+        const formData = new FormData();
+        formData.append('titre', values.title);
+        formData.append('description', values.description);
+        formData.append('user_id', userId);
+        formData.append('category_id', values.category);
         if (values.image) {
-            illustration = await convertImage(values.image);
+            formData.append('image', values.image);
         }
-    
-        // Préparer les données du service à envoyer au serveur
-        const serviceData = {
-            titre: values.title,
-            description: values.description,
-            user_id: userId,
-            category_id: values.category, // Ajout de category_id
-        };
-    
-        if (illustration) {
-            serviceData.illustration = illustration; // Ajouter l'illustration seulement si elle est présente
-        }
-    
-        console.log('Service data to be submitted:', serviceData); // Log les données du service
-    
+
         try {
-            const response = await axios.post('http://localhost:5000/service', serviceData);
-            console.log('Server response:', response.data); // Log la réponse du serveur
-    
-            const serviceId = response.data.id;
-    
-            if (!serviceId) {
-                throw new Error('L\'ID du service n\'a pas été renvoyé par le serveur');
-            }
-    
-            addService(response.data); // Ajouter le nouveau service au contexte
-            resetForm(); // Réinitialiser le formulaire
-            // navigate('/carddetail')
+            const response = await axios.post('http://localhost:5000/service', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            addService(response.data);
+            resetForm();
+            navigate('/carddetail');
         } catch (error) {
             console.error('Erreur lors de la publication:', error);
             setFieldError('general', 'Échec de la publication, veuillez réessayer plus tard');
         } finally {
-            setSubmitting(false); // Arrêter l'indicateur de soumission
+            setSubmitting(false);
         }
     };    
-
-    // Définition de la fonction convertImage qui prend un paramètre 'file' (le fichier à convertir)
-    const convertImage = (file) => {
-        // Retourne une nouvelle promesse avec deux paramètres : resolve (en cas de succès) et reject (en cas d'erreur)
-        return new Promise((resolve, reject) => {
-            // Création d'une nouvelle instance de FileReader, un objet permettant de lire des données de fichiers
-            const reader = new FileReader();
-
-            // Lecture du contenu du fichier en tant qu'URL de données (base64)
-            reader.readAsDataURL(file);
-
-            // Lorsque la lecture du fichier est terminée avec succès
-            reader.onload = () => {
-                // Appelle la fonction resolve avec le résultat de la lecture (l'URL de données base64)
-                resolve(reader.result);
-            };
-
-            // En cas d'erreur pendant la lecture du fichier
-            reader.onerror = (error) => {
-                // Appelle la fonction reject avec l'erreur rencontrée
-                reject(error);
-            };
-        });
-    };
 
 
     return (
