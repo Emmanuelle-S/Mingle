@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     // Fonction de connexion qui prend l'email et le mot de passe en paramètres
     try {
-      const response = await axios.post('http://localhost:5000/user/login', {
+      const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/user/login', {
         // Envoi d'une requête POST à l'endpoint de connexion avec les informations de l'utilisateur
         mail: email,
         user_pass: password,
