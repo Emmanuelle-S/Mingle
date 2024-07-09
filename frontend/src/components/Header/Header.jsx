@@ -121,10 +121,6 @@ const Header = () => {
               className="text-white ml-2 cursor-pointer"
               onClick={toggleUserMenu}
             />
-            <FaUser
-              className="text-white ml-2 cursor-pointer"
-              onClick={toggleUserMenu}
-            />
             {isUserMenuOpen && (
               <div className="absolute right-0 w-48 bg-secondary rounded-lg shadow-lg py-2 mt-6">
                 {isLoggedIn ? (
