@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import { ServiceContext } from '../../contexts/ServiceContext';
 import { AuthContext } from '../../contexts/AuthContext'; // Assurez-vous de fournir le bon chemin vers votre AuthContext
 
 const CreatePost = () => {
+    const navigate = useNavigate();
     const { addService } = useContext(ServiceContext);
     const { isLoggedIn } = useContext(AuthContext); // Utilisez le contexte d'authentification pour vérifier l'état de connexion
 
@@ -62,57 +64,35 @@ const CreatePost = () => {
             return;
         }
 
-        const userId = localStorage.getItem('userId'); // Récupérez l'ID de l'utilisateur connecté depuis localStorage
-    
-        let illustration = null;
-    
-        // Convertir l'image en base64 si elle est présente
+        const userId = localStorage.getItem('userId');
+
+        const formData = new FormData();
+        formData.append('titre', values.title);
+        formData.append('description', values.description);
+        formData.append('user_id', userId);
+        formData.append('category_id', values.category);
         if (values.image) {
-            illustration = await convertImage(values.image);
+            formData.append('image', values.image);
         }
-    
-        // Préparer les données du service à envoyer au serveur
-        const serviceData = {
-            titre: values.title,
-            description: values.description,
-            user_id: userId,
-            category_id: values.category, // Ajout de category_id
-        };
-    
-        if (illustration) {
-            serviceData.illustration = illustration; // Ajouter l'illustration seulement si elle est présente
-        }
-    
-        console.log('Service data to be submitted:', serviceData); // Log les données du service
-    
+
         try {
-            const response = await axios.post('http://localhost:5000/service', serviceData);
-            console.log('Server response:', response.data); // Log la réponse du serveur
-    
-            const serviceId = response.data.id;
-    
-            if (!serviceId) {
-                throw new Error('L\'ID du service n\'a pas été renvoyé par le serveur');
-            }
-    
-            addService(response.data); // Ajouter le nouveau service au contexte
-            resetForm(); // Réinitialiser le formulaire
+            const response = await axios.post('http://localhost:5000/service', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            addService(response.data);
+            resetForm();
+            navigate('/carddetail');
         } catch (error) {
             console.error('Erreur lors de la publication:', error);
             setFieldError('general', 'Échec de la publication, veuillez réessayer plus tard');
         } finally {
-            setSubmitting(false); // Arrêter l'indicateur de soumission
+            setSubmitting(false);
         }
     };    
 
-    const convertImage = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = (error) => reject(error);
-        });
-    };
 
     return (
         <div className="px-4 py-8">
@@ -121,7 +101,7 @@ const CreatePost = () => {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
-                {({ getFieldProps, setFieldValue, resetForm, values, errors, isSubmitting }) => (
+                {({ getFieldProps, setFieldValue, resetForm, values, isSubmitting }) => (
                     <Form className="m-auto flex flex-col max-w-lg p-2 bg-white rounded-lg shadow-lg text-black">
                         <h1 className="text-xl font-semibold px-2">Créer un service</h1>
 
@@ -180,7 +160,11 @@ const CreatePost = () => {
                                     htmlFor="image"
                                     className="border-solid border-2 p-2 rounded-md border-dark w-2/4 flex justify-center cursor-pointer"
                                 >
-                                    <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                                    {values.image ? (
+                                        <img src={URL.createObjectURL(values.image)} alt={values.image.name} className="w-full h-auto" />
+                                    ) : (
+                                        <DocumentArrowUpIcon className="text-dark w-2/4 py-4" />
+                                    )}
                                 </label>
                                 <span id="file-chosen">
                                     {values.image ? values.image.name : 'Aucun fichier choisi'}

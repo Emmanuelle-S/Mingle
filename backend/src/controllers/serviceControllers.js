@@ -1,4 +1,6 @@
 const models = require("../models");
+const path = require('path');
+const fs = require('fs');
 
 const browse = (req, res) => {
     models.service
@@ -35,72 +37,79 @@ const edit = (req, res) => {
     if (
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.status !== 'boolean'
+        typeof service.user_id !== 'number'
     ) {
         return res.status(400).json({ error: "Invalid input data" });
     }
-
     service.id = parseInt(req.params.id, 10);
 
     models.service
         .update(service)
         .then(([result]) => {
-            if (result.affectedRows === 0) {
-                res.sendStatus(404);
-            } else {
-                res.sendStatus(204);
-            }
+        if (result.affectedRows === 0) {
+            res.sendStatus(404);  
+        } else {
+            res.sendStatus(204);
+        }
         })
         .catch((err) => {
-            console.error(err);
-            res.sendStatus(500);
+        console.error(err);
+        res.sendStatus(500);
         });
 };
 
 const add = async (req, res) => {
-    const { titre, description, illustration, user_id, status, category_id } = req.body;
+    const { titre, description, user_id, category_id } = req.body;
+    let illustration = null;
 
-    console.log("Starting add service process...");
-    console.log("Request body:", req.body); // Log les données de la requête
+    if (req.files && req.files.image) {
+        const image = req.files.image;
+        const uploadDir = path.join(__dirname, "..", "public", "uploads");
+    
+        // Vérifie si le dossier existe, sinon le crée
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+    
+        const uploadPath = path.join(uploadDir, image.name);
+        
+        try {
+            await image.mv(uploadPath);
+            illustration = `/uploads/${image.name}`;
+        } catch (err) {
+            console.error("Erreur lors du téléversement de l'image:", err);
+            return res.status(500).json({ error: "Erreur lors du téléversement de l'image" });
+        }
+    }
 
     try {
-        // Insertion du nouveau service dans la base de données
         const [result] = await models.service.insert({
             titre,
             description,
             illustration,
             user_id,
-            status
-        });
+    });
 
-        console.log("New service inserted:", result); // Log le résultat de l'insertion
+    const serviceId = result.insertId;
 
-        const serviceId = result.insertId;
+    if (!serviceId) {
+    return res.status(500).json({ error: "L'ID du service n'a pas été généré correctement" });
+    }
 
-        console.log("Generated service ID:", serviceId); // Log si l'ID généré est incorrect
+      // Assurez-vous que category_id est défini
+    if (!category_id) {
+    return res.status(400).json({ error: "category_id is required" });
+    }
 
-        if (!serviceId) {
-            console.error("Generated service ID is falsy:", serviceId); // Log si category_id est manquant
-            return res.status(500).json({ error: "L'ID du service n'a pas été généré correctement" });
-        }
+      // Insertion dans la table service_type
+    await models.service_type.insert({
+        service_id: serviceId,
+        category_id,
+    });
 
-        // Assurez-vous que category_id est défini
-        if (!category_id) {
-            console.error("category_id is missing or falsy:", category_id); // Log si category_id est manquant
-            return res.status(400).json({ error: "category_id is required" });
-        }
-
-        // Insertion dans la table service_type
-        await models.service_type.insert({
-            service_id: serviceId,
-            category_id,
-        });
-
-        console.log("Service type inserted successfully."); // Log le succès de la création
-
-        return res.status(201).json({ id: serviceId });
+    return res.status(201).json({ id: serviceId });
     } catch (error) {
-        console.error("Erreur lors de la création du service:", error); // Log l'erreur survenue
+        console.error("Erreur lors de la création du service:", error);
         return res.status(500).json({ error: "Erreur interne du serveur lors de la création du service" });
     }
 };

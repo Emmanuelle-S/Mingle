@@ -9,7 +9,7 @@ export default function Publier() {
 
     useEffect(() => {
         if (!isLoggedIn) {
-        navigate("/ConnexionInscription");
+        navigate("/ConnexionInscription", { state: { from: '/Publier' } });
         }
     }, [isLoggedIn, navigate]);
 

@@ -28,6 +28,8 @@ app.use(
   })
 );
 
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
+
 // import and mount the API routes
 
 const router = require("./router");
