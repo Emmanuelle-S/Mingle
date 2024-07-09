@@ -8,7 +8,6 @@ const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
-const userStatisticsController = require("./controllers/userStatisticsController");
 const commentController = require('./controllers/commentController');
 const faqControllers = require("./controllers/faqControllers");
 
@@ -73,8 +72,7 @@ router.get('/comments/service/:id',commentController.getCommentByServiceId)
 
 router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
 
-router.get("/user_statistics/:user_id", userStatisticsController.getStatistics);
-router.put("/user_statistics/:user_id", userStatisticsController.updateStatistics);
+
 
 
 router.get("/faq", faqControllers.browse);
