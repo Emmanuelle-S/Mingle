@@ -37,7 +37,8 @@ const edit = (req, res) => {
     if (
         typeof service.titre !== 'string' || service.titre.length === 0 ||
         typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.user_id !== 'number'
+        typeof service.user_id !== 'number' ||
+        typeof service.status !== 'boolean'
     ) {
         return res.status(400).json({ error: "Invalid input data" });
     }
@@ -46,15 +47,15 @@ const edit = (req, res) => {
     models.service
         .update(service)
         .then(([result]) => {
-        if (result.affectedRows === 0) {
-            res.sendStatus(404);  
-        } else {
-            res.sendStatus(204);
-        }
+            if (result.affectedRows === 0) {
+                res.sendStatus(404);  
+            } else {
+                res.sendStatus(204);
+            }
         })
         .catch((err) => {
-        console.error(err);
-        res.sendStatus(500);
+            console.error(err);
+            res.sendStatus(500);
         });
 };
 
@@ -88,26 +89,26 @@ const add = async (req, res) => {
             description,
             illustration,
             user_id,
-    });
+        });
 
-    const serviceId = result.insertId;
+        const serviceId = result.insertId;
 
-    if (!serviceId) {
-    return res.status(500).json({ error: "L'ID du service n'a pas été généré correctement" });
-    }
+        if (!serviceId) {
+            return res.status(500).json({ error: "L'ID du service n'a pas été généré correctement" });
+        }
 
-      // Assurez-vous que category_id est défini
-    if (!category_id) {
-    return res.status(400).json({ error: "category_id is required" });
-    }
+        // Assurez-vous que category_id est défini
+        if (!category_id) {
+            return res.status(400).json({ error: "category_id is required" });
+        }
 
-      // Insertion dans la table service_type
-    await models.service_type.insert({
-        service_id: serviceId,
-        category_id,
-    });
+        // Insertion dans la table service_type
+        await models.service_type.insert({
+            service_id: serviceId,
+            category_id,
+        });
 
-    return res.status(201).json({ id: serviceId });
+        return res.status(201).json({ id: serviceId });
     } catch (error) {
         console.error("Erreur lors de la création du service:", error);
         return res.status(500).json({ error: "Erreur interne du serveur lors de la création du service" });
