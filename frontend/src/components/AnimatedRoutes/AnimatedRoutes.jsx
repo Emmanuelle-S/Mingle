@@ -15,7 +15,10 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-import CardList from '../../components/Listedeservice/CardList';
+import CardList from '../ListedesCategorie/CardCategorie';
+import CardDetail from '../../pages/CardDetail/CardDetails'
+import Contacter from '../../components/ContacterMessagerie/Contacter';
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -48,7 +51,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/Profil"
+          path="/Profil/:userId"
           element={
             <m.div {...pageTransition}>
               <Profil />
@@ -96,7 +99,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/conditions"
+          path="/ConditionsUtilisation"
           element={
             <m.div {...pageTransition}>
               <ConditionsUtilisation />
@@ -151,6 +154,30 @@ function AnimatedRoutes() {
             </m.div>
           }
         />
+        <Route
+          path="/Messagerie"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter />
+            </m.div>
+          }
+        />
+       <Route
+          path="/cardDetail"
+          element={
+            <m.div {...pageTransition}>
+              <CardDetail />
+            </m.div>
+          }
+          />
+           <Route
+          path="/contacter"
+          element={
+            <m.div {...pageTransition}>
+              <Contacter/>
+            </m.div>
+          }
+          />
       </Routes>
     </AnimatePresence>
     </main>

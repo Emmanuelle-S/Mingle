@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import "../../App.css";
+import { toast } from "react-toastify";
 
 const Inscription = () => {
   const formik = useFormik({
@@ -11,22 +12,30 @@ const Inscription = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      localisation:"",
+      localisation: "",
       acceptTerms: false,
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Nom d'utilisateur obligatoire"),
+      username: Yup.string()
+        .required("Nom d'utilisateur obligatoire")
+        .min(3, "Le nom d'utilisateur doit comporter au moins 3 caractères"),
       // VOIR SI ON RAJOUTE UN VERIFICATION DE NOM D'UTILISATEUR DEJA PRIS
-      email: Yup.string().email("Adresse email invalide").required("Requis"),
-      password: Yup.string().required("Requis"),
+      email: Yup.string()
+        .email("Adresse email invalide")
+        .required("Adresse email obligatoire"),
+      password: Yup.string()
+        .required("Requis")
+        .min(6, "Le mot de passe doit comporter au moins 6 caractères")
+        .matches(/[!@#$%^&*(),.?":{}|<>]/, "Le mot de passe doit comporter au moins 1 caractère spécial"),
       confirmPassword: Yup.string()
         .oneOf(
           [Yup.ref("password"), null],
           "Les mots de passe doivent correspondre"
         )
-        //Yp.ref = verifie que confirmPassword correspond bien avec password
         .required("Requis"),
-      localisation: Yup.string().required("Localisation obligatoire"),
+      localisation: Yup.string()
+        .required("Localisation obligatoire")
+        .min(2, "La ville doit comporter au moins 2 caractères"),
       acceptTerms: Yup.boolean().oneOf(
         [true],
         "Accepter les termes et conditions est requis"
@@ -35,8 +44,8 @@ const Inscription = () => {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       if (values.password !== values.confirmPassword) {
         // Gestion d'erreur ou afficher un message à l'utilisateur
-        console.log('Les mots de passe ne correspondent pas');
-        // A VOIR SI ON RAJOUTE UNE ALERTE 
+        console.log("Les mots de passe ne correspondent pas");
+        // A VOIR SI ON RAJOUTE UNE ALERTE
         return;
       }
       try {
@@ -46,16 +55,21 @@ const Inscription = () => {
           user_pass: values.password,
           localisation: values.localisation,
         });
-        console.log('User registered successfully:', response.data);
+        console.log("User registered successfully:", response.data);
         resetForm();
-      } 
-      catch (error) {
-        console.error('Error registering user:', error);
-      }
-      finally {
+        toast.success("Votre inscription est faite, vous pouvez maintenant vous connecter", {
+          // Utilisation de react-toastify et afficher une popup en cas de succès
+          position: "top-center", // Position centrée en haut
+          className: "custom-toast", // Classe CSS personnalisée
+          autoClose: 2000, // Durée de fermeture automatique
+        });
+      } catch (error) {
+        console.error("Error registering user:", error);
+        toast.error("Une erreur s'est produite lors de l'inscription");
+      } finally {
         setSubmitting(false);
       }
-    }
+    },
   });
 
   return (
@@ -104,7 +118,10 @@ const Inscription = () => {
           ) : null}
         </div>
         <div className="mb-4">
-          <label className="block text-darkslategray" htmlFor="signup-localisation">
+          <label
+            className="block text-darkslategray"
+            htmlFor="signup-localisation"
+          >
             Ville
           </label>
           <input

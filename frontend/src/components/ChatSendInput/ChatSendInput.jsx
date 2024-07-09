@@ -1,10 +1,12 @@
 // ChatSendInput.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 function ChatInput({ conversationId, sender_id, onMessageSent }) {
   const [message, setMessage] = useState('');
+  const inputRef = useRef(null);
+
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
@@ -29,14 +31,29 @@ function ChatInput({ conversationId, sender_id, onMessageSent }) {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSendClick();
+    }
+  };
+
+  useEffect(() => {
+    // Focus sur l'input lorsque le composant est monté
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <div className="flex p-8 w-full">
       <input
         type="text"
-        className="flex-1 p-2 border rounded-l-md"
+        className="flex-1 p-2 border text-black rounded-l-md"
         placeholder="Type a message"
         value={message}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        ref={inputRef}
       />
       <button className="p-2 bg-blue-500 text-white rounded-r-md" onClick={handleSendClick}>
         Send

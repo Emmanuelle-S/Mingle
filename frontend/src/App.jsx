@@ -1,48 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from "./contexts/AuthContext";
 import { ServiceProvider } from "./contexts/ServiceContext";
 import "./App.css";
-import axios from 'axios';
+import axios from "axios";
 import Header from "./components/Header/Header.jsx";
 import ChatBubble from "./pages/Message/Bubble";
-import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes'; // Déplacez AnimatedRoutes dans un fichier séparé
-import { jwtDecode } from 'jwt-decode';
+import AnimatedRoutes from "./components/AnimatedRoutes/AnimatedRoutes"; // Déplacez AnimatedRoutes dans un fichier séparé
+import { jwtDecode } from "jwt-decode";
+// import { parseJSON } from "date-fns";
+import Footer from "@components/Footer/Footer";
 
 function App() {
   const [currentToken, setCurrentToken] = useState(null);
-
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [conversations, setConversations] = useState([]); 
 
   const [user, setUser] = useState(null);
-  
+
+  const [conversations, setConversations] = useState([]);
   const [userFriends, setUserFriends] = useState(null);
-  
 
   const fetchMingle = async (userId) => {
     try {
       const responseUsers = await axios.get("http://localhost:5000/users");
-      setUsers(responseUsers.data)
+      setUsers(responseUsers.data);
 
       const responseFriends = await axios.get("http://localhost:5000/friends");
-      const filteredFriends = await responseFriends.data.filter(friend => friend.user_id === userId);
+      const filteredFriends = await responseFriends.data.filter(
+        (friend) => friend.user_id === userId
+      );
       setFriends(filteredFriends);
 
-      const responseConversation = await axios.get("http://localhost:5000/conversation");
-      const filteredConversation = await responseConversation.data.filter(conversation => conversation.user_id === userId);
+      const responseConversation = await axios.get(
+        "http://localhost:5000/conversation"
+      );
+      const filteredConversation = await responseConversation.data.filter(
+        (conversation) =>
+          conversation.user_id === userId || conversation.friend_id === userId
+      );
       setConversations(filteredConversation);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching data", error);
     }
   };
 
-
-  // Recupére l'id dans le payload via jwt-decode 
+  // Recupére l'id dans le payload via jwt-decode
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -52,7 +57,7 @@ function App() {
           console.log("Token is missing 'sub' property");
         }
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error("Error decoding token:", error);
       }
     } else {
       console.log("No token found in localStorage");
@@ -66,34 +71,38 @@ function App() {
     }
   }, [currentToken]);
 
-
   // Récupére l'user de la session
   useEffect(() => {
     if (users) {
-      const filteredUser = users.filter(user => user.id === currentToken);
+      const filteredUser = users.filter((user) => user.id === currentToken);
       setUser(filteredUser[0]);
     }
-  }, [users])
+  }, [users]);
 
   // Récupére les data des amis du user et définis les conversations liés à ceux-ci
   useEffect(() => {
     if (friends) {
-      const filteredUserFriends = friends.map(friend => {
-        const user = users.find(user => user.id === friend.friend_id);
-        return { user };
-      });
-      const filteredConversation = friends.map(friend => {
-        const conversation = conversations.filter(conversation => conversation.friend_id === friend.friend_id);
-        return {conversation};
+      const parseFriends = friends[0]?.friends
+        ? JSON.parse(friends[0]?.friends)
+        : [];
+      const filteredUserFriends = parseFriends
+        .map((friendId) => users.find((user) => user.id === friendId))
+        .filter((user) => user !== undefined); // Ajout de la logique de filtre des conversations ici
+      const filteredConversation = friends.map((friend) => {
+        const conversation = conversations.filter(
+          (conversation) => conversation.friend_id === friend.friends
+        );
+        return { conversation };
       }); // Ajout de la logique de filtre de conversation ici
       setUserFriends(filteredUserFriends);
       setConversations(filteredConversation);
     }
-  }, [friends])
-
+  }, [friends]);
 
   const fetchConversation = (conversationId) => {
-    const getConversationByConvId = conversations.filter(conv => conv.id === conversationId);
+    const getConversationByConvId = conversations.filter(
+      (conv) => conv.id === conversationId
+    );
     return getConversationByConvId;
   };
 
@@ -101,20 +110,23 @@ function App() {
     <AuthProvider>
       <ServiceProvider>
         <Router>
-      <div className='bgone flex flex-col min-h-screen' >
-          <Header />
-          <AnimatedRoutes />
-
-          
-          <ChatBubble
+          <div className="bgone flex flex-col min-h-screen">
+            <Header />
+            <AnimatedRoutes />
+            {currentToken && (
+              <ChatBubble
                 user={user}
+                users={users}
+                friendsTable={friends}
                 friends={userFriends}
                 conversations={conversations}
                 setConversations={setConversations}
                 fetchConversation={fetchConversation}
+                fetchMingle={fetchMingle}
               />
-          
-              </div>
+            )} 
+            <Footer />
+          </div>
         </Router>
       </ServiceProvider>
     </AuthProvider>

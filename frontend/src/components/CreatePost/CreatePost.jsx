@@ -52,7 +52,7 @@ const CreatePost = () => {
             })
             .test('fileSize', 'La taille du fichier ne doit pas dépasser 3 Mo', (value) => {
                 if (value) {
-                    return value.size <= 3145728;
+                    return value.size <= 51457280;
                 }
                 return true;
             }),
