@@ -36,7 +36,7 @@ function CardDetail() {
 
   const fetchDataDetail = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/service");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/service`);
       console.log('Service Data:', response.data);
       if (response.data.length > 0) {
         setCardDetail(response.data[0]);
@@ -49,7 +49,7 @@ function CardDetail() {
   const fetchComments = async () => {
     try {
       if (card && card.id) {
-        const response = await axios.get(`http://localhost:5000/comments/service/${card.id}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/comments/service/${card.id}`);
         console.log('Comments Data:', response.data);
         if (Array.isArray(response.data)) {
           setComments(response.data);
@@ -68,7 +68,7 @@ function CardDetail() {
       console.log('User ID:', userId);
 
       if (card && card.id && userId) {
-        await axios.post('http://localhost:5000/comments', {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/comments`, {
           service_id: card.id,
           user_id: userId, // Utilisez l'ID utilisateur récupéré
           content: newComment,
@@ -89,7 +89,7 @@ function CardDetail() {
 
   const handleDeleteComment = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/comments/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/comments/${id}`);
       fetchComments();
     } catch (error) {
       console.error('Error deleting comment', error.message || error);
