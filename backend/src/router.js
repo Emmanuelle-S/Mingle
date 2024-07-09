@@ -8,6 +8,8 @@ const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
+const userStatisticsController = require("./controllers/userStatisticsController");
+const commentController = require('./controllers/commentController');
 const faqControllers = require("./controllers/faqControllers");
 
 const {validateUser} = require("./validators")
@@ -61,7 +63,19 @@ router.put("/service_type/:id", serviceControllers.edit);
 router.post("/service_type", serviceControllers.add);
 router.delete("/service_type/:id", serviceControllers.destroy);
 
+
+router.get('/comments', commentController.browse);
+router.get('/comments/:id', commentController.read);
+router.post('/comments', commentController.add);
+router.put('/comments/:id', commentController.edit);
+router.delete('/comments/:id', commentController.destroy);
+router.get('/comments/service/:id',commentController.getCommentByServiceId)
+
 router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
+
+router.get("/user_statistics/:user_id", userStatisticsController.getStatistics);
+router.put("/user_statistics/:user_id", userStatisticsController.updateStatistics);
+
 
 router.get("/faq", faqControllers.browse);
 router.get("/faq/:id", faqControllers.read);

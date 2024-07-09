@@ -1,8 +1,8 @@
 const models = require("../models");
 
 const getStatistics = (req, res) => {
-  models.statistics
-    .findLatest()
+  models.userStatistics
+    .findByUserId(req.params.user_id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
@@ -16,22 +16,11 @@ const getStatistics = (req, res) => {
     });
 };
 
-const addStatistics = (req, res) => {
-  const statistics = req.body;
-  models.statistics
-    .insert(statistics)
-    .then(([result]) => {
-      res.status(201).send({ id: result.insertId });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-};
-
 const updateStatistics = (req, res) => {
   const statistics = req.body;
-  models.statistics
+  statistics.user_id = parseInt(req.params.user_id, 10);
+
+  models.userStatistics
     .update(statistics)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -48,6 +37,5 @@ const updateStatistics = (req, res) => {
 
 module.exports = {
   getStatistics,
-  addStatistics,
   updateStatistics,
 };
