@@ -51,10 +51,6 @@ const Header = () => {
             className="text-white mr-2 text-lg sm:text-base"
             onClick={toggleMenu}
           />
-          <FaBars
-            className="text-white mr-2 text-lg sm:text-base"
-            onClick={toggleMenu}
-          />
         </div>
         <div className="text-white text-xl font-bold flex-none md:mr-auto">
           <Link to="/">
@@ -62,10 +58,6 @@ const Header = () => {
           </Link>
         </div>
         <div className="md:hidden relative">
-          <FaUser
-            className="text-white ml-2 cursor-pointer text-lg sm:text-base"
-            onClick={toggleUserMenu}
-          />
           <FaUser
             className="text-white ml-2 cursor-pointer text-lg sm:text-base"
             onClick={toggleUserMenu}
