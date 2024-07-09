@@ -13,11 +13,15 @@ export default function Home() {
   const { isLoggedIn, userId, token } = useContext(AuthContext); // Utiliser le contexte
 
   const slidesServices = [
-    {id: 1, url: 'https://loremflickr.com/320/240?random=1'},
-    {id: 2, url: 'https://loremflickr.com/320/240?random=2'},
-    {id: 3, url: 'https://loremflickr.com/320/240?random=3'},
-    {id: 4, url: 'https://loremflickr.com/320/240?random=4'},
-    {id: 5, url: 'https://loremflickr.com/320/240?random=5'},
+    {id: 1, url: 'https://loremflickr.com/320/240/cleaner'},
+    {id: 2, url: 'https://loremflickr.com/320/240/homework'},
+    {id: 3, url: 'https://loremflickr.com/320/240/shopping'},
+    {id: 4, url: 'https://loremflickr.com/320/240/dinner'},
+    {id: 5, url: 'https://loremflickr.com/320/240/medecine'},
+    {id: 6, url: 'https://loremflickr.com/320/240/relocating'},
+    {id: 7, url: 'https://loremflickr.com/320/240/party'},
+    {id: 8, url: 'https://loremflickr.com/320/240/builder'},
+    {id: 9, url: 'https://loremflickr.com/320/240/computing'},
   ];
 
   const fetchData = async () => {
