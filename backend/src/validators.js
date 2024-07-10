@@ -2,6 +2,15 @@ const { body, validationResult } = require("express-validator");
 //  body : utilisé pour définir des validations sur les champs de la requête HTTP
 // validationResult : utilisé pour extraire et vérifier les résultats des validations.
 
+
+const preValidateMessages = (req, res, next) => {
+  if (!Array.isArray(req.body.messages)) {
+    req.body.messages = [];
+  }
+  next();
+};
+
+
 // Middleware pour vérifier si on est en création (POST) ou édition (PUT)
 const validateUser = (req, res, next) => {
   //  prend en arguments req (objet de requête), res (objet de réponse), et next (fonction pour passer au middleware suivant dans la chaîne).
@@ -53,6 +62,65 @@ const validateUser = (req, res, next) => {
 // Une fois terminées, validationResult(req) est utilisé pour récupérer les erreurs potentielles.
 // Si des erreurs sont trouvées, elles sont retournées sous forme de réponse JSON avec un statut HTTP 400. Sinon, next() est appelé pour passer au middleware suivant dans la chaîne.
 
+const validateConversation = [
+  preValidateMessages,
+  (req, res, next) => {
+    let validations = [
+      body("name")
+        .isLength({ min: 3 })
+        .withMessage("Le nom de la conversation doit comporter au moins 3 caractères"),
+      body("avatar").optional({ checkFalsy: true }).isURL().withMessage("L'avatar doit être une URL valide"),
+      body("last_message")
+        .optional({ checkFalsy: true })
+        .isLength({ min: 1 })
+        .withMessage("Le dernier message ne peut pas être vide"),
+      body("friend_id")
+        .isInt({ min: 1 })
+        .withMessage("L'ID de l'ami doit être un entier positif"),
+      body("user_id")
+        .isInt({ min: 1 })
+        .withMessage("L'ID de l'utilisateur doit être un entier positif"),
+      body("messages")
+        .optional()
+        .isArray()
+        .withMessage("Les messages doivent être un tableau")
+    ];
+
+    Promise.all(validations.map((validation) => validation.run(req))).then(() => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(400).json({ errors: errors.array() });
+      }
+      next();
+    });
+  }
+];
+
+const validateFriend = (req, res, next) => {
+  let validations = [
+    body("user_id")
+      .isInt({ min: 1 })
+      .withMessage("L'ID de l'utilisateur doit être un entier positif"),
+    body("friends")
+      .optional()
+      .isArray()
+      .withMessage("Les amis doivent être un tableau")
+  ];
+
+  Promise.all(validations.map((validation) => validation.run(req))).then(() => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  });
+};
+
+
 module.exports = {
   validateUser,
+  validateConversation,
+  validateFriend,
 };
