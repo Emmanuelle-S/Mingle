@@ -75,8 +75,7 @@ const add = async (req, res) => {
     models.user
       .insert(user)
       .then(([result]) => {
-        // Mettez à jour les statistiques
-        models.userStatistics.update({ user_id: result.insertId, total_services_published: 1 });
+
         res.location(`/users/${result.insertId}`).sendStatus(201);
       })
       .catch((err) => {
@@ -167,8 +166,7 @@ const destroy = (req, res) => {
     if (result.affectedRows === 0) {
       res.sendStatus(404);
     } else {
-      // Mettez à jour les statistiques
-      models.userStatistics.update({ user_id: req.params.id, total_services_published: -1 });
+
       res.sendStatus(204);
     }
   })
