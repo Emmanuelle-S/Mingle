@@ -1,8 +1,10 @@
 const AbstractManager = require("./AbstractManager");
+//  Importe la classe AbstractManager à partir du fichier "AbstractManager.js". et permet d'hériter des fonctionnalités de AbstractManager.
 
 class UserManager extends AbstractManager {
   constructor() {
     // méthode qui initialise les  valeurs de la propriété instanciée
+    // Déclare une nouvelle classe UserManager qui hérite de AbstractManager
     super({ table: "users" });
     // sert à faire un héritage en appelant le construct parent abstract manager
   }
