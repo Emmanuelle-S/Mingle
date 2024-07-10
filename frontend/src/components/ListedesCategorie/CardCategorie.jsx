@@ -1,25 +1,46 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import AddCategory from './AddCardCategorie';
-import EditCategory from './EditCardCategory';
 
 const defaultImage = 'https://via.placeholder.com/150'; // URL de l'image par défaut
 
 // Composant Card pour afficher les informations de chaque catégorie
 const Card = ({ card, onEdit }) => {
+
+  // console.log(card);
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate('/service', { state: { card } }); // Envoyer les données de la carte à la route /service
+  };
+
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // Empêcher la propagation de l'événement pour éviter la navigation
+    navigate(`/edit-category/${card.id}`, { state: { card } });
+  };
+  
+
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 m-2 w-80 h-80 flex flex-col justify-between border border-black">
+    <div
+      className="bg-white shadow-md rounded-lg p-4 m-2 w-80 h-80 flex flex-col justify-between border border-black cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div>
-        <h3 className="text-lg font-bold mb-2">{card.titre_catégorie}</h3>
+        <h3 className="text-lg font-bold mb-2">{card.titre}</h3>
+        <p>{card.description}</p>
         <img
           src={card.category_image || defaultImage}
-          alt={card.titre_catégorie}
+          alt={card.titre}
           className="w-full h-32 object-cover rounded-lg"
         />
       </div>
-      <div className="flex justify-end">
-        <button className="bg-accent text-white p-2 rounded-md" onClick={() => onEdit(card)}>
-          Modifier
+      <div className='flex justify-end'>
+        <button
+          className="bg-blue-500 text-white p-2 rounded-md"
+          onClick={handleEditClick}
+        >
+          Editer
         </button>
       </div>
     </div>
@@ -27,7 +48,7 @@ const Card = ({ card, onEdit }) => {
 };
 
 // Composant CardList pour gérer la liste des catégories
-const CardList = () => {
+const CardCategorie = () => {
   const [cards, setCards] = useState([]); // État pour stocker les cartes
   const [selectedCard, setSelectedCard] = useState(null); // État pour stocker la carte sélectionnée pour l'édition
 
@@ -35,7 +56,6 @@ const CardList = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:5000/categoryservice');
-      console.log('Response:', response.data); // Log de la réponse pour débogage
       setCards(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des données:', error.message || error);
@@ -68,24 +88,17 @@ const CardList = () => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* Afficher le formulaire d'ajout si aucune carte n'est sélectionnée */}
       {!selectedCard && <AddCategory onAdd={addCard} fetchData={fetchData} />}
-      {selectedCard ? (
-        <EditCategory
-          category={selectedCard}
-          onSave={updateCard}
-          onDelete={deleteCard}
-        />
-      ) : (
-        <div className="flex flex-wrap justify-center">
-          {/* Afficher les cartes */}
-          {cards.map((card) => (
-            <Card key={card.id} card={card} onEdit={setSelectedCard} />
-          ))}
-        </div>
-      )}
+      <div className="flex flex-wrap justify-center">
+        {cards.map((card) => (
+
+          <Card key={card.id} card={card} onEdit={() => navigate(`/edit-category/${card.id}`, { state: { card } })} />
+        ))}
+
+
+      </div>
     </div>
   );
 };
 
-export default CardList;
+export default CardCategorie;

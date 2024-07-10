@@ -7,23 +7,23 @@ class CategoryServiceManager extends AbstractManager {
 
   insert(category_service) {
     return this.database.query(
-      `INSERT INTO ${this.table} (titre_catégorie, titre_sous_catégorie, category_image) VALUES (?, ?, ?)`,
+      `INSERT INTO ${this.table} (titre, sous_titre, description) VALUES (?, ?, ?)`,
       [
     
-        category_service.titre_catégorie,
-        category_service.titre_sous_catégorie,
-        category_service.category_image,
+        category_service.titre,
+        category_service.sous_titre,
+        category_service.description,
       ]
     );
   }
 
   update(category_service) {
     return this.database.query(
-      `UPDATE ${this.table} SET titre_catégorie = ?, titre_sous_catégorie = ?, category_description = ? WHERE id = ?`,
+      `UPDATE ${this.table} SET titre = ?, sous_titre = ?, description = ? WHERE id = ?`,
       [
-        category_service.titre_catégorie,
-        category_service.titre_sous_catégorie,
-        category_service.category_description,
+        category_service.titre,
+        category_service.sous_titre,
+        category_service.description,
         category_service.id
       ]
     );

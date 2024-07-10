@@ -49,7 +49,7 @@ router.get("/conversation/:id",conversationControllers.read);
 router.put("/conversation/:id", conversationControllers.edit);
 router.post("/conversation", conversationControllers.add);
 router.delete("/conversation/:id",conversationControllers.destroy);
-
+// comment fonctionne la validation des données
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
 router.put("/categoryservice/:id", categoryserviceControllers.edit);

@@ -3,58 +3,56 @@ import axios from 'axios';
 
 const AddCategory = ({ onAdd, fetchData }) => {
   const [formData, setFormData] = useState({
-    titre_catégorie: '',
+    titre: '',
+    sous_titre: '',
+    description: '',
   });
-  const [imageFile, setImageFile] = useState(null);
+
+  console.log(formData);
+  const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name.value);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
   };
 
-  const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
-  };
-
   const handleAdd = async (event) => {
     event.preventDefault();
 
-    if (!formData.titre_catégorie) {
-      alert('Le titre de la catégorie ne peut pas être vide.');
+    if (!formData.titre) {
+      setPopup({ visible: true, message: 'Le titre de la catégorie ne peut pas être vide.', type: 'error' });
+      setTimeout(() => setPopup({ visible: false, message: '', type: '' }), 3000);
       return;
     }
-
-    const data = new FormData();
-    data.append('titre_catégorie', formData.titre_catégorie);
-    data.append('category_image', imageFile);
-
-    console.log(data);
-    console.log(formData);
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`, formData, {
         headers: {
-      "accept": "application/json",
-      "content-type": "application/json",
-         
+          'accept': 'application/json',
+          'content-type': 'application/json',
         },
       });
-      console.log('New category added:', response.data);
-      onAdd(response.data);
 
-      setFormData({
-        titre_catégorie: '',
-      
-      });
-      setImageFile(null);
-      fetchData();
-      
+      if (response.status === 201 || response.status === 200) { // S'assurer que la requête est réussie
+        setPopup({ visible: true, message: 'Nouvelle catégorie ajoutée avec succès !', type: 'success' });
+        onAdd(response.data);
+        setFormData({
+          titre: '',
+          sous_titre: '',
+          description: '',
+        });
+        fetchData();
+      } else {
+        setPopup({ visible: true, message: 'Erreur inattendue lors de l\'ajout de la catégorie.', type: 'error' });
+      }
     } catch (error) {
-      console.error('Error adding new category:', error.message || error);
+      console.error('Error:', error.response ? error.response.data : error.message);
+      setPopup({ visible: true, message: 'Erreur lors de l\'ajout de la catégorie : ' + (error.response ? error.response.data : error.message), type: 'error' });
+    } finally {
+      setTimeout(() => setPopup({ visible: false, message: '', type: '' }), 3000);
     }
   };
 
@@ -63,24 +61,26 @@ const AddCategory = ({ onAdd, fetchData }) => {
       <form onSubmit={handleAdd}>
         <input
           type="text"
-          name="titre_catégorie"
-          value={formData.titre_catégorie}
+          name="titre"
+          value={formData.titre}
           onChange={handleInputChange}
           placeholder="Titre de la nouvelle catégorie"
           className="border p-2 rounded-md mb-2 w-full"
         />
         <input
           type="text"
-          name="titre_sous_catégorie"
-          value={formData.titre_sous_catégorie}
+          name="sous_titre"
+          value={formData.sous_titre}
           onChange={handleInputChange}
           placeholder="Sous-titre de la nouvelle catégorie"
           className="border p-2 rounded-md mb-2 w-full"
         />
         <input
-          type="file"
-          name="category_image"
-          onChange={handleImageChange}
+          type="text"
+          name="description"
+          value={formData.description}
+          onChange={handleInputChange}
+          placeholder="Description de la nouvelle catégorie"
           className="border p-2 rounded-md mb-2 w-full"
         />
         <button
@@ -90,6 +90,11 @@ const AddCategory = ({ onAdd, fetchData }) => {
           Ajouter
         </button>
       </form>
+      {popup.visible && (
+        <div className={`fixed bottom-4 left-4 p-4 rounded-md text-white ${popup.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+          {popup.message}
+        </div>
+      )}
     </div>
   );
 };

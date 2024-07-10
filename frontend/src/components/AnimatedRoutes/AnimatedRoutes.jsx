@@ -18,6 +18,7 @@ import Logout from '../../components/Logout/Logout';
 import CardList from '../ListedesCategorie/CardCategorie';
 import CardDetail from '../../pages/CardDetail/CardDetails'
 import Contacter from '../../components/ContacterMessagerie/Contacter';
+import EditCategory from '../../components/ListedesCategorie/EditCardCategory';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -178,6 +179,15 @@ function AnimatedRoutes() {
             </m.div>
           }
           />
+            <Route
+            path="/edit-category/:id"
+            element={
+              <m.div {...pageTransition}>
+                <EditCategory/>
+              </m.div>
+            }
+          />
+        
       </Routes>
     </AnimatePresence>
     </main>
