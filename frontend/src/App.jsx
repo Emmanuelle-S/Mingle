@@ -8,7 +8,6 @@ import Header from "./components/Header/Header.jsx";
 import ChatBubble from "./pages/Message/Bubble";
 import AnimatedRoutes from "./components/AnimatedRoutes/AnimatedRoutes"; // Déplacez AnimatedRoutes dans un fichier séparé
 import { jwtDecode } from "jwt-decode";
-// import { parseJSON } from "date-fns";
 import Footer from "@components/Footer/Footer";
 
 function App() {
@@ -23,17 +22,17 @@ function App() {
 
   const fetchMingle = async (userId) => {
     try {
-      const responseUsers = await axios.get("http://localhost:5000/users");
+      const responseUsers = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users`);
       setUsers(responseUsers.data);
 
-      const responseFriends = await axios.get("http://localhost:5000/friends");
+      const responseFriends = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/friends`);
       const filteredFriends = await responseFriends.data.filter(
         (friend) => friend.user_id === userId
       );
       setFriends(filteredFriends);
 
       const responseConversation = await axios.get(
-        "http://localhost:5000/conversation"
+        `${import.meta.env.VITE_BACKEND_URL}/conversation`
       );
       const filteredConversation = await responseConversation.data.filter(
         (conversation) =>

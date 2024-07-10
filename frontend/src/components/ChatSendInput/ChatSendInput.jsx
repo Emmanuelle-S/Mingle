@@ -21,7 +21,7 @@ function ChatInput({ conversationId, sender_id, onMessageSent }) {
     };
     
     try {
-      const response = await axios.post('http://localhost:5000/message', messageData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/message`, messageData);
       // Réinitialiser l'input après l'envoi du message
       setMessage('');
       // Appeler la fonction de rappel pour mettre à jour les messages
