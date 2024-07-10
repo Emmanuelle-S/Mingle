@@ -115,7 +115,7 @@ const EditProfil = () => {
       const userId = localStorage.getItem('userId');
 
       // Utiliser Axios pour envoyer les données au serveur via PUT
-      const response = await axios.put(`http://localhost:5000/users/${userId}`, payload, {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, payload, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajouter le token aux en-têtes
           'Content-Type': 'application/json', // Spécifier le type de contenu JSON
