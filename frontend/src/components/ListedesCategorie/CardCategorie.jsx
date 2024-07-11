@@ -34,7 +34,7 @@ const CardList = () => {
   // Fonction pour récupérer les données de l'API
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/categoryservice');
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`);
       console.log('Response:', response.data); // Log de la réponse pour débogage
       setCards(response.data);
     } catch (error) {
