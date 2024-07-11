@@ -54,7 +54,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
     const handleCreateConv = async (friend) => {
         try {
             const conversationData = {
-                name: friend.username + user.username,
+                name: friend.username,
                 avatar: friend.avatar,
                 last_message: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
                 last_message_time: new Date().toISOString(),
@@ -83,15 +83,16 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
             }
 
             const conversationResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/conversation`, conversationData);
+
             const newConversation = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/conversation`);
+
             const newConvFiltered = newConversation.data.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id)
-            console.log('newConvFiltered:', newConvFiltered)
-            console.log('newConversation:', newConversation)
 
             setConversations(prevConversations => [
                 newConvFiltered,
                ...prevConversations
             ]);
+
             setSelectedConversation(newConversation.data[0]);
             
         } catch (error) {
@@ -117,10 +118,6 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                 // Définir un tableau vide si JSON.parse échoue
                 parsedMessages = [];
             }
-            
-            console.log('parsedMessages:', parsedMessages)
-            
-
             // Mettre à jour les messages
             const updatedMessages = [...parsedMessages, newMessage];
 
