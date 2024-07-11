@@ -3,27 +3,33 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteButton from './deleteCategorie'; // Assurez-vous que le chemin est correct
 
+// Composant EditCardCategory pour modifier une catégorie existante
 const EditCardCategory = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const card = location.state?.card;
+  const location = useLocation(); // Hook pour obtenir l'état passé via la navigation
+  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+  const card = location.state?.card; // Récupère la catégorie passée via l'état de la navigation
 
+  // États pour gérer les champs du formulaire et l'affichage des messages contextuels (popup)
   const [title, setTitle] = useState(card ? card.titre : '');
   const [descriptions, setDescription] = useState(card ? card.description : '');
   const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
 
+  // Effet pour surveiller les changements dans l'état du popup
   useEffect(() => {
     console.log('Popup state changed:', popup);
   }, [popup]);
 
+  // Fonction pour gérer la sauvegarde des modifications
   const handleSave = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Empêche le comportement par défaut du formulaire
 
+    // Vérifie si une catégorie est sélectionnée pour modification
     if (!card) {
       setPopup({ visible: true, message: 'Aucune catégorie sélectionnée pour modification.', type: 'error' });
       return;
     }
 
+    // Crée un objet avec les nouvelles valeurs de la catégorie
     const updatedCategory = {
       ...card,
       titre: title,
@@ -31,9 +37,11 @@ const EditCardCategory = () => {
     };
 
     try {
+      // Envoie une requête PUT pour mettre à jour la catégorie
       await axios.put(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${card.id}`, updatedCategory);
       setPopup({ visible: true, message: 'Catégorie modifiée avec succès !', type: 'success' });
 
+      // Masque le popup après 3 secondes et redirige l'utilisateur
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
         navigate('/listeService');
@@ -44,11 +52,14 @@ const EditCardCategory = () => {
     }
   };
 
+  // Fonction pour gérer la suppression de la catégorie
   const handleDelete = async (categoryId) => {
     try {
+      // Envoie une requête DELETE pour supprimer la catégorie
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${categoryId}`);
       setPopup({ visible: true, message: 'Catégorie supprimée avec succès !', type: 'success' });
 
+      // Masque le popup après 3 secondes et redirige l'utilisateur
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
         navigate('/listeService');
@@ -59,6 +70,7 @@ const EditCardCategory = () => {
     }
   };
 
+  // Vérifie si aucune catégorie n'est sélectionnée pour modification
   if (!card) {
     return <div>Aucune catégorie sélectionnée pour modification.</div>;
   }

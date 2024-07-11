@@ -27,7 +27,7 @@ const Card = ({ card, onEdit }) => {
       onClick={handleCardClick}
     >
       <div>
-        <h3 className="text-lg font-bold mb-2">{card.titre}</h3>
+        <h2 className="text-center font-bold mb-2">{card.titre}</h2>
         <p>{card.description}</p>
         <img
           src={card.category_image || defaultImage}
