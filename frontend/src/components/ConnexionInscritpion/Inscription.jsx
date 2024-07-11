@@ -49,7 +49,7 @@ const Inscription = () => {
         return;
       }
       try {
-        const response = await axios.post("${import.meta.env.VITE_BACKEND_URL}/users", {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, {
           username: values.username,
           mail: values.email,
           user_pass: values.password,

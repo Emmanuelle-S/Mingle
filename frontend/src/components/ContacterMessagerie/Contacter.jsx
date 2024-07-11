@@ -5,7 +5,7 @@ function Contacter() {
 
     const fetchDataContact = async()=>{
         try{
-            const response = await axios.get("http://localhost:5000/service/category/55")
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/service/category/55`)
             console.log('Response',response.data)
             setContacter(response.data);
         } catch (error){

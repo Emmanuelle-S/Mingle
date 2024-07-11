@@ -2,6 +2,9 @@ const models = require("../models");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 
+// gère les opérations CRUD et l'authentification des utilisateurs en lien avec la base de données . 
+// utilise les modèles définis dans “UserManager” et “AbstractManager”, ainsi que les bibliothèques argon2 pour le hachage des mots de passe et jsonwebtoken pour la gestion des tokens JWT. 
+
 const browse = (req, res) => {
   models.user
   // objet models qui utilise les propriétés de la valeur user
