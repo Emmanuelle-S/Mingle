@@ -75,7 +75,7 @@ const Header = () => {
                     Profil
                   </Link>
                   <Link
-                    to="/manage-services"
+                    to="/dashboard"
                     className="block px-4 py-2 text-gray-800 hover:bg-yellow-400"
                     onClick={handleLinkClick}
                   >
