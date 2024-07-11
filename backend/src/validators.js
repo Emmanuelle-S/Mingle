@@ -3,14 +3,6 @@ const { body, validationResult } = require("express-validator");
 // validationResult : utilisé pour extraire et vérifier les résultats des validations.
 
 
-const preValidateMessages = (req, res, next) => {
-  if (!Array.isArray(req.body.messages)) {
-    req.body.messages = [];
-  }
-  next();
-};
-
-
 // Middleware pour vérifier si on est en création (POST) ou édition (PUT)
 const validateUser = (req, res, next) => {
   //  prend en arguments req (objet de requête), res (objet de réponse), et next (fonction pour passer au middleware suivant dans la chaîne).
@@ -63,7 +55,6 @@ const validateUser = (req, res, next) => {
 // Si des erreurs sont trouvées, elles sont retournées sous forme de réponse JSON avec un statut HTTP 400. Sinon, next() est appelé pour passer au middleware suivant dans la chaîne.
 
 const validateConversation = [
-  preValidateMessages,
   (req, res, next) => {
     let validations = [
       body("name")
@@ -79,11 +70,7 @@ const validateConversation = [
         .withMessage("L'ID de l'ami doit être un entier positif"),
       body("user_id")
         .isInt({ min: 1 })
-        .withMessage("L'ID de l'utilisateur doit être un entier positif"),
-      body("messages")
-        .optional()
-        .isArray()
-        .withMessage("Les messages doivent être un tableau")
+        .withMessage("L'ID de l'utilisateur doit être un entier positif")
     ];
 
     Promise.all(validations.map((validation) => validation.run(req))).then(() => {
