@@ -17,7 +17,7 @@ const CreatePost = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/categoryservice');
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`);
                 setCategories(response.data);
             } catch (err) {
                 console.error('Erreur lors du chargement des catégories:', err);
@@ -76,7 +76,7 @@ const CreatePost = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/service', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/service`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
