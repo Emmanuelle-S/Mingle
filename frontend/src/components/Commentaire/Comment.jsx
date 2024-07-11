@@ -6,7 +6,7 @@ const Comment = ({ comment, onUpdate, onDelete }) => {
   const [content, setContent] = useState(comment.content);
 
   const handleUpdate = async () => {
-    await axios.put(`http://localhost:5000/comments/${comment.id}`, { content });
+    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/comments/${comment.id}`, { content });
     setIsEditing(false);
     onUpdate();
   };
