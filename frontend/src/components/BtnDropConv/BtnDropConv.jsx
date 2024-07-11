@@ -4,9 +4,7 @@ import axios from 'axios';
 
 const DeleteButton = ({ user, selectedConversation, fetchMingle, setSelectedConversation }) => {
     const [dropOpen, setDropOpen] = useState(false);
-
-    console.log('selectedConversation:', selectedConversation);
-
+    
     const handleDelete = async () => {
         if (!selectedConversation) {
             console.error("No conversation selected");
