@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // Composant DeleteButton pour supprimer une catégorie
-const DeleteButton = ({ categoryId, onDelete }) => {
+const DeleteCategory = ({ categoryId, onDelete }) => {
   // Hook de navigation de React Router pour rediriger l'utilisateur
   const navigate = useNavigate();
   
@@ -38,7 +38,7 @@ const DeleteButton = ({ categoryId, onDelete }) => {
       // Masquer le popup après 3 secondes
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
-      }, 3000);
+      }, 100);
     }
   };
 
@@ -58,4 +58,4 @@ const DeleteButton = ({ categoryId, onDelete }) => {
   );
 };
 
-export default DeleteButton;
+export default DeleteCategory;

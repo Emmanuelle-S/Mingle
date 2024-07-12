@@ -7,6 +7,7 @@ const AddCategory = ({ onAdd, fetchData }) => {
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
+    category_image: '', // Ajout du champ imageUrl
   });
 
   // État pour gérer l'affichage des messages contextuels (popup)
@@ -48,6 +49,7 @@ const AddCategory = ({ onAdd, fetchData }) => {
         setFormData({
           titre: '',
           description: '',
+          category_image: '', // Réinitialiser le champ imageUrl
         });
         fetchData(); // Rafraîchit les données après l'ajout
       } else {
@@ -80,6 +82,19 @@ const AddCategory = ({ onAdd, fetchData }) => {
           placeholder="Description de la nouvelle catégorie"
           className="border p-2 rounded-md mb-2 w-full"
         />
+        <input
+          type="url"
+          name="category_image"
+          value={formData.category_image}
+          onChange={handleInputChange}
+          placeholder="Lien de l'image de la nouvelle catégorie"
+          className="border p-2 rounded-md mb-2 w-full"
+        />
+        {formData.category_image && (
+          <div className="mb-2">
+            <img src={formData.category_image} alt="Prévisualisation de la catégorie" className="max-w-full h-auto" />
+          </div>
+        )}
         <button
           type="submit"
           className="bg-green-500 text-white p-2 rounded-md w-full mb-2"

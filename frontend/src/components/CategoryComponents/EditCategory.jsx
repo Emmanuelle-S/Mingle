@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DeleteButton from './deleteCategorie'; // Assurez-vous que le chemin est correct
+import DeleteButton from './DeleteCategory'; // Assurez-vous que le chemin est correct
 
 // Composant EditCardCategory pour modifier une catégorie existante
-const EditCardCategory = () => {
+const EditCategory = () => {
   const location = useLocation(); // Hook pour obtenir l'état passé via la navigation
   const navigate = useNavigate(); // Hook pour naviguer entre les pages
   const card = location.state?.card; // Récupère la catégorie passée via l'état de la navigation
 
   // États pour gérer les champs du formulaire et l'affichage des messages contextuels (popup)
   const [title, setTitle] = useState(card ? card.titre : '');
-  const [descriptions, setDescription] = useState(card ? card.description : '');
+  const [description, setDescription] = useState(card ? card.description : '');
+  const [categoryImage, setCategoryImage] = useState(card ? card.category_image : '');
   const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
 
   // Effet pour surveiller les changements dans l'état du popup
@@ -33,7 +34,8 @@ const EditCardCategory = () => {
     const updatedCategory = {
       ...card,
       titre: title,
-      description: descriptions,
+      description: description,
+      category_image: categoryImage,
     };
 
     try {
@@ -81,8 +83,8 @@ const EditCardCategory = () => {
         <h2 className="text-2xl font-bold text-center mb-4">Modifier la catégorie</h2>
         <div className="mb-4 text-center">
           <h3 className="text-lg font-bold mb-2">{card.titre}</h3>
-          {card.category_image ? (
-            <img src={card.category_image} alt={card.titre} className="w-full h-32 object-cover rounded-lg mb-4" />
+          {categoryImage ? (
+            <img src={categoryImage} alt={card.titre} className="w-full h-32 object-cover rounded-lg mb-4" />
           ) : (
             <p className="text-gray-600 mb-4">Aucune image</p>
           )}
@@ -106,12 +108,25 @@ const EditCardCategory = () => {
           </label>
           <textarea
             id="description"
-            value={descriptions}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Entrez la description de la catégorie"
             className="border p-3 rounded-md w-full text-center"
             rows="4"
           ></textarea>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2 text-center" htmlFor="category_image">
+            Lien de l'image de la catégorie
+          </label>
+          <input
+            type="url"
+            id="category_image"
+            value={categoryImage}
+            onChange={(e) => setCategoryImage(e.target.value)}
+            placeholder="Entrez le lien de l'image"
+            className="border p-3 rounded-md w-full text-center"
+          />
         </div>
         <div className="flex space-x-2">
           <button type="submit" className="bg-blue-500 text-white p-3 rounded-md w-full">
@@ -129,4 +144,4 @@ const EditCardCategory = () => {
   );
 };
 
-export default EditCardCategory;
+export default EditCategory;

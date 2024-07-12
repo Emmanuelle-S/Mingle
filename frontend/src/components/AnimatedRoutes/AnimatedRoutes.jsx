@@ -15,10 +15,10 @@ import About from "../../pages/About/About.jsx";
 import Dashboard from '../../pages/Dashboardservice/Dashboardservice';
 import Service from "../../pages/Service/Service.jsx"
 import Logout from '../../components/Logout/Logout';
-import CardList from '../ListedesCategorie/CardCategorie';
+import Categories from '../CategoryComponents/Categories';
 import CardDetail from '../../pages/CardDetail/CardDetails'
 import Contacter from '../../components/ContacterMessagerie/Contacter';
-import EditCategory from '../../components/ListedesCategorie/EditCardCategory';
+import EditCategory from '../CategoryComponents/EditCategory';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -151,7 +151,7 @@ function AnimatedRoutes() {
           path="/listeService"
           element={
             <m.div {...pageTransition}>
-              <CardList />
+              <Categories />
             </m.div>
           }
         />
