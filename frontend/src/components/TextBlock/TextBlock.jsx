@@ -25,7 +25,7 @@ export default function TextBlock({ title, content }) {
             <h2 className='font-semibold py-1'>{title}</h2>
 
             {/* Affichage du contenu */}
-            <article className='leading-7 p-2 rounded-md bg-gradient-to-r from-primary via-purple-secondary to-light font-semibold'>
+            <article className='leading-7 p-2 rounded-md bg-gradient-to-r from-primary via-secondary to-light font-semibold'>
                 {/* Affiche le contenu complet ou tronqué selon l'état showFullContent */}
                 {showFullContent ? content : truncatedContent}
 
