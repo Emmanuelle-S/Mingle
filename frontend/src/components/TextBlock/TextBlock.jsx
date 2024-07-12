@@ -20,7 +20,7 @@ export default function TextBlock({ title, content }) {
     const truncatedContent = content.length > 140 ? content.substring(0, 140) + '...' : content;
 
     return (
-        <section className='py-2'>
+        <section className='py-2' role="region" aria-label={title}>
             {/* Affichage du titre */}
             <h2 className='font-semibold py-1'>{title}</h2>
 
