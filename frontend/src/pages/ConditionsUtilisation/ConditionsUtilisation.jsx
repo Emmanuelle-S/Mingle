@@ -41,7 +41,7 @@ export default function ConditionsUtilisation() {
                     <ArrowRightCircleIcon className="w-7 px-1"/>
                 </a>
                 </div>
-                <div className=" flex">
+                <div className="sapiens-vector flex">
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'une femme tenant un téléphone. La femme est entourée de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 
