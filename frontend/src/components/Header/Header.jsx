@@ -99,7 +99,7 @@ const Header = () => {
           <Link to="/" className="text-black hover:text-gray-700">
             Accueil
           </Link>
-          <Link to="/listeService" className="text-black hover:text-gray-700">
+          <Link to="/listeCategories" className="text-black hover:text-gray-700">
             Catégories de services
           </Link>
           <Link
@@ -158,7 +158,7 @@ const Header = () => {
             Accueil
           </Link>
           <Link
-            to="/listeService"
+            to="/listeCategories"
             className="text-black hover:text-gray-700"
             onClick={handleLinkClick}
           >

@@ -148,7 +148,7 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/listeService"
+          path="/listeCategories"
           element={
             <m.div {...pageTransition}>
               <Categories />
