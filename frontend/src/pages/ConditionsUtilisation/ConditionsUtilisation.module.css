@@ -1,10 +1,9 @@
 .bgone {
-    background-color: #FAF9F6;
-} 
+    background-color: #faf6f9;
+}
 
-/* 
 @media only screen and (max-width: 1024px) {
-    img .sapiens-vector {
+    .sapiens-vector {
         display: none;
     }
-} */
+}
