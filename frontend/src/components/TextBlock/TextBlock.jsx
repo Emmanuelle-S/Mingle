@@ -31,10 +31,10 @@ export default function TextBlock({ title, content }) {
 
                 {/* Si le contenu est plus long que 120 caractères, affiche le lien approprié */}
                 {content.length > 140 && (
-                    <a className="flex justify-end text-dark pointer" href="#" onClick={showFullContent ? handleReadLess : handleReadMore}>
+                    <button className="relative left-2 text-dark pointer" onClick={showFullContent ? handleReadLess : handleReadMore}>
                         {/* Affiche "Lire moins" si le contenu complet est affiché, sinon "Lire la suite" */}
                         {showFullContent ? 'Lire moins' : 'Lire la suite'}
-                    </a>
+                    </button>
                 )}
             </article>
         </section>
