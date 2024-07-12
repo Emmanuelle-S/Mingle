@@ -15,7 +15,7 @@ export default function ConditionsUtilisation() {
 
     return (
         <div className={`${styles.bgone} flex`}>
-            <div className="py-8 px-8 w-3/6">
+            <div className="py-8 px-8 md:max-w-5xl">
                 <h1 className="text-xl font-semibold py-4">Conditions d'utilisations</h1>
                 <TextBlock 
                     title="Responsabilités de l'utilisateur" 
@@ -41,7 +41,7 @@ export default function ConditionsUtilisation() {
                     <ArrowRightCircleIcon className="w-7 px-1"/>
                 </a>
                 </div>
-                <div className="w-3/6 flex">
+                <div className="md:max-w-5xl flex">
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'une femme tenant un téléphone. La femme est entourée de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 

@@ -16,8 +16,8 @@ export default function PolitiqueDeConfidentialité() {
     }, []);
 
     return (
-        <div className={`${styles.bgone} flex py-8`}>
-            <div className="flex">
+        <div className={`${styles.bgone} flex py-8 rounded-md`}>
+            <div className={`${styles['sapiens-vector']} flex w-full md:w-3/6`}>
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'un homme tenant un téléphone. L'homme est entouré de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 
