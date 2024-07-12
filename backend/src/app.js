@@ -2,12 +2,18 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 // create express app
 
 const express = require("express");
 
 const app = express();
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(fileUpload({ limits: { fileSize: 50 * 6000 * 6000 } }));
 
 // use some application-level middlewares
 
@@ -17,10 +23,12 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL ?? "http://localhost:3000",
+    origin: process.env.FRONTEND_URL ?? "http://localhost:5173",
     optionsSuccessStatus: 200,
   })
 );
+
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 // import and mount the API routes
 

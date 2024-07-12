@@ -5,20 +5,30 @@ class ServiceManager extends AbstractManager {
         super({ table: "services" });
     }
 
-    insert(services) {
+    insert(service) {
         return this.database.query(
-            `insert into ${this.table} (titre, description, illustration, date, user_id, message_id) values (?, ?, ?, ?, ?, ?)`, 
-            [services.titre, services.description, services.illustration, services.date, services.user_id, services.message_id]
+            `insert into ${this.table} (titre, description, illustration, user_id) values (?, ?, ?, ?)`, 
+            [service.titre, service.description, service.illustration || null, service.user_id]
         );
     }
 
-    update(services) {
+    update(service) {
         return this.database.query(
-            `update ${this.table} set titre = ?, description = ?, illustration = ?, date = ?, user_id = ?, message_id = ? where id = ?`,
-            [services.titre, services.description, services.illustration, services.date, services.user_id, services.message_id, services.id]
+            `update ${this.table} set titre = ?, description = ?, illustration = ?, user_id = ?, status = ? where id = ?`,
+            [service.titre, service.description, service.illustration || null, service.user_id, service.status, service.id]
+        );
+    }
+
+    getServicesByCategoryId(id) {
+        return this.database.query(`
+            SELECT s.* 
+            FROM emmanuelle_mingle.category_service c 
+            JOIN emmanuelle_mingle.service_type st ON c.id = st.catégorie_id 
+            JOIN emmanuelle_mingle.services s ON st.service_id = s.id 
+            WHERE c.id = ?`, 
+            [id]
         );
     }
 }
-
 
 module.exports = ServiceManager;

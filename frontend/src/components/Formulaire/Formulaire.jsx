@@ -10,7 +10,7 @@ const validationFormulaire = Yup.object({
     .min(6, 'Le mot de passe doit contenir 6 caractères minimum')
     .matches(/[^A-Za-z0-9]/, 'Saisissez l objet de votre message')
     .required('Saisissez votre objet'),
-  message: Yup.string().required('Que puis-je faire pour vous ?'),
+     message: Yup.string().required('Que puis-je faire pour vous ?'),
 });
 
 const Formulaire = () => {
