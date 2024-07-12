@@ -17,13 +17,13 @@ export default function PolitiqueDeConfidentialité() {
 
     return (
         <div className={`${styles.bgone} flex py-8 rounded-md`}>
-            <div className={`${styles['sapiens-vector']} flex w-full md:w-3/6`}>
+            <div className={`${styles['sapiens-vector']} flex w-full md:max-w-5xl`}>
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'un homme tenant un téléphone. L'homme est entouré de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 
                 />
             </div>
-            <div className="py-8 px-8">
+            <div className="py-8 px-8 w-full md:max-w-5xl">
                 <TextBlock 
                     title="Politique de confidentialité"
                     content="Nous accordons une importance primordiale à la protection de votre vie privée. Cette politique de confidentialité explique comment nous recueillons, utilisons et protégeons vos informations lorsque vous utilisez notre plateforme."
