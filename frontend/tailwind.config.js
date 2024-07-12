@@ -19,8 +19,12 @@ module.exports = withMT({
         darkslategray: '#2F4F4F',
         
         
+        
       },
     },
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
 });

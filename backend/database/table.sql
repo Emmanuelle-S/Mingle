@@ -15,16 +15,6 @@ CREATE TABLE users (
     service_type VARCHAR
 );
 
--- Table messages
-CREATE TABLE messages (
-    message_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    objet VARCHAR(100) NOT NULL,
-    message TEXT NOT NULL,
-    date_heure DATETIME NOT NULL,
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
 -- Table services
 CREATE TABLE services (
     service_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -53,3 +43,35 @@ CREATE TABLE category_service (
     titre_catégorie VARCHAR(100) NOT NULL,
     titre_sous_catégorie VARCHAR(100)
 );
+
+-- Table faq
+CREATE TABLE faq (
+    faq_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL
+);
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `conversation_id` int(11) DEFAULT NULL,
+  `sender_id` int(11) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `sent_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `conversations` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `last_message` text DEFAULT NULL,
+  `last_message_time` datetime DEFAULT NULL,
+  `friend_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `messages` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `friends` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `friends` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`friends`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

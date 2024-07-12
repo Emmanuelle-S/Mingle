@@ -1,18 +1,11 @@
 // src/components/Carousel.jsx
 import React, { useState, useEffect } from 'react';
 
-const slides = [
-  { id: 1, url: 'https://via.placeholder.com/600x300?text=Slide+1' },
-  { id: 2, url: 'https://via.placeholder.com/600x300?text=Slide+2' },
-  { id: 3, url: 'https://via.placeholder.com/600x300?text=Slide+3' },
-  { id: 4, url: 'https://via.placeholder.com/600x300?text=Slide+4' },
-  { id: 5, url: 'https://via.placeholder.com/600x300?text=Slide+5' },
-];
-
-const CarouselDefault = () => {
+const CarouselDefault = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(1);
 
+  // Handle window resize to set the number of slides to show
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1566) {
@@ -30,25 +23,39 @@ const CarouselDefault = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Automatic slide change logic
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      nextSlide();
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(interval); // Clean up interval on unmount
-  }, []);
+  }, [currentSlide, slidesToShow]);
 
-
+  // Go to the next slide
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => {
+      const nextIndex = prev + slidesToShow;
+      if (nextIndex >= slides.length) {
+        return 0; // Loop back to the start
+      }
+      return nextIndex;
+    });
   };
 
+  // Go to the previous slide
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => {
+      const prevIndex = prev - slidesToShow;
+      if (prevIndex < 0) {
+        return Math.max(0, slides.length - slidesToShow); // Loop to the end
+      }
+      return prevIndex;
+    });
   };
 
   return (
-    <div className="relative w-full max-w-5xl md:max-w-[85%] mx-auto overflow-hidden">
+    <div className="relative w-full max-w-5xl md:max-w-[100%] mx-auto overflow-hidden">
       <div
         className="flex transition-transform ease-in-out duration-500"
         style={{ transform: `translateX(-${(currentSlide * 100) / slidesToShow}%)` }}
@@ -56,21 +63,24 @@ const CarouselDefault = () => {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="flex-shrink-0 w-full"
-            style={{ flex: `0 0 ${100 / slidesToShow}%` }}
+            className="flex-shrink-0 w-full relative"
+            style={{ flex: `0 0 ${(100 / slidesToShow)}%` }}
           >
             <img src={slide.url} alt={`Slide ${slide.id}`} className="w-full p-4" />
+            <div className="absolute bottom-4 left-4 right-4 cust text-right custom-bg text-white">
+              <p className="px-2">En savoir plus</p>
+            </div>
           </div>
         ))}
       </div>
       <button
-        onClick={() => prevSlide()}
+        onClick={prevSlide}
         className="absolute top-1/2 left-6 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
       >
         &lt;
       </button>
       <button
-        onClick={() => nextSlide()}
+        onClick={nextSlide}
         className="absolute top-1/2 right-6 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
       >
         &gt;
