@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DeleteButton from './DeleteCategory'; // Assurez-vous que le chemin est correct
+import DeleteButton from './DeleteCategory';
 
-// Composant EditCardCategory pour modifier une catégorie existante
 const EditCategory = () => {
-  const location = useLocation(); // Hook pour obtenir l'état passé via la navigation
-  const navigate = useNavigate(); // Hook pour naviguer entre les pages
-  const card = location.state?.card; // Récupère la catégorie passée via l'état de la navigation
+  const location = useLocation();
+  const navigate = useNavigate();
+  const card = location.state?.card;
 
-  // États pour gérer les champs du formulaire et l'affichage des messages contextuels (popup)
   const [title, setTitle] = useState(card ? card.titre : '');
   const [description, setDescription] = useState(card ? card.description : '');
   const [categoryImage, setCategoryImage] = useState(card ? card.category_image : '');
   const [popup, setPopup] = useState({ visible: false, message: '', type: '' });
 
-  // Effet pour surveiller les changements dans l'état du popup
   useEffect(() => {
     console.log('Popup state changed:', popup);
   }, [popup]);
 
-  // Fonction pour gérer la sauvegarde des modifications
   const handleSave = async (event) => {
-    event.preventDefault(); // Empêche le comportement par défaut du formulaire
+    event.preventDefault();
 
-    // Vérifie si une catégorie est sélectionnée pour modification
     if (!card) {
       setPopup({ visible: true, message: 'Aucune catégorie sélectionnée pour modification.', type: 'error' });
       return;
     }
 
-    // Crée un objet avec les nouvelles valeurs de la catégorie
     const updatedCategory = {
       ...card,
       titre: title,
@@ -39,40 +33,34 @@ const EditCategory = () => {
     };
 
     try {
-      // Envoie une requête PUT pour mettre à jour la catégorie
       await axios.put(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${card.id}`, updatedCategory);
       setPopup({ visible: true, message: 'Catégorie modifiée avec succès !', type: 'success' });
 
-      // Masque le popup après 3 secondes et redirige l'utilisateur
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
-        navigate('/listeService');
-      }, 3000);
+        navigate('/listeCategories'); // Navigation après la mise à jour réussie
+      }, 1500);
     } catch (error) {
       console.error('Erreur lors de la mise à jour de la catégorie:', error.message || error);
       setPopup({ visible: true, message: 'Erreur lors de la mise à jour de la catégorie : ' + (error.message || error), type: 'error' });
     }
   };
 
-  // Fonction pour gérer la suppression de la catégorie
   const handleDelete = async (categoryId) => {
     try {
-      // Envoie une requête DELETE pour supprimer la catégorie
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/categoryservice/${categoryId}`);
       setPopup({ visible: true, message: 'Catégorie supprimée avec succès !', type: 'success' });
 
-      // Masque le popup après 3 secondes et redirige l'utilisateur
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
-        navigate('/listeService');
-      }, 3000);
+        navigate('/listeService'); // Navigation après la suppression réussie
+      }, 1500);
     } catch (error) {
       console.error('Erreur lors de la suppression de la catégorie:', error.message || error);
-      setPopup({ visible: false, message: 'Erreur lors de la suppression de la catégorie : ' + (error.message || error), type: 'error' });
+      setPopup({ visible: true, message: 'Erreur lors de la suppression de la catégorie : ' + (error.message || error), type: 'error' });
     }
   };
 
-  // Vérifie si aucune catégorie n'est sélectionnée pour modification
   if (!card) {
     return <div>Aucune catégorie sélectionnée pour modification.</div>;
   }
@@ -132,7 +120,7 @@ const EditCategory = () => {
           <button type="submit" className="bg-blue-500 text-white p-3 rounded-md w-full">
             Enregistrer les modifications
           </button>
-          <DeleteButton categoryId={card.id} onDelete={handleDelete} />
+          <DeleteButton categoryId={card.id} onDelete={() => handleDelete(card.id)} />
         </div>
         {popup.visible && (
           <div className={`fixed bottom-4 left-4 p-4 rounded-md text-white ${popup.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
