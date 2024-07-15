@@ -28,7 +28,7 @@ const DeleteCategory = ({ categoryId, onDelete }) => {
       // Masquer le popup après 3 secondes et rediriger l'utilisateur
       setTimeout(() => {
         setPopup({ visible: false, message: '', type: '' });
-        navigate('/listeService'); // Redirection vers la page de la liste des cartes
+        navigate('/listeCaategories'); // Redirection vers la page de la liste des cartes
       }, 3000);
     } catch (error) {
       // Afficher un message d'erreur dans le popup en cas d'échec de la suppression
