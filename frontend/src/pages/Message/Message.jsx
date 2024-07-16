@@ -54,7 +54,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
     const handleCreateConv = async (friend) => {
         try {
             const conversationData = {
-                name: friend.username + user.username,
+                name: friend.username,
                 avatar: friend.avatar,
                 last_message: messagesList.length > 0 ? messagesList[messagesList.length - 1].content : "",
                 last_message_time: new Date().toISOString(),
@@ -82,16 +82,17 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                 return;
             }
 
-            const conversationResponse = await axios.post('http://localhost:5000/conversation', conversationData);
-            const newConversation = await axios.get('http://localhost:5000/conversation');
+            const conversationResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/conversation`, conversationData);
+
+            const newConversation = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/conversation`);
+
             const newConvFiltered = newConversation.data.find(conv => conv.user_id === conversationData.user_id && conv.friend_id === conversationData.friend_id)
-            console.log('newConvFiltered:', newConvFiltered)
-            console.log('newConversation:', newConversation)
 
             setConversations(prevConversations => [
                 newConvFiltered,
                ...prevConversations
             ]);
+
             setSelectedConversation(newConversation.data[0]);
             
         } catch (error) {
@@ -102,7 +103,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
     // Fonction pour récupérer tous les messages d'une conversation et faire les mise à jour de cette liste
     const handleMessageSent = async (newMessage) => {
         try {
-            const response = await axios.get(`http://localhost:5000/conversation/${selectedConversation.id}`);
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/conversation/${selectedConversation.id}`);
             const existingConversation = response.data;
 
             let parsedMessages = [];
@@ -117,10 +118,6 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                 // Définir un tableau vide si JSON.parse échoue
                 parsedMessages = [];
             }
-            
-            console.log('parsedMessages:', parsedMessages)
-            
-
             // Mettre à jour les messages
             const updatedMessages = [...parsedMessages, newMessage];
 
@@ -133,7 +130,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
             };
 
             // Envoyer la mise à jour
-            const updateResponse = await axios.put(`http://localhost:5000/conversation/${selectedConversation.id}`, updatedConversation);
+            const updateResponse = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/conversation/${selectedConversation.id}`, updatedConversation);
             
             // Mettre à jour l'état des conversations
             setConversations(prevConversations => prevConversations.map(conv => conv.id === updatedConversation.id ? updatedConversation : conv));
@@ -188,7 +185,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                                 <button className="absolute top-6 right-4 text-gray-100 hover:text-gray-100" onClick={onClose}>
                                     {/* SVG petite croix */}
                                     <svg
-                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns="www.w3.org/2000/svg"
                                     className="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -269,7 +266,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                             <section className="relative flex flex-col items-center flex-auto border-l border-gray-800 w-[320px]">
                                 <button className="absolute top-0 right-4 text-gray-400 hover:text-gray-100" onClick={() => setSelectedConversation(null)}>
                                     <svg
-                                        xmlns="http://www.w3.org/2000/svg"
+                                        xmlns="www.w3.org/2000/svg"
                                         className="h-6 w-6"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -312,7 +309,7 @@ const Messenger = ({ user, users, friendsTable, friends, conversations, setConve
                             <section className="relative flex flex-col flex-none overflow-auto w-[320px]">
                                 <button className="absolute top-0 right-4 text-gray-400 hover:text-gray-100" onClick={onClose}>
                                     <svg
-                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns="www.w3.org/2000/svg"
                                     className="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"

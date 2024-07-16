@@ -8,9 +8,10 @@ const serviceControllers = require("./controllers/serviceControllers")
 const categoryserviceControllers = require ("./controllers/categoryserviceControllers")
 const friendsControllers = require("./controllers/friendsControllers");
 const conversationControllers = require("./controllers/conversationControllers");
+const commentController = require('./controllers/commentController');
 const faqControllers = require("./controllers/faqControllers");
 
-const {validateUser} = require("./validators")
+const {validateUser, validateConversation, validateFriend,validateCategory} = require("./validators")
 
 
 router.get("/items", itemControllers.browse);
@@ -39,20 +40,20 @@ router.delete("/message/:id",messageControllers.destroy);
 
 router.get("/friends", friendsControllers.browse);
 router.get("/friends/:id",friendsControllers.read);
-router.put("/friends/:id", friendsControllers.edit);
-router.post("/friends", friendsControllers.add);
+router.put("/friends/:id", validateFriend, friendsControllers.edit);
+router.post("/friends", validateFriend, friendsControllers.add);
 router.delete("/friends/:id",friendsControllers.destroy);
 
 router.get("/conversation", conversationControllers.browse);
 router.get("/conversation/:id",conversationControllers.read);
-router.put("/conversation/:id", conversationControllers.edit);
-router.post("/conversation", conversationControllers.add);
+router.put("/conversation/:id",validateConversation, conversationControllers.edit);
+router.post("/conversation",validateConversation, conversationControllers.add);
 router.delete("/conversation/:id",conversationControllers.destroy);
-
+// comment fonctionne la validation des données
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
-router.put("/categoryservice/:id", categoryserviceControllers.edit);
-router.post("/categoryservice", categoryserviceControllers.add);
+router.put("/categoryservice/:id", validateCategory,categoryserviceControllers.edit);
+router.post("/categoryservice",validateCategory,categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 router.get("/service_type", serviceControllers.browse);
@@ -61,7 +62,18 @@ router.put("/service_type/:id", serviceControllers.edit);
 router.post("/service_type", serviceControllers.add);
 router.delete("/service_type/:id", serviceControllers.destroy);
 
+
+router.get('/comments', commentController.browse);
+router.get('/comments/:id', commentController.read);
+router.post('/comments', commentController.add);
+router.put('/comments/:id', commentController.edit);
+router.delete('/comments/:id', commentController.destroy);
+router.get('/comments/service/:id',commentController.getCommentByServiceId)
+
 router.get("/service/category/:id",serviceControllers.getServicesByCategoryId);
+
+
+
 
 router.get("/faq", faqControllers.browse);
 router.get("/faq/:id", faqControllers.read);

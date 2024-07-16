@@ -4,9 +4,7 @@ import axios from 'axios';
 
 const DeleteButton = ({ user, selectedConversation, fetchMingle, setSelectedConversation }) => {
     const [dropOpen, setDropOpen] = useState(false);
-
-    console.log('selectedConversation:', selectedConversation);
-
+    
     const handleDelete = async () => {
         if (!selectedConversation) {
             console.error("No conversation selected");
@@ -15,7 +13,7 @@ const DeleteButton = ({ user, selectedConversation, fetchMingle, setSelectedConv
 
         try {
             // Appel à l'API pour supprimer la conversation
-            await axios.delete(`http://localhost:5000/conversation/${selectedConversation.id}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/conversation/${selectedConversation.id}`);
             // Rafraîchir la liste des conversations après la suppression
             fetchMingle(user.id); // Si vous avez une fonction pour rafraîchir les données
             setSelectedConversation(null); // Réinitialiser la conversation sélectionnée

@@ -15,7 +15,7 @@ const Dashboard = () => {
 
     const fetchServices = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/service/');
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/service/`);
             setServices(response.data);
         } catch (error) {
             console.error('Error fetching services:', error);
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/service/${id}`);
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/service/${id}`);
             setServices(services.filter(service => service.id !== id));
         } catch (error) {
             console.error('Error deleting service:', error);
@@ -42,7 +42,7 @@ const Dashboard = () => {
                 status: editingService.status === 'true' || editingService.status === true // Assurez-vous que le statut est un booléen
             };
             console.log("Saving service:", serviceData); // Ajoutez ce log
-            await axios.put(`http://localhost:5000/service/${editingService.id}`, serviceData);
+            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/service/${editingService.id}`, serviceData);
             setEditingService(null);
             fetchServices();
         } catch (error) {

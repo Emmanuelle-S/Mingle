@@ -28,11 +28,11 @@ CREATE TABLE services (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     titre VARCHAR(100) NOT NULL,
     description VARCHAR(250),
-    illustration LONGBLOB NOT NULL,
+    illustration LONGBLOB NULL,
     date DATETIME NOT NULL,
     user_id INT,
     message_id INT,
-    status BOOLEAN NOT NULL DEFAULT TRUE, 
+    status BOOLEAN NULL DEFAULT TRUE, 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE
 );
@@ -67,6 +67,32 @@ CREATE TABLE user_statistics (
     services_completed INT DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE comments (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    service_id INT,
+    user_id INT,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+INSERT INTO comments (service_id, user_id, content)
+VALUES
+(1, 1, 'Super service, merci !'),
+(2, 2, 'Très utile, je recommande.'),
+(3, 3, 'Pas très satisfait de ce service.')
+
+
+
+-- -- Peupler la table comment
+-- INSERT INTO comments (service_id, user_id, content)
+-- VALUES
+-- (2, 25, 'Super service, merci !'),
+-- (6, 26, 'Très utile, je recommande.'),
+-- (7, 27, 'Pas très satisfait de ce service.')
 
 
 -- Peupler la table users

@@ -37,11 +37,15 @@ const CategoryService = require ("./CategoryServiceManager")
 const FriendsManager = require("./FriendsManager");
 const ConversationManager = require("./conversationManager");
 const ServiceTypeManager = require("./Service_typeManager");
+const CommentManager = require("./CommentManager");
 const FAQManager = require("./FAQManager");
 
 
 models.item = new ItemManager();
 models.item.setDatabase(pool); 
+
+models.comment = new CommentManager();
+models.comment.setDatabase(pool); 
 
 models.user = new UserManager();
 models.user.setDatabase(pool);

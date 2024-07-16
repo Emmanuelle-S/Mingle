@@ -29,7 +29,7 @@ const Profil = () => {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       const userResponse = await axios.get(
-        `http://localhost:5000/users/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
         { headers }
       );
       //  Envoi d'une requête GET pour récupérer les données de l'utilisateur en utilisant axios, avec le token dans les en-têtes de la requête si disponible
@@ -40,7 +40,7 @@ const Profil = () => {
       }
       // Fetch services for the user
       const servicesResponse = await axios.get(
-        `http://localhost:5000/service?userId=${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/service?userId=${userId}`,
         { headers }
       );
       setServices(servicesResponse.data.slice(0, 3)); // Get the first 3 services
@@ -55,7 +55,7 @@ const Profil = () => {
       const token = localStorage.getItem("token"); // Récupération du token d'authentification depuis le localStorage.
 
       const response = await axios.delete(
-        `http://localhost:5000/users/${userId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -12,7 +12,7 @@ const FAQ = () => {
   useEffect(() => {
     const fetchFAQs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/faq');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/faq`);
         setAccordionItems(response.data);
       } catch (err) {
         console.error('Error fetching FAQs:', err);
@@ -23,7 +23,7 @@ const FAQ = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/faq/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/faq/${id}`);
       setAccordionItems(accordionItems.filter((item) => item.id !== id));
     } catch (err) {
       console.error('Error deleting FAQ:', err);
@@ -32,7 +32,7 @@ const FAQ = () => {
 
   const handleEdit = async (id, updatedItem) => {
     try {
-      await axios.put(`http://localhost:5000/faq/${id}`, updatedItem);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/faq/${id}`, updatedItem);
       setAccordionItems(
         accordionItems.map((item) => (item.id === id ? updatedItem : item))
       );
@@ -48,7 +48,7 @@ const FAQ = () => {
 
   const onSubmit = async (values, { resetForm }) => {
     try {
-      const response = await axios.post('http://localhost:5000/faq', values);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/faq`, values);
       setAccordionItems([...accordionItems, response.data]);
       setNewItem({ title: '', content: '' }); // Réinitialiser newItem après soumission
       resetForm();

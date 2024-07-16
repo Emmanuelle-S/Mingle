@@ -14,8 +14,8 @@ class ServiceManager extends AbstractManager {
 
     update(service) {
         return this.database.query(
-            `update ${this.table} set titre = ?, description = ?, illustration = ?, user_id = ? where id = ?`,
-            [service.titre, service.description, service.illustration, service.id]
+            `update ${this.table} set titre = ?, description = ?, illustration = ?, user_id = ?, status = ? where id = ?`,
+            [service.titre, service.description, service.illustration || null, service.user_id, service.status, service.id]
         );
     }
 
