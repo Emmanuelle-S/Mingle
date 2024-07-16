@@ -1,27 +1,46 @@
-// ChatSendInput.jsx
-
+// src/components/ChatSendInput/ChatSendInput.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+
+// Liste des insultes à filtrer
+const PROFANITIES = ['putain', 'merde', 'salope', 'connard', 'bâtard', 'pute', 'bite', 'enculé', 'pédé', 'négro', 'retardé', 'traînée', 'couillon', 'gouine', 'sale arabe']; // Remplacez par des insultes réelles
+
+/**
+ * Filtre les insultes d'un message en les remplaçant par des étoiles.
+ * @param {string} message - Le message à filtrer.
+ * @returns {string} - Le message avec les insultes remplacées par des étoiles.
+ */
+export function filterProfanity(message) {
+  let filteredMessage = message;
+
+  PROFANITIES.forEach(profanity => {
+    const regex = new RegExp(`\\b${profanity}\\b`, 'gi'); // Utilise une expression régulière pour trouver le mot offensant
+    filteredMessage = filteredMessage.replace(regex, '*'.repeat(profanity.length));
+  });
+
+  return filteredMessage;
+}
 
 function ChatInput({ conversationId, sender_id, onMessageSent }) {
   const [message, setMessage] = useState('');
   const inputRef = useRef(null);
-
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
   };
 
   const handleSendClick = async () => {
+    const filteredMessage = filterProfanity(message); // Filtrer les insultes du message
+
     const messageData = {
       conversation_id: conversationId,
       sender_id: sender_id,
-      content: message,
+      content: filteredMessage,
       sent_at: new Date().toISOString(),
     };
-    
+
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/message`, messageData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/message`, messageData); // Utilisez process.env ici
       // Réinitialiser l'input après l'envoi du message
       setMessage('');
       // Appeler la fonction de rappel pour mettre à jour les messages
