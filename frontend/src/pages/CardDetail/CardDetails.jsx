@@ -111,34 +111,41 @@ function CardDetail() {
   }
 
   return (
-    <div className="flex justify-center items-center h-56 mt-16">
+   <div className="flex justify-center items-center h-56 mt-40">
       <div className="bg-primary shadow-md rounded-lg p-6 m-4 w-full max-w-2xl flex flex-col justify-between h-70">
-        <h3 className="text-white text-center h-8">{card.titre_catégorie}</h3>
-        <p className="text-white text-center mb-6">{card.category_description}</p>
+        <h3 className="text-white text-center h-8">{card.titre}</h3>
+        <p className="text-white text-center mb-6">{card.description}</p>
+        <div className="flex-grow mt-4">
+          <div className="comments-section">
+            <h4 className="text-white">Commentaires</h4>
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Ajouter un commentaire"
+              className="w-full p-2 mt-2 mb-2 border rounded"
+            />
+            <div className="flex justify-center">
+              <button onClick={handleAddComment} className="bg-blue-500 text-white p-2 rounded-md">Soumettre</button>
+            </div>
+            <div className="mt-4">
+              {comments.map((comment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  onUpdate={handleUpdateComment}
+                  onDelete={handleDeleteComment}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="mt-auto flex justify-center">
           <button className="bg-blue-500 text-center text-white p-2 rounded-md">Contact Batman</button>
-        </div>
-        <div className="comments-section mt-4">
-          <h4 className="text-white">Commentaires</h4>
-          <input
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment"
-          />
-          <button onClick={handleAddComment}>Submit</button>
-          {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              onUpdate={handleUpdateComment}
-              onDelete={handleDeleteComment}
-            />
-          ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default CardDetail;
