@@ -6,6 +6,7 @@ import "./App.css";
 import axios from "axios";
 import Header from "./components/Header/Header.jsx";
 import ChatBubble from "./pages/Message/Bubble";
+import filterUserFriends from "./utils/filterUserFriends";
 import AnimatedRoutes from "./components/AnimatedRoutes/AnimatedRoutes"; // Déplacez AnimatedRoutes dans un fichier séparé
 import { jwtDecode } from "jwt-decode";
 import Footer from "@components/Footer/Footer";
@@ -81,22 +82,11 @@ function App() {
   // Récupére les data des amis du user et définis les conversations liés à ceux-ci
   useEffect(() => {
     if (friends) {
-      const parseFriends = friends[0]?.friends
-        ? JSON.parse(friends[0]?.friends)
-        : [];
-      const filteredUserFriends = parseFriends
-        .map((friendId) => users.find((user) => user.id === friendId))
-        .filter((user) => user !== undefined); // Ajout de la logique de filtre des conversations ici
-      const filteredConversation = friends.map((friend) => {
-        const conversation = conversations.filter(
-          (conversation) => conversation.friend_id === friend.friends
-        );
-        return { conversation };
-      }); // Ajout de la logique de filtre de conversation ici
+      const { filteredUserFriends, filteredConversation } = filterUserFriends(users, friends, conversations);
       setUserFriends(filteredUserFriends);
       setConversations(filteredConversation);
     }
-  }, [friends]);
+  }, [friends, users, conversations]);
 
   const fetchConversation = (conversationId) => {
     const getConversationByConvId = conversations.filter(
