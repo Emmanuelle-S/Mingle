@@ -2,15 +2,15 @@ import { noInjuries } from '../src/services/noInjuries';
 
 describe('noInjuries', () => {
     test('should replace insult with stars', () => {
-        const insult = 'connard';
+        const insult = 'imbécile';
         const result = noInjuries(insult);
-        expect(result).toBe('*******');
+        expect(result).toBe('********');
     });
 
     test('should replace mixed case insult with stars', () => {
-        const insult = 'CoNnaRd';
+        const insult = 'ImBéciLe';
         const result = noInjuries(insult);
-        expect(result).toBe('*******');
+        expect(result).toBe('********');
     });
 
     test('should not replace non-insult', () => {
@@ -20,9 +20,9 @@ describe('noInjuries', () => {
     });
 
     test('should replace multiple word insult with stars', () => {
-        const insult = 'fils de pute';
+        const insult = "tu es un crétin idiot";
         const result = noInjuries(insult);
-        expect(result).toBe('************');
+        expect(result).toBe("tu es un ****** *****");
     });
 
     test('should not replace a part of a word that is an insult', () => {
