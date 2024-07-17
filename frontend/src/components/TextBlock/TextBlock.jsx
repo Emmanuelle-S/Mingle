@@ -20,21 +20,21 @@ export default function TextBlock({ title, content }) {
     const truncatedContent = content.length > 140 ? content.substring(0, 140) + '...' : content;
 
     return (
-        <section className='py-2'>
+        <section className='py-2' role="region" aria-label={title}>
             {/* Affichage du titre */}
             <h2 className='font-semibold py-1'>{title}</h2>
 
             {/* Affichage du contenu */}
-            <article className='leading-7 p-2 rounded-md bg-gradient-to-r from-primary via-purple-secondary to-light font-semibold'>
+            <article className='leading-7 p-2 rounded-md bg-gradient-to-r from-primary via-secondary to-light font-semibold'>
                 {/* Affiche le contenu complet ou tronqué selon l'état showFullContent */}
                 {showFullContent ? content : truncatedContent}
 
                 {/* Si le contenu est plus long que 120 caractères, affiche le lien approprié */}
                 {content.length > 140 && (
-                    <a className="flex justify-end text-dark pointer" href="#" onClick={showFullContent ? handleReadLess : handleReadMore}>
+                    <button className="relative left-2 text-dark pointer" onClick={showFullContent ? handleReadLess : handleReadMore}>
                         {/* Affiche "Lire moins" si le contenu complet est affiché, sinon "Lire la suite" */}
                         {showFullContent ? 'Lire moins' : 'Lire la suite'}
-                    </a>
+                    </button>
                 )}
             </article>
         </section>
