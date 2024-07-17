@@ -11,7 +11,7 @@ const conversationControllers = require("./controllers/conversationControllers")
 const commentController = require('./controllers/commentController');
 const faqControllers = require("./controllers/faqControllers");
 
-const {validateUser, validateConversation, validateFriend} = require("./validators")
+const {validateUser, validateConversation, validateFriend,validateCategory} = require("./validators")
 
 
 router.get("/items", itemControllers.browse);
@@ -49,11 +49,11 @@ router.get("/conversation/:id",conversationControllers.read);
 router.put("/conversation/:id",validateConversation, conversationControllers.edit);
 router.post("/conversation",validateConversation, conversationControllers.add);
 router.delete("/conversation/:id",conversationControllers.destroy);
-
+// comment fonctionne la validation des données
 router.get("/categoryservice", categoryserviceControllers.browse);
 router.get("/categoryservice/:id", categoryserviceControllers.read);
-router.put("/categoryservice/:id", categoryserviceControllers.edit);
-router.post("/categoryservice", categoryserviceControllers.add);
+router.put("/categoryservice/:id", validateCategory,categoryserviceControllers.edit);
+router.post("/categoryservice",validateCategory,categoryserviceControllers.add);
 router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 router.get("/service_type", serviceControllers.browse);

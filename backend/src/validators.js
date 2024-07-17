@@ -105,9 +105,30 @@ const validateFriend = (req, res, next) => {
   });
 };
 
+const validateCategory = [
+  body('titre')
+    .isString()
+    .isLength({ min: 1, max: 150 })
+    .withMessage('Le titre est requis et doit être une chaîne de caractères entre 1 et 150.')
+    .matches(/^[^\d]*$/)
+    .withMessage('Le titre ne doit pas contenir de chiffres.'),
+  body('description')
+    .isString()
+    .withMessage('La description doit être une chaîne de caractères.'),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+
 
 module.exports = {
   validateUser,
   validateConversation,
   validateFriend,
+  validateCategory
 };
