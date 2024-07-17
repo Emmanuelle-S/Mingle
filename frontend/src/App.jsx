@@ -81,13 +81,16 @@ function App() {
 
   // Récupére les data des amis du user et définis les conversations liés à ceux-ci
   useEffect(() => {
-    if (friends) {
+    if (friends && users && conversations) {
       const { filteredUserFriends, filteredConversation } = filterUserFriends(users, friends, conversations);
       setUserFriends(filteredUserFriends);
-      setConversations(filteredConversation);
+      // Mettre à jour les conversations seulement si nécessaire
+      if (filteredConversation.length !== conversations.length) {
+        setConversations(filteredConversation);
+      }
     }
   }, [friends, users, conversations]);
-
+  
   const fetchConversation = (conversationId) => {
     const getConversationByConvId = conversations.filter(
       (conv) => conv.id === conversationId
