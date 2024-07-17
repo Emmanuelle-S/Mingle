@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { noInjuries } from '@services/noInjuries';
 
 function ChatInput({ conversationId, sender_id, onMessageSent }) {
   const [message, setMessage] = useState('');
@@ -13,10 +14,12 @@ function ChatInput({ conversationId, sender_id, onMessageSent }) {
   };
 
   const handleSendClick = async () => {
+    const filteredMessage = noInjuries(message)
+
     const messageData = {
       conversation_id: conversationId,
       sender_id: sender_id,
-      content: message,
+      content: filteredMessage,
       sent_at: new Date().toISOString(),
     };
     
