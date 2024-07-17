@@ -1,22 +1,15 @@
-import { useEffect } from "react";
-import TextBlock from "@components/TextBlock/TextBlock";
-import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
-import illustration from '../../assets/illustration-conditions.svg'
-import styles from './ConditionsUtilisation.module.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import TextBlock from '@components/TextBlock/TextBlock';
+import { ArrowRightCircleIcon } from '@heroicons/react/20/solid';
+import illustration from '../../assets/illustration-conditions.svg';
+import styles from './ConditionsUtilisation.module.css';
 
 export default function ConditionsUtilisation() {
-
-    useEffect(() => {
-        document.body.style.backgroundColor = '#FAF9F6';
-        return () => {
-            document.body.style.backgroundColor = '';
-        };
-    }, []);
-
     return (
-        <div className={`${styles.bgone} flex`}>
-            <div className="py-8 px-8 w-3/6 md:max-w-5xl">
-                <h1 className="text-xl font-semibold py-4">Conditions d'utilisations</h1>
+        <div className={`${styles.bgone} flex rounded-md my-4`}>
+            <div className="py-8 px-8 w-full md:max-w-5xl">
+                <h1 className="text-2xl font-semibold my-4">Conditions d'utilisation</h1>
                 <TextBlock 
                     title="Responsabilités de l'utilisateur" 
                     content="En utilisant notre plateforme, vous acceptez de fournir des informations exactes et à jour lors de l'inscription. Vous vous engagez également à maintenir la confidentialité de votre identifiant et mot de passe, et à informer immédiatement notre service client en cas d'utilisation non autorisée de votre compte ou de toute autre violation de sécurité. De plus, vous vous engagez à utiliser la plateforme de manière légale et conforme aux présentes conditions, en respectant les droits de propriété intellectuelle et la vie privée des autres utilisateurs." 
@@ -33,20 +26,20 @@ export default function ConditionsUtilisation() {
                     title="Droits et responsabilités" 
                     content="Nous nous réservons le droit de modifier ou mettre à jour ces conditions d'utilisation à tout moment pour refléter les changements juridiques, opérationnels ou réglementaires. En cas de violation des présentes conditions, nous nous réservons le droit de suspendre ou résilier votre compte, de limiter, restreindre ou interdire l'accès à la plateforme pour des raisons légales ou de sécurité, et de recueillir et utiliser des données statistiques sur l'utilisation de la plateforme pour améliorer nos services. Vous avez le droit d'accéder et utiliser la plateforme conformément aux présentes conditions, de recevoir des informations claires sur les modifications de ces conditions, de protéger vos données personnelles conformément à notre politique de confidentialité, et de soumettre des suggestions ou des commentaires sur l'amélioration de la plateforme." 
                 />
-                <a 
-                    href="/politique"
+                <Link 
+                    to="/politique"
                     className="flex text-accent font-bold underline py-2"
                 >
                     Politique de confidentialité 
                     <ArrowRightCircleIcon className="w-7 px-1"/>
-                </a>
-                </div>
-                <div className="w-3/6 md:max-w-5xl flex">
+                </Link>
+            </div>
+            <div className={`${styles['sapiens-vector']} flex w-full md:max-w-5xl`}>
                 <img 
                     src={illustration} 
                     alt="Illustration vectorielle d'une femme tenant un téléphone. La femme est entourée de formes géométriques et de dégradés de couleurs, créant un design moderne et abstrait." 
                 />
-                </div>
+            </div>
         </div>
     )
 }
