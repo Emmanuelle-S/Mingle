@@ -33,15 +33,6 @@ const read = (req, res) => {
 const edit = (req, res) => {
     const service = req.body;
 
-    // Validations (length, format...)
-    if (
-        typeof service.titre !== 'string' || service.titre.length === 0 ||
-        typeof service.description !== 'string' || service.description.length === 0 ||
-        typeof service.user_id !== 'number' ||
-        typeof service.status !== 'boolean'
-    ) {
-        return res.status(400).json({ error: "Invalid input data" });
-    }
     service.id = parseInt(req.params.id, 10);
 
     models.service

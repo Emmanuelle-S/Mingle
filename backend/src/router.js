@@ -11,7 +11,7 @@ const conversationControllers = require("./controllers/conversationControllers")
 const commentController = require('./controllers/commentController');
 const faqControllers = require("./controllers/faqControllers");
 
-const {validateUser, validateConversation, validateFriend,validateCategory} = require("./validators")
+const {validateUser, validateConversation, validateFriend,validateCategory, validateService} = require("./validators")
 
 
 router.get("/items", itemControllers.browse);
@@ -58,8 +58,8 @@ router.delete("/categoryservice/:id", categoryserviceControllers.destroy);
 
 router.get("/service_type", serviceControllers.browse);
 router.get("/service_type/:id", serviceControllers.read);
-router.put("/service_type/:id", serviceControllers.edit);
-router.post("/service_type", serviceControllers.add);
+router.put("/service_type/:id", validateService, serviceControllers.edit);
+router.post("/service_type", validateService, serviceControllers.add);
 router.delete("/service_type/:id", serviceControllers.destroy);
 
 
