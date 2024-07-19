@@ -3,19 +3,23 @@ import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
+// import { validerServices } from '../services/servicesAutorises';  
+import { validerServices } from "@services/servicesAutorises";
 
 const validationSchema = Yup.object({
   username: Yup.string().required('Champs obligatoire'),
   mail: Yup.string().email('Adresse mail invalide').required('Champs obligatoire'),
   localisation: Yup.string().required('Champs obligatoire'),
   biographie: Yup.string(),
-  service_type: Yup.string().required('Champs obligatoire'),
+  service_type: Yup.string().required('Champs obligatoire').test(
+    'is-valid-service',
+    'Merci d\'indiquer un des services suivants : Aide au devoir, Aide au bricolage, Aide au covoiturage, Aide aux repas, Aide Garde d\'enfants, Aide médecin à domicile',
+    value => validerServices(value)
+  ),
   avatar: Yup.mixed(),
 });
-//  Définition du schéma de validation pour le formulaire utilisant Yup.
 
 const MyTextInput = ({ label, ...props }) => {
-  // Déclaration du composant fonctionnel MyTextInput qui prend label et d'autres props en paramètres
   const [field, meta] = useField(props);
   return (
     <div className="mb-4">
@@ -96,7 +100,6 @@ const EditProfil = () => {
 
   const handleSubmit = async (values) => {
     try {
-      // Créer l'objet payload pour envoyer les données y compris le fichier (si présent)
       const payload = {
         username: values.username,
         mail: values.mail,
@@ -104,29 +107,25 @@ const EditProfil = () => {
         biographie: values.biographie, 
         service_type: values.service_type,
         avatar: values.avatar,
-      }; 
+      };
 
-          // Ajouter le mot de passe seulement s'il est présent
-    if (values.user_pass) {
-      payload.user_pass = values.user_pass;
-    }
+      if (values.user_pass) {
+        payload.user_pass = values.user_pass;
+      }
 
-      // Récupérer l'ID de l'utilisateur depuis le localStorage
       const userId = localStorage.getItem('userId');
 
-      // Utiliser Axios pour envoyer les données au serveur via PUT
       const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/${userId}`, payload, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajouter le token aux en-têtes
-          'Content-Type': 'application/json', // Spécifier le type de contenu JSON
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
         },
       });
       console.log('Réponse de l\'API:', response);
 
       if (response.status === 204) {
         console.log('Profil mis à jour avec succès.');
-        navigate(`/profil/${userId}`); 
-        // Rediriger vers le composant profil du user connecté
+        navigate(`/profil/${userId}`);
       } else {
         console.log('Réponse de l\'API:', response);
 
@@ -155,9 +154,9 @@ const EditProfil = () => {
           <div className="md:flex md:space-x-8 mb-8 bg-white p-4 rounded-lg border border-gray-300 shadow-2xl">
             <div className="md:w-1/2 bg-white rounded-lg p-4">
               <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Informations personnelles</h2>
-              <MyTextInput label="Nom" name="username" type="text"/> {/* Corrigé de 'name' */}
-              <MyTextInput label="Email" name="mail" type="email" /> {/* Corrigé de 'email' */}
-              <MyTextInput label="Ville" name="localisation" type="text"/> {/* Corrigé de 'ville' */}
+              <MyTextInput label="Nom" name="username" type="text"/>
+              <MyTextInput label="Email" name="mail" type="email" />
+              <MyTextInput label="Ville" name="localisation" type="text"/>
             </div>
             <div className="md:w-1/2 mt-6 md:mt-0 bg-white rounded-lg p-4">
               <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Photo de profil</h2>
@@ -170,18 +169,18 @@ const EditProfil = () => {
                   />
                 </div>
               )}
-              <MyFileInput label="Changer de photo de profil" name="avatar" /> {/* Corrigé de 'profilPic' */}
+              <MyFileInput label="Changer de photo de profil" name="avatar" />
             </div>
           </div>
 
           <div className="mb-8 bg-white rounded-lg p-4 border border-gray-300 shadow-2xl">
             <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Biographie</h2>
-            <MyTextarea label="" name="biographie" /> {/* Corrigé de 'bio' */}
+            <MyTextarea label="" name="biographie" />
           </div>
 
           <div className="mb-8 bg-white rounded-lg p-4 border border-gray-300 shadow-2xl">
             <h2 className="text-2xl font-bold mb-4 text-darkslategray text-center">Types de services proposés</h2>
-            <MyTextarea label="" name="service_type" /> {/* Corrigé de 'services' */}
+            <MyTextarea label="" name="service_type" />
           </div>
 
           <div className="text-center">
