@@ -3,7 +3,8 @@ import { Formik, Form, useField } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
-import { validerServices } from './path/to/your/function';  // Importez la fonction de validation
+// import { validerServices } from '../services/servicesAutorises';  
+import { validerServices } from "@services/servicesAutorises";
 
 const validationSchema = Yup.object({
   username: Yup.string().required('Champs obligatoire'),
@@ -12,7 +13,7 @@ const validationSchema = Yup.object({
   biographie: Yup.string(),
   service_type: Yup.string().required('Champs obligatoire').test(
     'is-valid-service',
-    'Type de service invalide',
+    'Merci d\'indiquer un des services suivants : Aide au devoir, Aide au bricolage, Aide au covoiturage, Aide aux repas, Aide Garde d\'enfants, Aide médecin à domicile',
     value => validerServices(value)
   ),
   avatar: Yup.mixed(),
