@@ -125,10 +125,42 @@ const validateCategory = [
   },
 ];
 
+const validateService = (req, res, next) => {
+  let validations = [
+    body("titre")
+      .isString()
+      .isLength({ min: 1, max: 100 })
+      .withMessage("Le titre est requis et doit être une chaîne de caractères entre 1 et 100"),
+    body("description")
+      .isString()
+      .isLength({ min: 1, max: 250 })
+      .withMessage("La description est requise et doit être une chaîne de caractères entre 1 et 250"),
+    body("user_id")
+      .isInt({ min: 1 })
+      .withMessage("L'ID de l'utilisateur doit être un entier positif"),
+    body("category_id")
+      .isInt({ min: 1 })
+      .withMessage("L'ID de la catégorie doit être un entier positif"),
+    body("status")
+      .isBoolean()
+      .withMessage("Le statut doit être un boolean"),
+  ];
+
+  Promise.all(validations.map((validation) => validation.run(req)))
+    .then(() => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      next();
+    })
+    .catch(next); // Passer à l'erreur suivante en cas de problème
+};
 
 module.exports = {
   validateUser,
   validateConversation,
   validateFriend,
-  validateCategory
+  validateCategory,
+  validateService,
 };

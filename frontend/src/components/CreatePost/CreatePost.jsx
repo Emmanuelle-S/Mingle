@@ -17,7 +17,7 @@ const CreatePost = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`);
+                const response = await axios.get('${import.meta.env.VITE_BACKEND_URL}/categoryservice');
                 setCategories(response.data);
             } catch (err) {
                 console.error('Erreur lors du chargement des catégories:', err);
@@ -76,7 +76,7 @@ const CreatePost = () => {
         }
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/service`, formData, {
+            const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/service', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -189,7 +189,7 @@ const CreatePost = () => {
                                 onClick={() => resetForm()}
                                 className="border-solid border-2 rounded-lg p-2 bg-primary font-semibold"
                             >
-                                Supprimer
+                                Réinitialiser
                             </button>
                             <button
                                 type="submit"
