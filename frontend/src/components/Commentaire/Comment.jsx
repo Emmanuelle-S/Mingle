@@ -40,13 +40,13 @@ const Comment = ({ comment, onUpdate, onDelete }) => {
           <div>
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-primary p-2  text-white px-4 py-2 rounded-md mr-2"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(comment.id)}
-              className="bg-red-500 text-white px-4 py-2 rounded-md"
+              className="border border-black rounded-lg p-2"
             >
               Delete
             </button>

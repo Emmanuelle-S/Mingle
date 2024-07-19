@@ -34,7 +34,7 @@ const ServiceCard = ({ title, description, images }) => {
     if (isHovered) {
       interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 800); // Change image every second
+      }, 800); // Change image every 0.8 second
     } else {
       setCurrentImageIndex(0); // Reset to first image when not hovered
     }
@@ -42,7 +42,7 @@ const ServiceCard = ({ title, description, images }) => {
   }, [isHovered, images.length]);
 
   return (
-    <div className="bg-yellow-600 p-4 m-4 w-80 h-80 flex flex-col justify-between">
+    <div className="bg-yellow-600 p-4 m-4 w-full md:w-80 h-auto flex flex-col justify-between">
       <div
         className="flex-grow flex items-center justify-center mb-2 p-2 bg-white h-40 overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
@@ -63,10 +63,10 @@ const ServiceCard = ({ title, description, images }) => {
 
 const Service = () => {
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <Sidebar />
-      <div className="flex justify-center p-14 flex-grow">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex justify-center p-4 md:p-14 flex-grow">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {servicesData.map((service, index) => (
             <ServiceCard key={index} title={service.title} description={service.description} images={service.images} />
           ))}
