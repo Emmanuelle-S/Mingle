@@ -157,10 +157,52 @@ const validateService = (req, res, next) => {
     .catch(next); // Passer à l'erreur suivante en cas de problème
 };
 
+
+
+const validateComment = (req, res, next) => {
+  let validations = [
+    body("content")
+      .isLength({ min: 1 })
+      .withMessage("Le contenu ne peut pas être vide"),
+  ];
+
+  if (req.method === "POST") {
+    validations.push(
+      body("service_id")
+        .isInt({ min: 1 })
+        .withMessage("L'ID du service doit être un entier positif"),
+      body("user_id")
+        .isInt({ min: 1 })
+        .withMessage("L'ID de l'utilisateur doit être un entier positif")
+    );
+  } else if (req.method === "PUT") {
+    validations.push(
+      body("service_id")
+        .optional({ checkFalsy: true })
+        .isInt({ min: 1 })
+        .withMessage("L'ID du service doit être un entier positif"),
+      body("user_id")
+        .optional({ checkFalsy: true })
+        .isInt({ min: 1 })
+        .withMessage("L'ID de l'utilisateur doit être un entier positif")
+    );
+  }
+
+  Promise.all(validations.map((validation) => validation.run(req))).then(() => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors.array());
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  });
+};
+
 module.exports = {
   validateUser,
   validateConversation,
   validateFriend,
   validateCategory,
   validateService,
+  validateComment,
 };
