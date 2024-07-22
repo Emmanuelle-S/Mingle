@@ -4,6 +4,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import "../../App.css";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Inscription = () => {
   const formik = useFormik({
@@ -26,7 +27,10 @@ const Inscription = () => {
       password: Yup.string()
         .required("Requis")
         .min(6, "Le mot de passe doit comporter au moins 6 caractères")
-        .matches(/[!@#$%^&*(),.?":{}|<>]/, "Le mot de passe doit comporter au moins 1 caractère spécial"),
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          "Le mot de passe doit comporter au moins 1 caractère spécial"
+        ),
       confirmPassword: Yup.string()
         .oneOf(
           [Yup.ref("password"), null],
@@ -49,20 +53,26 @@ const Inscription = () => {
         return;
       }
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, {
-          username: values.username,
-          mail: values.email,
-          user_pass: values.password,
-          localisation: values.localisation,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/users`,
+          {
+            username: values.username,
+            mail: values.email,
+            user_pass: values.password,
+            localisation: values.localisation,
+          }
+        );
         console.log("User registered successfully:", response.data);
         resetForm();
-        toast.success("Votre inscription est faite, vous pouvez maintenant vous connecter", {
-          // Utilisation de react-toastify et afficher une popup en cas de succès
-          position: "top-center", // Position centrée en haut
-          className: "custom-toast", // Classe CSS personnalisée
-          autoClose: 2000, // Durée de fermeture automatique
-        });
+        toast.success(
+          "Votre inscription est faite, vous pouvez maintenant vous connecter",
+          {
+            // Utilisation de react-toastify et afficher une popup en cas de succès
+            position: "top-center", // Position centrée en haut
+            className: "custom-toast", // Classe CSS personnalisée
+            autoClose: 2000, // Durée de fermeture automatique
+          }
+        );
       } catch (error) {
         console.error("Error registering user:", error);
         toast.error("Une erreur s'est produite lors de l'inscription");
@@ -190,7 +200,12 @@ const Inscription = () => {
               onBlur={formik.handleBlur}
               checked={formik.values.acceptTerms}
             />
-            <span className="text-sm">J'accepte les termes et conditions</span>
+            <span className="text-sm">
+              J'accepte les{" "}
+              <Link to="/politique" className="text-blue-500 underline">
+                termes et conditions
+              </Link>
+            </span>
           </label>
           {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
             <div className="text-red-500 text-sm">
