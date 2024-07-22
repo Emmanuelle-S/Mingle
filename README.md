@@ -2,6 +2,29 @@
 
 https://mingle-t13i.onrender.com/
 
+## Backend
+* Cliqué sur “+ New”, et choisi “Web Service”
+* Choisi notre répertoire GitHub https://github.com/Emmanuelle-S/Mingle
+* Nommé le service “mingle-api”
+* Pour “Root Directory” : tapé "./backend"
+* Pour “Build Command” : tapé “npm install”
+* Pour “Start Command” : tapé “npm run start”
+* Dans “Environment Variables” : entré les variables d'environnement de .backend/.env
+
+## Frontend: 
+* Cliqué sur “+ New”, et choisi “Static Site”
+* Choisi notre répertoire GitHub https://github.com/Emmanuelle-S/Mingle
+* Nommé le service “mingle-api”
+* Pour “Root Directory” : tapé "./frontend"
+* Pour “Build Command” : tapé “npm install && npm run build”
+* Pour “Publish Directory” : tapé “dist”
+* Dans “Environment Variables” : entré les variables d'environnement de .frontend/.env
+
+## "Redirection" :  
+* Source: /*
+* Destination: /index.html
+* Type: Rewrite
+
 
 # Documentation des Endpoints de l'API
 ## Items
