@@ -17,7 +17,7 @@ const CreatePost = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('${import.meta.env.VITE_BACKEND_URL}/categoryservice');
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/categoryservice`);
                 setCategories(response.data);
             } catch (err) {
                 console.error('Erreur lors du chargement des catégories:', err);
@@ -76,7 +76,7 @@ const CreatePost = () => {
         }
 
         try {
-            const response = await axios.post('${import.meta.env.VITE_BACKEND_URL}/service', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/service`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -139,7 +139,7 @@ const CreatePost = () => {
                                 <option value="">Choisissez une catégorie</option>
                                 {categories.map((category) => (
                                     <option key={category.id} value={category.id}>
-                                        {category.titre_catégorie} - {category.titre_sous_catégorie}
+                                        {category.titre}
                                     </option>
                                 ))}
                             </Field>

@@ -141,9 +141,6 @@ const validateService = (req, res, next) => {
     body("category_id")
       .isInt({ min: 1 })
       .withMessage("L'ID de la catégorie doit être un entier positif"),
-    body("status")
-      .isBoolean()
-      .withMessage("Le statut doit être un boolean"),
   ];
 
   Promise.all(validations.map((validation) => validation.run(req)))
